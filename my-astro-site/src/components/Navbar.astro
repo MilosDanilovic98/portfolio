@@ -66,20 +66,17 @@ import "../global.css";
 <script>
   // Find all buttons with the `alert` class on the page.
   const root = document.querySelector("#root");
-  const changeThemeButton=document.querySelector("#changeThemeButton")
+  const changeThemeButton = document.querySelector("#changeThemeButton");
 
-  changeThemeButton.addEventListener('click',(e)=>{
-    if(e.target.checked){
-      root.classList.add("lightTheme")
-      root.classList.remove("darkTheme")
-    }else{
-      root.classList.add("darkTheme")
-      root.classList.remove("lightTheme")
+  changeThemeButton.addEventListener("click", (e) => {
+    if (e.target.checked) {
+      root.classList.add("darkTheme");
+      root.classList.remove("lightTheme");
+    } else {
+      root.classList.add("lightTheme");
+      root.classList.remove("darkTheme");
     }
-    
-  })
+  });
 
-  
   // Handle clicks on each button.
- 
 </script>

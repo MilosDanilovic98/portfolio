@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'MyFont';
+  src: url('public/fonts/PressStart2P.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .lightTheme {
   --appBackground: #fefcfb;
   --subtleBackground: #fef8f4;
@@ -15,6 +23,13 @@
   --solidBackgroundHover: #ed5f00;
   --lowContrastText: #bd4b00;
   --highContrastText: #451e11;
+  --primary:#f4e04d;
+  --secondary:#139a43;
+  --dark:#231f20;
+  --orange:#0077ee;
+  --white:#fcefce;
+
+
 }
 .darkTheme {
   --appBackground: #1f1206;
@@ -29,4 +44,9 @@
   --solidBackgroundHover: #ff802b;
   --lowContrastText: #ff8b3e;
   --highContrastText: #feeadd;
+  --primary:#0b1fb2;
+  --secondary:#ec65bc;
+  --dark:#dce0df;
+  --orange:#d16f0d;
+  --white:#031031;
 }
