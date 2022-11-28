@@ -2,55 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    :root{
-        --mainBackground: "#1f1206";
-        --secondaryBackground: "#2b1400";
-        --componentBackground: "#391a03";
-        --componentBackgroundHover: "#441f04";
-        --componentBackgroundSelected: "#4f2305";
-        --subtleBorder: "#5f2a06";
-        --focusBorder: "#763205";
-        --hoverBorder: "#943e00";
-        --testNameBackground: "#f76808";
-        --testNameBackgroundHover: "#ff802b";
-        --lowContrastText: "hsl(24, 100%, 62%)";
-        --highContrastText: "#feeadd";
-    }
-  .lightTheme {
-    --mainBackground: "#1f1206";
-    --secondaryBackground: "#2b1400";
-    --componentBackground: "#391a03";
-    --componentBackgroundHover: "#441f04";
-    --componentBackgroundSelected: "#4f2305";
-    --subtleBorder: "#5f2a06";
-    --focusBorder: "#763205";
-    --hoverBorder: "#943e00";
-    --testNameBackground: "#f76808";
-    --testNameBackgroundHover: "#ff802b";
-    --lowContrastText: "hsl(24, 100%, 62%)";
-    --highContrastText: "#feeadd";
-  }
-  .darkTheme {
-    --mainBackground: "#1f1206";
-    --secondaryBackground: "#2b1400";
-    --componentBackground: "#391a03";
-    --componentBackgroundHover: "#441f04";
-    --componentBackgroundSelected: "#4f2305";
-    --subtleBorder: "#5f2a06";
-    --focusBorder: "#763205";
-    --hoverBorder: "#943e00";
-    --testNameBackground: "#f76808";
-    --testNameBackgroundHover: "hsl(24, 100%, 58%)";
-    --lowContrastText: "#ff8b3e";
-    --highContrastText: "#feeadd";
-  }
+.lightTheme {
+  --appBackground: #fefcfb;
+  --subtleBackground: #fef8f4;
+  --componentBackground: #fff1e7;
+  --componentBackgroundHover: #ffe8d7;
+  --componentBackgroundSelected: #ffdcc3;
+  --subtleBorder: #ffcca7;
+  --focusBorder: #fa934e;
+  --hoverBorder: #f76808;
+  --solidBackground: #f76808;
+  --solidBackgroundHover: #ed5f00;
+  --lowContrastText: #bd4b00;
+  --highContrastText: #451e11;
 }
-
-
-@layer utilities{
-    .kkk{
-        color: var(--componentBackground);
-        background-color: var(--componentBackground);
-    }
+.darkTheme {
+  --appBackground: #1f1206;
+  --subtleBackground: #2b1400;
+  --componentBackground: #391a03;
+  --componentBackgroundHover: #441f04;
+  --componentBackgroundSelected: #4f2305;
+  --subtleBorder: #5f2a06;
+  --focusBorder: #763205;
+  --hoverBorder: #943e00;
+  --solidBackground: #f76808;
+  --solidBackgroundHover: #ff802b;
+  --lowContrastText: #ff8b3e;
+  --highContrastText: #feeadd;
 }

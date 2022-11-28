@@ -39,7 +39,7 @@ import "../global.css";
   </div>
   <label class="swap swap-rotate">
     <!-- this hidden checkbox controls the state -->
-    <input type="checkbox" />
+    <input id="changeThemeButton" type="checkbox" />
 
     <!-- sun icon -->
     <svg
@@ -62,3 +62,24 @@ import "../global.css";
     </svg>
   </label>
 </div>
+
+<script>
+  // Find all buttons with the `alert` class on the page.
+  const root = document.querySelector("#root");
+  const changeThemeButton=document.querySelector("#changeThemeButton")
+
+  changeThemeButton.addEventListener('click',(e)=>{
+    if(e.target.checked){
+      root.classList.add("lightTheme")
+      root.classList.remove("darkTheme")
+    }else{
+      root.classList.add("darkTheme")
+      root.classList.remove("lightTheme")
+    }
+    
+  })
+
+  
+  // Handle clicks on each button.
+ 
+</script>
