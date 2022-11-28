@@ -23,7 +23,9 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v0
         with:
-            path: ./my-astro-site
+         cache: "npm"
+         cache-dependency-path: "./my-astro-site/package-lock.json"
+         path: ./my-astro-site
           
 
   deploy:
