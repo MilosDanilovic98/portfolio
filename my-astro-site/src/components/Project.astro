@@ -1,0 +1,43 @@
+---
+
+---
+
+<div class="h-screen box pr-0 p-24">
+  <div class="h-full border-8 border-r-0 rounded-l-xl border-dark bg-orange p-12">
+    <h2 class="text-4xl text-white">HI MY NAME IS PROJECT</h2>
+  </div>
+</div>
+<div class="h-screen boxMiddle  pl-0 p-24">
+    <div class="h-full bg-primary border-8 border-l-0 border-dark rounded-r-xl drop-shadow-3xl p-12">
+        <h2 class="text-4xl">HI MY NAME IS PROJECT</h2>
+    </div>
+  </div>
+  <div class="h-screen box pr-0 p-24">
+    <div class="h-full bg-orange border-8 border-r-0 border-dark rounded-l-xl p-12">
+        <h2 class="text-4xl">HI MY NAME IS PROJECT</h2>
+    </div>
+  </div>
+
+  <script>
+import { log } from "astro/dist/core/logger/core";
+
+
+
+
+
+
+let target = document.querySelector('.box');
+
+
+
+window.onscroll=(function() {
+    const observer = new IntersectionObserver((entrie)=>{
+    console.log(entrie[0].intersectionRatio)
+});
+
+observer.observe(target);
+})
+
+
+
+  </script>

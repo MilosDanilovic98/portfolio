@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      dropShadow: {
+        '3xl': '5px 5px 5px 5px rgba(220, 224, 223, 1)',
+      },
       fontFamily: {
         'MyFont': ['MyFont', 'serif']
         

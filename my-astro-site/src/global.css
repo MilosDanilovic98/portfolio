@@ -2,14 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'MyFont';
-  src: url('public/fonts/PressStart2P.ttf') format('ttf');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+@layer base {
+  @font-face {
+    font-family: "MyFont";
+    src: url("public/fonts/PressStart2P.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 }
-
 .lightTheme {
   --appBackground: #fefcfb;
   --subtleBackground: #fef8f4;
@@ -23,13 +24,11 @@
   --solidBackgroundHover: #ed5f00;
   --lowContrastText: #bd4b00;
   --highContrastText: #451e11;
-  --primary:#f4e04d;
-  --secondary:#139a43;
-  --dark:#231f20;
-  --orange:#FFFF00;
-  --white:#0096FF;
-
-
+  --primary: #f4e04d;
+  --secondary: #139a43;
+  --dark: #231f20;
+  --orange: #ffff00;
+  --white: #0096ff;
 }
 .darkTheme {
   --appBackground: #1f1206;
@@ -44,9 +43,57 @@
   --solidBackgroundHover: #ff802b;
   --lowContrastText: #ff8b3e;
   --highContrastText: #feeadd;
-  --primary:#0b1fb2;
-  --secondary:#ec65bc;
-  --dark:#dce0df;
-  --orange:#d16f0d;
-  --white:#031031;
+  --primary: #0b1fb2;
+  --secondary: #ec65bc;
+  --dark: #dce0df;
+  --orange: #d16f0d;
+  --white: #031031;
+}
+
+.link-underline {
+  border-bottom-width: 0;
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(var(--orange), var(--orange));
+  background-size: 0 3px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.5s ease-in-out;
+}
+
+.link-underline-black {
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(var(--orange), var(--orange));
+}
+
+.link-underline:hover {
+  background-size: 100% 3px;
+  background-position: 0 100%;
+}
+
+@keyframes bla {
+  from {
+    transform: translate(800px);
+  }
+  to {
+    transform: translate(0);
+  }
+}
+
+@keyframes middle {
+  from {
+    transform: translate(-800px);
+  }
+  to {
+    transform: translate(0);
+  }
+}
+
+.box {
+  animation-name: bla;
+  animation-duration: 6s;
+}
+
+.boxMiddle {
+  animation-name: middle;
+  animation-duration: 6s;
 }
