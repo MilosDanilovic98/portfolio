@@ -88,11 +88,15 @@
   }
 }
 
-.box {
+.box1 {
   animation-name: bla;
   animation-duration: 6s;
 }
 
+.box {
+  animation-name: bla;
+  animation-duration: 6s;
+}
 .boxMiddle {
   animation-name: middle;
   animation-duration: 6s;
