@@ -1,27 +1,37 @@
 ---
+import portfolioImage from "../public/images/portfolio.svg";
+import astroIcon from "../public/images/astroIcon.svg";
+import tailwindIcon from "../public/images/tailwindIcon.png";
 ---
 
-<div class="h-screen overflow-hidden killMe rightBox md:pr-0 md:p-20 p-4">
-  <div
-    class="h-full border-8 md:border-r-0 rounded-xl border-dark bg-orange p-12"
-  >
-    <h2 class="text-4xl text-white">HI MY NAME IS PROJECT</h2>
-  </div>
-</div>
-<div class="h-screen overflow-hidden killMe llMe md:pl-0 md:p-20  p-4">
-  <div
-    class="h-full bg-primary border-8 md:border-l-0 border-dark rounded-xl drop-shadow-3xl p-12"
-  >
-    <h2 class="text-4xl">HI MY NAME IS PROJECT</h2>
-  </div>
-</div>
-<div class="h-screen overflow-hidden killMe rightBox md:pr-0 md:p-20 p-4">
-  <div
-    class="h-full bg-orange border-8 md:border-r-0 border-dark rounded-xl p-12"
-  >
-    <h2 class="text-4xl">HI MY NAME IS PROJECT</h2>
-  </div>
-</div>
+{
+  true ? (
+    <div class="h-screen overflow-hidden killme  md:pr-0 md:p-20 p-8">
+      <div class="h-full  flex flex-col border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-orange">
+        <p class="text-xl  md:text-3xl flex justify-between items-center text-dark border-2 border-b-4 rounded-t-md border-dark p-4 bg-secondary">
+          My PORTFOLIO website <img class="h-14" src={portfolioImage} />
+        </p>
+
+        <p class="font-lightFont text-lg md:text-xl text-black p-4 mt-auto">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
+          nostrum quidem eius iste, fugiat cupiditate esse est, eligendi ut,
+          molestias praesentium consectetur quasi commodi blanditiis harum
+          maxime impedit ipsum architecto.
+        </p>
+        <div class="flex justify-around items-center bg-amber-400">
+          <img class="h-14 w-14" src={astroIcon} />
+          <img class="h-14 w-14" src={tailwindIcon} />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div class="h-screen overflow-hidden killMe  md:pl-0 md:p-20 p-4">
+      <div class="h-full bg-primary border-4 md:border-l-0 border-dark rounded-xl drop-shadow-3xl p-12">
+        <h2 class="text-4xl">HI MY NAME IS PROJECT</h2>
+      </div>
+    </div>
+  )
+}
 
 <script>
   let target = document.querySelectorAll(".killMe");

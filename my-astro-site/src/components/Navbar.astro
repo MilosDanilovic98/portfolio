@@ -2,7 +2,7 @@
 import "../global.css";
 ---
 
-<div class="navbar z-10 border-b-2 border-dark bg-white justify-between font-MyFont text-xs fixed ">
+<div class="navbar z-10 border-dark bg-white justify-between font-MyFont text-xs sticky top-0 ">
   <div class="dropdown md:hidden">
     <button class="btn btn-square btn-ghost">
       <svg
@@ -19,7 +19,7 @@ import "../global.css";
     </button>
     <ul
       tabindex="0"
-      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+      class="dropdown-content menu p-2 shadow bg-primary rounded-box w-52"
     >
       <li><a>About me</a></li>
       <li><a>Projects</a></li>
@@ -29,10 +29,10 @@ import "../global.css";
   </div>
 
   <div class="hidden md:flex flex-1">
-    <a class="hover:cursor-pointer text-xs p-4 link-underline link-underline-black">About me</a>
-    <a class="text-xs hover:cursor-pointer p-4 link-underline link-underline-black">Projects</a>
-    <a class="text-xs hover:cursor-pointer p-4 link-underline link-underline-black">Blogs</a>
-    <a class="text-xs hover:cursor-pointer p-4 link-underline link-underline-black">Contact</a>
+    <a class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black">About me</a>
+    <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Projects</a>
+    <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Blogs</a>
+    <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Contact</a>
   </div>
 
   <label class="swap swap-rotate">
