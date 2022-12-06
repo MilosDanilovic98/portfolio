@@ -4,10 +4,12 @@ module.exports = {
   theme: {
     extend: {
       dropShadow: {
-        '3xl': '5px 5px 5px 5px rgba(220, 224, 223, 1)',
+        '3xl': '4px 4px 0px var(--dark)',
       },
       fontFamily: {
-        'MyFont': ['MyFont', 'serif']
+        'mainFont': ['mainFont', 'serif'],
+        'lightFont': ['lightFont', 'serif'],
+        'italicFont': ['italicFont', 'serif']
         
       },
       colors: {

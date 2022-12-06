@@ -4,8 +4,24 @@
 
 @layer base {
   @font-face {
-    font-family: "MyFont";
-    src: url("public/fonts/PressStart2P.ttf");
+    font-family: "mainFont";
+    src: url("public/fonts/BebasKai.otf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "lightFont";
+    src: url("public/fonts/InriaSans-Light.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "italicFont";
+    src: url("public/fonts/Syne-Italic.otf");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -44,7 +60,7 @@
   --lowContrastText: #ff8b3e;
   --highContrastText: #feeadd;
   --primary: #0b1fb2;
-  --secondary: #ec65bc;
+  --secondary: #000000;
   --dark: #dce0df;
   --orange: #d16f0d;
   --white: #031031;
