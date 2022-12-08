@@ -3,6 +3,17 @@ module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      keyframes: {
+        float: {
+          '0%': {transform: 'rotate(translateY(0px))' },
+          '50%': { transform: 'rotate(translateY(-20px))' },
+          '100%': {transform: 'rotate(translateY(0px))' },
+        }
+      },
+      animation: {
+        float: 'float 6s ease-in-out infinite',
+
+      },
       dropShadow: {
         '3xl': '4px 4px 0px var(--dark)',
       },
