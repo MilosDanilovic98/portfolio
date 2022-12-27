@@ -104,16 +104,49 @@
   }
 }
 
-.box1 {
-  animation-name: bla;
-  animation-duration: 6s;
+
+
+.cloud {
+  position: absolute;
+  animation: FadeIn 15s ease-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+  z-index: 10;
 }
 
-.box {
-  animation-name: bla;
-  animation-duration: 6s;
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(2000px);
+  }
+  50%{
+    opacity: 1;
+  }
+  100% {
+    
+    transform: translateX(-15%);
+  }
 }
-.boxMiddle {
-  animation-name: middle;
-  animation-duration: 6s;
+
+@keyframes FadeFloat {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  5%,
+  90% {
+    opacity: 1;
+  }
+}
+
+@keyframes goRight {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  5%,
+  90% {
+    opacity: 1;
+  }
 }
