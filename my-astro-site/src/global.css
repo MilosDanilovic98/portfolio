@@ -86,67 +86,18 @@
   background-position: 0 100%;
 }
 
-@keyframes bla {
-  from {
-    transform: translate(800px);
-  }
-  to {
-    transform: translate(0);
-  }
-}
 
-@keyframes middle {
-  from {
-    transform: translate(-800px);
-  }
-  to {
-    transform: translate(0);
-  }
-}
 
 
 
 .cloud {
   position: absolute;
-  animation: FadeIn 15s ease-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
-  z-index: 10;
+  z-index: -1;
 }
 
-@keyframes FadeIn {
-  0% {
-    opacity: 0;
-    transform: translateX(2000px);
-  }
-  50%{
-    opacity: 1;
-  }
-  100% {
-    
-    transform: translateX(-15%);
-  }
-}
 
-@keyframes FadeFloat {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  5%,
-  90% {
-    opacity: 1;
-  }
-}
 
-@keyframes goRight {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  5%,
-  90% {
-    opacity: 1;
-  }
-}
+
+
+
+
