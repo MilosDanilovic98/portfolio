@@ -22,7 +22,7 @@ export const kill = (rootElement, interval, dencity) => {
       cloud.classList.add("cloud");
       cloud.style.top = `${topValue}px`;
       cloud.style.left = `${leftValue}px`;
-      cloud.style.height=`${getRandomIntInclusive(80,150)}px`
+      cloud.style.height=`${getRandomIntInclusive(70,130)}px`
 
       rootElement.append(cloud);
 
