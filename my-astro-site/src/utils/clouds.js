@@ -67,8 +67,10 @@ export const kill = (rootElement, interval, dencity,speed) => {
 
       cloud.classList.add("cloud");
       cloud.style.top = `${topValue}px`;
+
       cloud.style.right = `${rightValue}px`;
       cloud.style.scale=Math.random() * (1.4 - 0.7) + 0.7;
+
 
       rootElement.append(cloud);
       let leftValue = getRandomIntInclusive(
