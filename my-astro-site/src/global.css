@@ -45,6 +45,7 @@
   --dark: #231f20;
   --orange: #ffff00;
   --white: #0096ff;
+  --starVisible:none
 }
 .darkTheme {
   --appBackground: #1f1206;
@@ -64,6 +65,7 @@
   --dark: #dce0df;
   --orange: #d16f0d;
   --white: #031031;
+  --starVisible:block
 }
 
 .link-underline {
@@ -94,6 +96,15 @@
   position: absolute;
   z-index: -1;
 }
+
+.star {
+  position: absolute;
+  z-index: -1;
+  display: var(--starVisible);
+}
+
+
+
 
 
 
