@@ -1,4 +1,5 @@
 import cloudImage from "../public/images/kkk.svg";
+import {gsap} from "gsap";
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -6,45 +7,81 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
-export const kill = (rootElement, interval, dencity) => {
-  setTimeout(() => {
-    let margin = 200;
+export const kill = (rootElement, interval, dencity,speed) => {
+
+
+  for (let index = 0; index < dencity; index++) {
+    const cloud = document.createElement("img");
+    cloud.src = cloudImage;
+    let topValue = getRandomIntInclusive(0, rootElement.offsetHeight - 120);
+    let rightValue = getRandomIntInclusive(
+        -200,
+        -1600
+    );
+
+
+
+
+
+    cloud.classList.add("cloud");
+    cloud.style.top = `${topValue}px`;
+    cloud.style.right = `${rightValue}px`;
+    cloud.style.scale=Math.random() * (1.4 - 0.7) + 0.7;
+
+    rootElement.append(cloud);
+    let leftValue = getRandomIntInclusive(
+        -400,
+        -1000
+    );
+
+    let floatTimeLine = gsap.timeline({repeat: -1 });
+    floatTimeLine.to(cloud, {top:topValue+20,duration: 1.5,ease:"ease"});
+    floatTimeLine.to(cloud, {top:topValue-20, duration: 1.5,ease:"ease"});
+    floatTimeLine.to(cloud, {top:topValue, duration: 1.5,ease:"ease"});
+
+    gsap.to(cloud,{left:leftValue,duration:speed, onComplete: ()=>cloud.remove(),})
+
+  }
+
+
+
+
+
+  setInterval(() => {
+
+    if (!document.hidden) {
+
 
     for (let index = 0; index < dencity; index++) {
       const cloud = document.createElement("img");
       cloud.src = cloudImage;
       let topValue = getRandomIntInclusive(0, rootElement.offsetHeight - 120);
-      let leftValue = getRandomIntInclusive(
-        rootElement.offsetWidth - margin,
-        rootElement.offsetWidth + 400
+      let rightValue = getRandomIntInclusive(
+        -200,
+          -1600
       );
-      margin -= 200;
+
+      let cloudScale = getRandomIntInclusive(
+          0,
+          2
+      );
+
+
+
       cloud.classList.add("cloud");
       cloud.style.top = `${topValue}px`;
-      cloud.style.left = `${leftValue}px`;
+      cloud.style.right = `${rightValue}px`;
+      cloud.style.scale=Math.random() * (1.4 - 0.7) + 0.7;
 
       rootElement.append(cloud);
+      let leftValue = getRandomIntInclusive(
+          -400,
+          -1000
+      );
 
-      const moveLeft = (timestamp) => {
-        cloud.style.left = `${cloud.getBoundingClientRect().left - 3}px`;
-        if (cloud.getBoundingClientRect().right < 0) {
-          let newtop = `${getRandomIntInclusive(
-            0,
-            rootElement.offsetHeight - 120
-          )}px`;
+      gsap.to(cloud,{left:leftValue,duration:speed, onComplete: ()=>cloud.remove(),})
 
-          let newLeft = `${getRandomIntInclusive(
-            rootElement.offsetWidth-margin,
-            rootElement.offsetWidth + 400
-          )}px`;
-
-          cloud.style.top = newtop;
-          cloud.style.left = newLeft;
-        }
-        window.requestAnimationFrame(moveLeft);
-      };
-
-      window.requestAnimationFrame(moveLeft);
+    }
     }
   }, interval);
 };
