@@ -34,10 +34,7 @@ export const kill = (rootElement, interval, dencity,speed) => {
         -1000
     );
 
-    let floatTimeLine = gsap.timeline({repeat: -1 });
-    floatTimeLine.to(cloud, {top:topValue+20,duration: 1.5,ease:"ease"});
-    floatTimeLine.to(cloud, {top:topValue-20, duration: 1.5,ease:"ease"});
-    floatTimeLine.to(cloud, {top:topValue, duration: 1.5,ease:"ease"});
+
 
     gsap.to(cloud,{left:leftValue,duration:speed, onComplete: ()=>cloud.remove(),})
 
@@ -78,6 +75,7 @@ export const kill = (rootElement, interval, dencity,speed) => {
           -400,
           -1000
       );
+
 
       gsap.to(cloud,{left:leftValue,duration:speed, onComplete: ()=>cloud.remove(),})
 
