@@ -3,6 +3,7 @@ import "../global.css";
 ---
 
 <div class="hero relative min-h-screen bg-base-200 overflow-hidden">
+
   <div class="hero-content text-center">
     <div class="max-w-xl">
       <h1 class="text-6xl md:text-7xl font-bold font-MyFont">
@@ -13,6 +14,7 @@ import "../global.css";
       </h1>
 
       <button
+          id="sayHiButton"
         class="drop-shadow-3xl bg-primary border-dark border-4 p-2 md:p-4 text-2xl md:text-4xl"
         >Say hi to me</button
       >
@@ -21,11 +23,24 @@ import "../global.css";
 </div>
 
 <script>
-import { kill } from "../utils/clouds";
+  import {kill} from "../utils/clouds";
+  import {gsap} from "gsap";
+  let root = document.querySelector(".hero");
+  let sayHiButton=document.querySelector("#sayHiButton")
 
-  let root = document.querySelector(".hero")
+
   kill(root,3000,5,15)
-  
 
- 
+  sayHiButton.addEventListener("click",()=>{
+    let buttonTimeLine= gsap.timeline()
+    buttonTimeLine.to(sayHiButton,{y:2,duration:0.3,filter: "drop-shadow(rgba(0,0,0,0.8) 0px 0px 0px)"})
+    buttonTimeLine.to(sayHiButton,{y:0,duration:0.3,filter: "drop-shadow(rgba(220,224,223,1) 4px 4px 0px)"})
+  })
+
+
+
+
+
+
 </script>
+
