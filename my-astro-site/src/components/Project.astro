@@ -46,10 +46,10 @@ import tailwindIcon from "../public/images/tailwindIcon.png";
         element.isIntersecting
       ) {
         console.log(element.isIntersecting);
-          gsap.to(element.target,{x:0})
+          gsap.to(element.target,{x:0,force3D: true})
       }
       else {
-          gsap.to(element.target,{x:"45%"})
+          gsap.to(element.target,{x:"45%",force3D: true})
 
 
       }
