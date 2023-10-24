@@ -1,0 +1,120 @@
+---
+import "../global.css";
+---
+
+<div id="contain-all-moon">
+  <svg style="isolation:isolate" viewBox="0 0 400 400" width="50%" height="50%">
+    <g id="moon-group">
+      <g id="aura-group" fill="#EBEBEB" fill-opacity=".16">
+        <path d="M90.138 200c0-60.634 49.228-109.862 109.862-109.862 60.634 0 109.862 49.228 109.862 109.862 0 60.634-49.228 109.862-109.862 109.862-60.634 0-109.862-49.228-109.862-109.862z" id="aura-1" />
+        <path d="M70.638 200c0-71.397 57.965-129.362 129.362-129.362 71.397 0 129.362 57.965 129.362 129.362 0 71.397-57.965 129.362-129.362 129.362-71.397 0-129.362-57.965-129.362-129.362z" id="aura-2" />
+        <path d="M51.333 200c0-82.051 66.616-148.667 148.667-148.667S348.667 117.949 348.667 200 282.051 348.667 200 348.667 51.333 282.051 51.333 200z" id="aura-3" />
+      </g>
+      <!-- 	moon		 -->
+      <radialGradient id="_rgradient_0" fx=".5" fy=".5" cx=".5" cy=".5" r=".5" gradientTransform="translate(107.867 107.867) scale(184.265)" gradientUnits="userSpaceOnUse">
+        <stop offset="88.69218161%" stop-color="#ffe" />
+        <stop offset="100%" stop-color="#fff" />
+      </radialGradient>
+      <path d="M107.867 200c0-50.849 41.284-92.133 92.133-92.133s92.133 41.284 92.133 92.133-41.284 92.133-92.133 92.133-92.133-41.284-92.133-92.133z" id="moon" fill="" />
+      <!-- end moon -->
+
+      <g id="crater-group" fill="#D9D9BE">
+        <path d="M228.897 143.209c0-2.827 2.295-5.122 5.122-5.122s5.122 2.295 5.122 5.122-2.295 5.122-5.122 5.122-5.122-2.295-5.122-5.122z" id="crater-1" />
+        <path d="M217.866 197.184c0-6.088 4.943-11.031 11.031-11.031 6.089 0 11.032 4.943 11.032 11.031 0 6.088-4.943 11.031-11.032 11.031-6.088 0-11.031-4.943-11.031-11.031z" id="crater-2" />
+        <path d="M239.929 218.065c0-11.525 9.356-20.881 20.881-20.881 11.524 0 20.88 9.356 20.88 20.881 0 11.524-9.356 20.881-20.88 20.881-11.525 0-20.881-9.357-20.881-20.881z" id="crater-3" />
+        <path d="M202.895 245.643c0-11.524 9.356-20.881 20.881-20.881 11.524 0 20.881 9.357 20.881 20.881 0 11.525-9.357 20.881-20.881 20.881-11.525 0-20.881-9.356-20.881-20.881z" id="crater-4" />
+      </g>
+
+    </g>
+  </svg>
+</div>
+
+
+<style>
+
+    @keyframes desktopMoon {
+        0% { opacity: 0.1; top:-70%;  }
+        100% { opacity: 1; top:-90%;}
+    }
+
+    @keyframes mobileMoon {
+        0% { opacity: 0.1; top:-40%;  }
+        100% { opacity: 1; top:-50%;;}
+    }
+
+    #contain-all-moon  {
+        position: absolute;
+        overflow: hidden;
+        z-index: -20;
+        width: 100%;
+        left: -25%;
+        top:-90%;
+        padding: 0;
+        box-sizing: border-box;
+        display: var(--visibleInDarkMode);
+        animation: desktopMoon 1s;
+    }
+    #contain-all-moon svg {
+        transform-origin: 50% 50%;
+        box-sizing: border-box;
+    }
+    @keyframes hover {
+        50% {
+            transform: translatey(-1%);
+        }
+    }
+    #contain-all-moon #moon-group #moon {
+        fill: url(#_rgradient_0);
+        animation: hover 2000ms 500ms ease-in-out infinite;
+    }
+    @keyframes pulse {
+        50% {
+            transform: scale(1.05);
+        }
+    }
+    #contain-all-moon #moon-group #aura-group #aura-1 {
+        transform-origin: 50% 50%;
+        animation: pulse 3000ms 750ms ease-in-out infinite;
+    }
+    #contain-all-moon #moon-group #aura-group #aura-2 {
+        transform-origin: 50% 50%;
+        animation: pulse 3000ms 1500ms ease-in-out infinite;
+    }
+    #contain-all-moon #moon-group #aura-group #aura-3 {
+        transform-origin: 50% 50%;
+        animation: pulse 3000ms 2250ms ease-in-out infinite;
+    }
+    #contain-all-moon #moon-group #crater-group #crater-1 {
+        transform-origin: 50% 50%;
+        animation: hover 2000ms 500ms ease-in-out infinite;
+    }
+    #contain-all-moon #moon-group #crater-group #crater-2 {
+        transform-origin: 50% 50%;
+        animation: hover 2000ms 500ms ease-in-out infinite;
+    }
+    #contain-all-moon #moon-group #crater-group #crater-3 {
+        transform-origin: 50% 50%;
+        animation: hover 2000ms 500ms ease-in-out infinite;
+    }
+    #contain-all-moon #moon-group #crater-group #crater-4 {
+        transform-origin: 50% 50%;
+        animation: hover 2000ms 500ms ease-in-out infinite;
+    }
+    @keyframes jam {
+        30% {
+            transform: translatex(2%) translatey(2%);
+        }
+        60% {
+            transform: translatex(-2%) translatey(2%);
+        }
+    }
+
+    @media screen and (max-width: 1023px) {
+
+        #contain-all-moon {
+            left: 10%;
+            top:-50%;
+            animation: mobileMoon 1s;
+        }
+    }
+</style>

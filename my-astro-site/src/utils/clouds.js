@@ -71,7 +71,7 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
 
     rootElement.append(star);
   if(index%3===0){
-    let starTwinkleTimeLine=gsap.timeline({repeat:-1})
+    let starTwinkleTimeLine=gsap.timeline({repeat:-1,force3D: true})
     starTwinkleTimeLine.to(star,{opacity:1,duration:1,})
     starTwinkleTimeLine.to(star,{opacity:0.5,duration:1,})
     starTwinkleTimeLine.to(star,{opacity:0.3,duration:1,})
