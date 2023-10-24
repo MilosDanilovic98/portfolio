@@ -2,6 +2,7 @@
 import "../global.css";
 import Moon from "./Moon.astro";
 import Sun from "./Sun.astro";
+import Click from "./../public/sounds/mixkit-gear-fast-lock-tap-2857.wav";
 
 ---
 
@@ -24,6 +25,7 @@ import Sun from "./Sun.astro";
         class="drop-shadow-3xl  bg-primary border-dark border-4 p-2 md:p-4 text-2xl md:text-4xl"
         >Say hi to me</button
       >
+
     </div>
   </div>
 </div>
@@ -44,6 +46,9 @@ import Sun from "./Sun.astro";
     let buttonTimeLine= gsap.timeline()
     buttonTimeLine.to(sayHiButton,{y:6,duration:0.3,onEnd:()=>{sayHiButton.classList.remove("drop-shadow-3xl")}})
     buttonTimeLine.to(sayHiButton,{y:0,duration:0.3,onEnd:()=>{sayHiButton.classList.add("drop-shadow-3xl")}})
+
+
+
   })
 
 

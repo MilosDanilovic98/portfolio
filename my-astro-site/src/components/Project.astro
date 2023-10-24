@@ -6,10 +6,10 @@ import tailwindIcon from "../public/images/tailwindIcon.png";
 
 {
   true ? (
-    <div class="h-screen overflow-hidden killme  md:p-20 p-8">
+    <div class="h-screen overflow-hidden killMe  md:p-20 p-8 relative">
       <div class="h-full  flex flex-col border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-orange">
         <p class="text-xl  md:text-3xl flex justify-between items-center text-dark border-2 border-b-4 rounded-t-md border-dark p-4 bg-secondary">
-          My PORTFOLIO website <img class="h-14" src={portfolioImage} />
+          My ssss website <img class="h-14" src={portfolioImage} />
         </p>
 
         <p class="font-lightFont text-lg md:text-xl text-black p-4 mt-auto">
@@ -25,7 +25,7 @@ import tailwindIcon from "../public/images/tailwindIcon.png";
       -->
       </div>
     </div>
-  ) : (
+        ) : (
     <div class="h-screen overflow-hidden killMe  md:pl-0 md:p-20 p-4">
       <div class="h-full bg-primary border-4 md:border-l-0 border-dark rounded-xl drop-shadow-3xl p-12">
         <h2 class="text-4xl">HI MY NAME IS PROJECT</h2>
@@ -35,20 +35,28 @@ import tailwindIcon from "../public/images/tailwindIcon.png";
 }
 
 <script>
+    import {gsap} from "gsap";
   let target = document.querySelectorAll(".killMe");
 
   const observer = new IntersectionObserver((entrie) => {
+
     entrie.forEach((element) => {
+
       if (
-        element.isIntersecting &&
-        element.target.classList.contains("rightBox")
+        element.isIntersecting
       ) {
         console.log(element.isIntersecting);
-        element.target.classList.add("box1");
-      } else if (element.isIntersecting) {
-        element.target.classList.add("boxMiddle");
+          gsap.to(element.target,{x:0})
       }
+      else {
+          gsap.to(element.target,{x:"45%"})
+
+
+      }
+
     });
+  },{
+      threshold:0.4,
   });
 
   target.forEach((target) => {

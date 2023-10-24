@@ -8,6 +8,7 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
+
 export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) => {
   const changeThemeButton = document.querySelector("#changeThemeButton");
 
@@ -72,7 +73,6 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
         -rootElement.clientWidth/2
     );
 
-    console.log(topValue,rightValue)
     star.classList.add("star");
     star.style.top = `${topValue}px`;
     star.style.right = `${rightValue}px`;
@@ -81,7 +81,7 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
 
     rootElement.append(star);
 
-    console.log(rootElement)
+
 
   if(index%3===0){
     let starTwinkleTimeLine=gsap.timeline({repeat:-1,force3D: true})
