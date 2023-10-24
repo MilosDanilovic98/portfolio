@@ -9,6 +9,16 @@ function getRandomIntInclusive(min, max) {
 }
 
 export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) => {
+  const changeThemeButton = document.querySelector("#changeThemeButton");
+
+  changeThemeButton.addEventListener("click", (e) => {
+    if (e.target.checked) {
+      createClouds()
+    } else {
+
+    }
+  });
+
 
   const createClouds=()=>{
     for (let index = 0; index < dencity; index++) {
@@ -35,7 +45,6 @@ export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) =>
 
 
     }
-
   }
 
 
@@ -57,19 +66,23 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
   for (let index = 0; index < dencity; index++) {
     const star = document.createElement("img");
     star.src = starImage;
-    let topValue = getRandomIntInclusive(-rootElement.offsetHeight, rootElement.offsetHeight);
+    let topValue = getRandomIntInclusive(-rootElement.clientHeight/2, rootElement.clientHeight/2);
     let rightValue = getRandomIntInclusive(
-        -rootElement.offsetWidth,
-        rootElement.offsetWidth
+        rootElement.clientWidth/2 ,
+        -rootElement.clientWidth/2
     );
 
+    console.log(topValue,rightValue)
     star.classList.add("star");
-    star.style.bottom = `${topValue}px`;
+    star.style.top = `${topValue}px`;
     star.style.right = `${rightValue}px`;
     star.style.scale=Math.random() * (0.05 - 0.02) + 0.02;
     star.style.rotate=Math.random() * (130 - 110) + 110;
 
     rootElement.append(star);
+
+    console.log(rootElement)
+
   if(index%3===0){
     let starTwinkleTimeLine=gsap.timeline({repeat:-1,force3D: true})
     starTwinkleTimeLine.to(star,{opacity:1,duration:1,})
