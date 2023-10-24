@@ -44,6 +44,7 @@
   --secondary: #139a43;
   --dark: #231f20;
   --orange: #ffff00;
+  --projectCardBg:#ffff00;
   --white: #0096ff;
   --visibleInDarkMode:none;
   --visibleInLightMode:block
@@ -66,6 +67,7 @@
   --dark: #dce0df;
   --orange: #d16f0d;
   --white: #031031;
+  --projectCardBg:#307351;
   --visibleInDarkMode:block;
   --visibleInLightMode:none
 }

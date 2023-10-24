@@ -42,6 +42,7 @@ module.exports = {
         dark: "var(--dark)",
         orange: "var(--orange)",
         white: "var(--white)",
+        projectCardBg: "var(--projectCardBg)",
       },
     },
   },
