@@ -11,11 +11,21 @@ function getRandomIntInclusive(min, max) {
 
 export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) => {
   const changeThemeButton = document.querySelector("#changeThemeButton");
+  let cloudAnimations=[]
+  let isPaused = false
 
   changeThemeButton.addEventListener("click", (e) => {
     if (e.target.checked) {
       createClouds()
+      for (let i = 0; i < cloudAnimations.length; i++) {
+        cloudAnimations[i].play()
+        isPaused = false
+      }
     } else {
+      for (let i = 0; i < cloudAnimations.length; i++) {
+        cloudAnimations[i].pause()
+        isPaused = true
+      }
 
     }
   });
@@ -42,19 +52,19 @@ export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) =>
           -1000
       );
 
-      gsap.to(cloud,{left:leftValue,duration:speed, onComplete: ()=>cloud.remove(),force3D: true})
+      cloudAnimations.push(gsap.to(cloud,{left:leftValue,duration:speed, onComplete: ()=>{cloud.remove();cloudAnimations.shift()},force3D: true}))
 
 
     }
   }
 
 
-  createClouds()
+  // createClouds()
 
 
   setInterval(() => {
 
-    if (!document.hidden) {
+    if (!document.hidden && !isPaused) {
       createClouds()
     }
 
@@ -63,6 +73,30 @@ export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) =>
 
 
 export const starGeneratingFunction = (rootElement,dencity)=>{
+  let starAnimations=[]
+
+
+  changeThemeButton.addEventListener("click", (e) => {
+    if (e.target.checked) {
+
+      for (let i = 0; i < starAnimations.length; i++) {
+        starAnimations[i].pause()
+
+      }
+    } else {
+      for (let i = 0; i < starAnimations.length; i++) {
+        starAnimations[i].play()
+
+      }
+
+    }
+  });
+
+
+
+
+
+
 
   for (let index = 0; index < dencity; index++) {
     const star = document.createElement("img");
@@ -84,7 +118,7 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
 
 
   if(index%3===0){
-    let starTwinkleTimeLine=gsap.timeline({repeat:-1,force3D: true})
+    let starTwinkleTimeLine=gsap.timeline({repeat:-1,force3D: true,paused:true});
     starTwinkleTimeLine.to(star,{opacity:1,duration:1,})
     starTwinkleTimeLine.to(star,{opacity:0.5,duration:1,})
     starTwinkleTimeLine.to(star,{opacity:0.3,duration:1,})
@@ -93,12 +127,13 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
     starTwinkleTimeLine.to(star,{opacity:0.5,duration:1,})
     starTwinkleTimeLine.to(star,{opacity:1,duration:1,})
 
-    gsap.to(star,{rotate:180,repeat:-1,duration:12})
+    starAnimations.push(gsap.to(star,{rotate:180,repeat:-1,duration:12,paused:true}))
+    starAnimations.push(starTwinkleTimeLine)
   }
-    gsap.to(star,{rotate:180,repeat:-1,duration:getRandomIntInclusive(
+    starAnimations.push(gsap.to(star,{rotate:180,repeat:-1,paused:true,duration:getRandomIntInclusive(
           12,
           24
-      )})
+      )}))
 
   }
 
