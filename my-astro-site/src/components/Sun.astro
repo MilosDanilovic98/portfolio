@@ -11,7 +11,7 @@ import "../global.css";
                 <path d="M51.333 200c0-82.051 66.616-148.667 148.667-148.667S348.667 117.949 348.667 200 282.051 348.667 200 348.667 51.333 282.051 51.333 200z" id="aura-3" />
             </g>
             <!-- 	moon		 -->
-            <radialGradient fill="#f4e04d"  fx=".5" fy=".5" cx=".5" cy=".5" r=".5" gradientTransform="translate(107.867 107.867) scale(184.265)" gradientUnits="userSpaceOnUse">
+            <radialGradient fill="#f4e04d" class="-z-20"  fx=".5" fy=".5" cx=".5" cy=".5" r=".5" gradientTransform="translate(107.867 107.867) scale(184.265)" gradientUnits="userSpaceOnUse">
                 <stop offset="88.69218161%" stop-color="#ffe" />
                 <stop offset="100%" stop-color="#fff" />
             </radialGradient>
@@ -43,7 +43,6 @@ import "../global.css";
     #contain-all-sun  {
         position: absolute;
         overflow: hidden;
-        z-index: -20;
         width: 100%;
         left: -25%;
         top:-90%;
@@ -51,12 +50,13 @@ import "../global.css";
         box-sizing: border-box;
         display: var(--visibleInLightMode);
         animation: desktopMoon 1s;
-        z-index: -20;
+
 
     }
     #contain-all-sun svg {
         transform-origin: 50% 50%;
         box-sizing: border-box;
+        z-index: -20;
 
     }
     @keyframes hover {
