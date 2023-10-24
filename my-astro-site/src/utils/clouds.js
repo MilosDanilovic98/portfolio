@@ -59,7 +59,7 @@ export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) =>
   }
 
 
-  // createClouds()
+  createClouds()
 
 
   setInterval(() => {
