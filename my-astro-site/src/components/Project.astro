@@ -4,7 +4,7 @@ import astroIcon from "../public/images/astroIcon.svg";
 import tailwindIcon from "../public/images/tailwindIcon.png";
 import { Image } from 'astro:assets';
 
-const {image,description} = Astro.props;
+const {image,description,title} = Astro.props;
 ---
 
 {
@@ -12,7 +12,7 @@ const {image,description} = Astro.props;
     <div class="h-screen overflow-hidden killMe  md:p-20 p-8 relative">
       <div class="h-full  flex flex-col border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-orange">
         <p class="text-xl  md:text-3xl flex justify-between items-center text-dark border-2 border-b-4 rounded-t-md border-dark p-4 bg-secondary">
-          My ssss website <img class="h-14" src={portfolioImage.src} />
+            {title} <img class="h-14" src={portfolioImage.src} />
         </p>
 
           <div class="h-full w-full flex flex-col md:flex-row">
