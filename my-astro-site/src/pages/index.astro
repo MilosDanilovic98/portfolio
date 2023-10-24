@@ -4,15 +4,18 @@ import Navbar from "../components/Navbar.astro";
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 import Project from "../components/Project.astro";
+import portfolioProjectImage from "../public/images/portfolioProject.png";
+import spotifyProjectImage from "../public/images/spotifyProject.png";
+import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.png";
 ---
 
 <Layout>
   <Navbar/>
   <Header />
   <div class="overflow-hidden">
-    <Project />
-    <Project />
-    <Project />
+    <Project image={portfolioProjectImage} />
+    <Project image={spotifyProjectImage} />
+    <Project image={landingAndBlogProjectImage} />
   </div>
 </Layout>
 

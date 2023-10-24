@@ -2,6 +2,9 @@
 import portfolioImage from "../public/images/portfolio.svg";
 import astroIcon from "../public/images/astroIcon.svg";
 import tailwindIcon from "../public/images/tailwindIcon.png";
+
+
+const {image} = Astro.props;
 ---
 
 {
@@ -12,12 +15,25 @@ import tailwindIcon from "../public/images/tailwindIcon.png";
           My ssss website <img class="h-14" src={portfolioImage} />
         </p>
 
-        <p class="font-lightFont text-lg md:text-xl text-black p-4 mt-auto">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
-          nostrum quidem eius iste, fugiat cupiditate esse est, eligendi ut,
-          molestias praesentium consectetur quasi commodi blanditiis harum
-          maxime impedit ipsum architecto.
-        </p>
+          <div class="h-full w-full flex flex-col md:flex-row">
+              <div class=" h-1/2 md:h-3/4 w-full md:w-1/2  mt-2 mx-4 pr-8 md:pr-0 ">
+                  <img src={image} class=" h-full w-full border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark "/>
+              </div>
+
+
+              <p class="text-xl w-full md:w-1/2  md:text-3xl p-6 text-dark">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
+                  nostrum quidem eius iste, fugiat cupiditate esse est, eligendi ut,
+                  molestias praesentium consectetur quasi commodi blanditiis harum
+                  maxime impedit ipsum architecto.
+              </p>
+
+
+          </div>
+
+
+
+
        <!--  <div class="flex justify-around items-center bg-amber-400">
           <img class="h-14 w-14" src={astroIcon} />
           <img class="h-14 w-14" src={tailwindIcon} />
@@ -35,7 +51,8 @@ import tailwindIcon from "../public/images/tailwindIcon.png";
 }
 
 <script>
-    import {gsap} from "gsap";
+  import {gsap} from "gsap";
+
   let target = document.querySelectorAll(".killMe");
 
   const observer = new IntersectionObserver((entrie) => {
