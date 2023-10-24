@@ -24,7 +24,7 @@ export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) =>
   const createClouds=()=>{
     for (let index = 0; index < dencity; index++) {
       const cloud = document.createElement("img");
-      cloud.src = cloudImage;
+      cloud.src = cloudImage.src;
       let topValue = getRandomIntInclusive(0, rootElement.offsetHeight - 120);
       let rightValue = getRandomIntInclusive(
           -200,
@@ -66,7 +66,7 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
 
   for (let index = 0; index < dencity; index++) {
     const star = document.createElement("img");
-    star.src = starImage;
+    star.src = starImage.src;
     let topValue = getRandomIntInclusive(-rootElement.clientHeight/2, rootElement.clientHeight/2);
     let rightValue = getRandomIntInclusive(
         rootElement.clientWidth/2 ,

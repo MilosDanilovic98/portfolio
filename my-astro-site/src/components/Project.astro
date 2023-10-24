@@ -2,7 +2,7 @@
 import portfolioImage from "../public/images/portfolio.svg";
 import astroIcon from "../public/images/astroIcon.svg";
 import tailwindIcon from "../public/images/tailwindIcon.png";
-
+import { Image } from 'astro:assets';
 
 const {image} = Astro.props;
 ---
@@ -12,12 +12,12 @@ const {image} = Astro.props;
     <div class="h-screen overflow-hidden killMe  md:p-20 p-8 relative">
       <div class="h-full  flex flex-col border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-orange">
         <p class="text-xl  md:text-3xl flex justify-between items-center text-dark border-2 border-b-4 rounded-t-md border-dark p-4 bg-secondary">
-          My ssss website <img class="h-14" src={portfolioImage} />
+          My ssss website <img class="h-14" src={portfolioImage.src} />
         </p>
 
           <div class="h-full w-full flex flex-col md:flex-row">
               <div class=" h-1/2 md:h-3/4 w-full md:w-1/2  mt-2 mx-4 pr-8 md:pr-0 ">
-                  <img loading="lazy" src={image} class=" h-full w-full border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark "/>
+                  <Image  loading="lazy" src={image} alt="test" class=" h-full w-full border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark "/>
               </div>
 
 
