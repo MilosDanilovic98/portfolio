@@ -62,12 +62,11 @@ const {image} = Astro.props;
       if (
         element.isIntersecting
       ) {
-        console.log(element.isIntersecting);
-          gsap.to(element.target,{x:0,duration:2,ease: "elastic.out(1,1)",force3D: true})
+
+          gsap.to(element.target,{x:0,ease: "elastic.out(1,1)",force3D: true})
       }
       else {
-          gsap.to(element.target,{x:"45%",duration:2, ease: "elastic.out(1,1)",force3D: true})
-
+          gsap.to(element.target,{x:"45%", ease: "elastic.out(1,1)",force3D: true})
 
       }
 
