@@ -4,7 +4,7 @@ import astroIcon from "../public/images/astroIcon.svg";
 import tailwindIcon from "../public/images/tailwindIcon.png";
 import { Image } from 'astro:assets';
 
-const {image} = Astro.props;
+const {image,description} = Astro.props;
 ---
 
 {
@@ -22,10 +22,7 @@ const {image} = Astro.props;
 
 
               <p class="text-xl w-full md:w-1/2  md:text-3xl p-6 text-dark">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
-                  nostrum quidem eius iste, fugiat cupiditate esse est, eligendi ut,
-                  molestias praesentium consectetur quasi commodi blanditiis harum
-                  maxime impedit ipsum architecto.
+                  {description}
               </p>
 
 

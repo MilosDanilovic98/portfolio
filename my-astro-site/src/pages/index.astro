@@ -13,9 +13,13 @@ import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.p
   <Navbar/>
   <Header />
   <div class="overflow-hidden">
-    <Project image={portfolioProjectImage} />
-    <Project image={spotifyProjectImage} />
-    <Project image={landingAndBlogProjectImage} />
+    <Project image={portfolioProjectImage} description={"Portfolio project made with AstroJS"} />
+    <Project image={spotifyProjectImage} description={"A fully responsive Spotify clone with options to upload,play and add a song to a list of favorites.Uses Spotify API to generate" +
+        "a playlist based on inputed songs,albums and artist with the option of adding the generated playlist to your spotify account."} />
+    <Project image={landingAndBlogProjectImage}
+             description={"A fully responsive landing page made with AstroJS  together with CMS"}
+
+    />
   </div>
 </Layout>
 
