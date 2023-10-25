@@ -9,7 +9,7 @@ const {image,description,title} = Astro.props;
 
 {
   true ? (
-    <div class="  min-h-screen overflow-hidden killMe  md:p-20 p-8 relative">
+    <div class="  min-h-screen overflow-hidden killMe    md:p-20 p-8 relative">
       <div class="h-full  flex flex-col border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-projectCardBg">
         <p class="text-xl  md:text-3xl flex justify-between items-center text-dark border-2 border-b-4 rounded-t-md border-dark p-4 bg-secondary">
             {title} <img class="h-14" src={portfolioImage.src} />
@@ -67,10 +67,15 @@ const {image,description,title} = Astro.props;
         element.isIntersecting
       ) {
 
-          gsap.to(element.target,{left:0,duration:2,ease: "elastic.out(1,1)",force3D: true,z:0})
+          // gsap.to(element.target,{left:0,duration:2,ease: "elastic.out(1,1)",force3D: true})
+
+          element.target.classList.add("floatIn")
+          element.target.classList.remove("floatOut")
       }
       else {
-          gsap.to(element.target,{left:"45%",duration:2, ease: "elastic.out(1,1)",force3D: true,z:0})
+          element.target.classList.add("floatOut")
+          element.target.classList.remove("floatIn")
+          // gsap.to(element.target,{left:"45%",duration:2, ease: "elastic.out(1,1)",force3D: true})
 
       }
 
@@ -83,5 +88,36 @@ const {image,description,title} = Astro.props;
     observer.observe(target);
   });
 </script>
+
+        <style>
+
+            @keyframes floatOut {
+                0% { left:0%;  }
+                100% {  left:45%;}
+            }
+
+            @keyframes floatIn {
+                0% { left:45%;  }
+                100% {  left:0%;}
+            }
+
+
+
+            .floatIn{
+                animation: floatIn 2s forwards;
+
+            }
+
+
+            .floatOut{
+                animation: floatOut 2s forwards;
+
+
+            }
+
+
+
+
+        </style>
 
 
