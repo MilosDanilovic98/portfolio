@@ -1,7 +1,7 @@
 ---
 import "../global.css";
 ---
-<div class="drawer fixed h-screen r-10 w-2/3  z-10  drop-shadow-3xl overflow-hidden ">
+<div class="drawer md:hidden fixed h-screen r-10 w-0  z-10  drop-shadow-3xl overflow-hidden ">
   <input id="my-drawer" type="checkbox" class="drawer-toggle" />
   <div class="drawer-side">
     <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -83,13 +83,16 @@ import "../global.css";
   const changeThemeButton = document.querySelector("#changeThemeButton");
   const drawerCheckbox= document.querySelector("#my-drawer");
   const drawerIconCheckbox= document.querySelector("#drawerIcon");
+  const drawer=document.querySelector(".drawer");
 
 
   drawerCheckbox.addEventListener("click", (e) => {
     if (e.target.checked) {
       drawerIconCheckbox.checked=true
+      drawer.classList.remove("w-0")
     } else {
       drawerIconCheckbox.checked=false
+      drawer.classList.add("w-0")
     }
   });
 
