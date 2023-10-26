@@ -113,7 +113,7 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
     star.style.scale=Math.random() * (1 - 0.2) + 0.2;
     star.style.rotate=Math.random() * (130 - 110) + 110;
 
-    console.log(star)
+
     star.classList.add("star");
 
     star.style.top = `${topValue}px`;

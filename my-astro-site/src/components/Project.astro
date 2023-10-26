@@ -73,12 +73,10 @@ const {image,description,title} = Astro.props;
 
           gsap.to(element.target,{left:0,duration:2,ease: "elastic.out(1,1)",force3D: true})
 
-          // element.target.classList.add("floatIn")
-          // element.target.classList.remove("floatOut")
+
       }
       else {
-          // element.target.classList.add("floatOut")
-          // element.target.classList.remove("floatIn")
+
           gsap.to(element.target,{left:"45%",duration:2, ease: "elastic.out(1,1)",force3D: true})
 
       }
@@ -93,35 +91,5 @@ const {image,description,title} = Astro.props;
   });
 </script>
 
-        <style>
-
-           @keyframes floatOut {
-                0% { left:0%;  }
-                100% {  left:45%;}
-            }
-
-            @keyframes floatIn {
-                0% { left:45%;  }
-                100% {  left:0%;}
-            }
-
-
-
-            .floatIn{
-                animation: floatIn 2s forwards;
-
-            }
-
-
-            .floatOut{
-                animation: floatOut 2s forwards;
-
-
-            }
-
-
-
-
-        </style>
 
 
