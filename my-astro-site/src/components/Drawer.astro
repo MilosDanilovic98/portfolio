@@ -3,7 +3,7 @@
 ---
 
 
-<div class="drawer md:hidden fixed  r-10 w-0  z-10  drop-shadow-3xl overflow-hidden ">
+<div class="drawer md:hidden fixed test   r-10 w-0  z-10  drop-shadow-3xl overflow-hidden ">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-side">
         <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -29,7 +29,29 @@
 
 <script>
     let test=document.querySelector(".drawer")
-    test.style.height=window.outerHeight+"px"
+    var vh = window.innerHeight;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    window.addEventListener("resize", function () {
+        var vh = window.innerHeight;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    });
+    window.addEventListener("scroll", function () {
+        var vh = window.innerHeight;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+    });
+
+
+
+
+
 
 
 </script>
+
+<style>
+
+    .test{
+        height: var(--vh);
+    }
+</style>
