@@ -29,15 +29,15 @@
 
 <script>
     let test=document.querySelector(".drawer")
-    var vh = window.innerHeight;
+    var vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
     window.addEventListener("resize", function () {
-        var vh = window.innerHeight;
+        var vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
 
     });
     window.addEventListener("scroll", function () {
-        var vh = window.innerHeight;
+        var vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
     });
 
@@ -52,6 +52,6 @@
 <style>
 
     .test{
-        height: var(--vh);
+        height: calc(var(--vh, 1vh) * 100);
     }
 </style>
