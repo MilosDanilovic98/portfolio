@@ -5,7 +5,7 @@ import Drawer from "./Drawer.astro";
 
 
 <Drawer/>
-<div class="navbar z-10 border-dark bg-white justify-between font-MyFont text-xs fixed top-0 ">
+<div class="navbar z-10 border-dark  bg-white justify-between font-MyFont text-xs fixed top-0 ">
 
   <label for="my-drawer" class="  swap swap-rotate md:hidden">
 
@@ -61,15 +61,20 @@ import Drawer from "./Drawer.astro";
   const drawerCheckbox= document.querySelector("#my-drawer");
   const drawerIconCheckbox= document.querySelector("#drawerIcon");
   const drawer=document.querySelector(".drawer");
+  const navbar=document.querySelector(".navbar");
 
 
   drawerCheckbox.addEventListener("click", (e) => {
     if (e.target.checked) {
       drawerIconCheckbox.checked=true
       drawer.classList.remove("w-0")
+      navbar.classList.add("border-b-4")
+
     } else {
       drawerIconCheckbox.checked=false
       drawer.classList.add("w-0")
+      navbar.classList.remove("border-b-4")
+
     }
   });
 
