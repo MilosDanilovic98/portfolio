@@ -43,6 +43,7 @@ module.exports = {
         orange: "var(--orange)",
         white: "var(--white)",
         projectCardBg: "var(--projectCardBg)",
+        drawerBackground: "var(--drawerBackground)",
       },
     },
   },

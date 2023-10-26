@@ -1,0 +1,53 @@
+---
+import "../global.css";
+
+
+
+---
+<button id="bbb" class="btn" >open modal</button>
+asdas
+<dialog id="my_modal_4" class="modal">
+
+    <div class="modal-box w-11/12 max-w-5xl">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Click the button below to close</p>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+<script>
+
+    import {gsap} from "gsap";
+
+    let sayHiButton=document.querySelector("#bbb")
+    const modal = document.querySelector("#my_modal_4");
+
+
+
+    sayHiButton.addEventListener("click",()=>{
+        let buttonTimeLine= gsap.timeline()
+        buttonTimeLine.to(sayHiButton,{y:6,duration:0.3,onEnd:()=>{sayHiButton.classList.remove("drop-shadow-3xl")}})
+        buttonTimeLine.to(sayHiButton,{y:0,duration:0.3,onEnd:()=>{sayHiButton.classList.add("drop-shadow-3xl")}})
+        modal.showModal()
+
+
+    })
+
+
+
+
+
+
+</script>
+
+<style>
+
+
+</style>
+

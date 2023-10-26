@@ -46,6 +46,7 @@
   --orange: #ffff00;
   --projectCardBg:#ffff00;
   --white: #0096ff;
+  --drawerBackground: #ffff00;
   --visibleInDarkMode:none;
   --visibleInLightMode:block
 }
@@ -68,6 +69,7 @@
   --orange: #d16f0d;
   --white: #031031;
   --projectCardBg:#307351;
+  --drawerBackground: #031031;
   --visibleInDarkMode:block;
   --visibleInLightMode:none
 }

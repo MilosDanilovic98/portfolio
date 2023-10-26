@@ -5,8 +5,22 @@ import Sun from "./Sun.astro";
 
 
 ---
+<dialog id="my_modal_1" class="modal  ">
+    <div class="modal-box bg-white">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Press ESC key or click the button below to close</p>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
 
 <div class="hero relative min-h-screen bg-base-200 overflow-hidden">
+
 
 
   <div class="hero-content text-center relative">
@@ -15,17 +29,21 @@ import Sun from "./Sun.astro";
 
     <div class="max-w-xl ">
       <h1 class="text-6xl  md:text-7xl font-bold font-MyFont">
-        Hi my name is <span class="text-orange font-italicFont">MILOŠ</span> and
-        i am a <span class="text-orange font-italicFont">FULLSTACK</span> web developer.
-        <!--Lorem ipsum<span class="text-orange font-italicFont">LOREM</span> IPS-->
-        <!--i am a <span class="text-orange font-italicFont">LOREM</span> IPSUM.-->
+        <!--Hi my name is <span class="text-orange font-italicFont">MILOŠ</span> and-->
+        <!--i am a <span class="text-orange font-italicFont">FULLSTACK</span> web developer.-->
+        Lorem ipsum<span class="text-orange font-italicFont">LOREM</span> IPS
+        i am a <span class="text-orange font-italicFont">LOREM</span> IPSUM.
       </h1>
 
       <button
+
           id="sayHiButton"
         class="drop-shadow-3xl  bg-primary border-dark border-4 p-2 md:p-4 text-2xl md:text-4xl"
-        >Say hi to me</button
+        >Say hi to me
+
+      </button
       >
+
 
     </div>
   </div>
@@ -37,8 +55,7 @@ import Sun from "./Sun.astro";
 
   let root = document.querySelector(".hero");
   let sayHiButton=document.querySelector("#sayHiButton")
-  const layoutRoot = document.querySelector("#root");
-
+  const modal = document.querySelector("#my_modal_1");
 
   cloudGeneratingFunction(root,3000,5,15)
   starGeneratingFunction(root,25)
@@ -46,7 +63,7 @@ import Sun from "./Sun.astro";
   sayHiButton.addEventListener("click",()=>{
     let buttonTimeLine= gsap.timeline()
     buttonTimeLine.to(sayHiButton,{y:6,duration:0.3,onEnd:()=>{sayHiButton.classList.remove("drop-shadow-3xl")}})
-    buttonTimeLine.to(sayHiButton,{y:0,duration:0.3,onEnd:()=>{sayHiButton.classList.add("drop-shadow-3xl")}})
+    buttonTimeLine.to(sayHiButton,{y:0,duration:0.3,onEnd:()=>{sayHiButton.classList.add("drop-shadow-3xl"); modal.showModal()}})
 
 
 
