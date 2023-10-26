@@ -13,28 +13,7 @@ import "../global.css";
     <title>Astro</title>
   </head>
   <body class="bg-white text-dark font-mainFont ">
-  <div class="drawer fixed  z-10  drop-shadow-3xl overflow-hidden ">
-    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-side">
-      <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu   p-4 w-80 h-full max-h-full flex justify-center bg-projectCardBg text-base-content w-2/3 ">
-        <!-- Sidebar content here -->
-        <li>
-          <a class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black">About me</a>
-        </li>
-        <li>
-          <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Projects</a>
-        </li>
-        <li>
-          <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Blogs</a>
-        </li>
-        <li>
-          <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Contact</a>
-        </li>
 
-      </ul>
-    </div>
-  </div>
     <slot />
     <Footer/>
   </body>
