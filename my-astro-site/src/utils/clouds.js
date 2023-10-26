@@ -99,23 +99,28 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
 
 
   for (let index = 0; index < dencity; index++) {
+
     const star = document.createElement("img");
     star.src = starImage.src;
-    let topValue = getRandomIntInclusive(-rootElement.clientHeight/2, rootElement.clientHeight/2);
+    let topValue = getRandomIntInclusive(0, rootElement.clientHeight-40);
     let rightValue = getRandomIntInclusive(
-        rootElement.clientWidth/2 ,
-        -rootElement.clientWidth/2
+        0 ,
+        rootElement.clientWidth-40
     );
 
-    star.classList.add("star");
-    star.style.top = `${topValue}px`;
-    star.style.right = `${rightValue}px`;
-    star.style.scale=Math.random() * (0.05 - 0.02) + 0.02;
+
+
+    star.style.scale=Math.random() * (1 - 0.2) + 0.2;
     star.style.rotate=Math.random() * (130 - 110) + 110;
 
-    rootElement.append(star);
+    console.log(star)
+    star.classList.add("star");
 
+    star.style.top = `${topValue}px`;
 
+    star.style.right = `${rightValue}px`;
+
+    rootElement.appendChild(star);
 
   if(index%3===0){
     let starTwinkleTimeLine=gsap.timeline({repeat:-1,force3D: true,paused:true});
@@ -136,6 +141,8 @@ export const starGeneratingFunction = (rootElement,dencity)=>{
       )}))
 
   }
+
+
 
 
 }

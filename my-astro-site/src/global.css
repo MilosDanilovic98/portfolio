@@ -103,7 +103,7 @@
 }
 
 .star {
-  position: relative;
+  position: absolute;
   z-index: -1;
   display: var(--visibleInDarkMode);
 }
