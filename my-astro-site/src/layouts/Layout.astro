@@ -32,7 +32,7 @@ import { ViewTransitions } from 'astro:transitions';
 
     const root2 = document.querySelector("#root");
     const currentTheme = localStorage.getItem("theme");
-    root2.classList.add(currentTheme??"lightTheme")
+    root2.classList=currentTheme??"lightTheme"
     console.log(currentTheme)
 
 
