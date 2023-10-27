@@ -4,13 +4,15 @@ import Layout from "../layouts/Layout.astro";
 import spotifyProjectImage from "./../public/images/spotifyProject.png"
 import portfolioProjectImage from "./../public/images/portfolioProject.png";
 import {Image} from "astro:assets";
+import { Code } from 'astro:components';
 
 
 ---
 
 <Layout>
     <div class="bg-white relative  overflow-hidden kick text-3xl md:text-6xl font-bold text-center  font-robotoCondensed flex justify-center items-center  border-dark  border-b-4 py-4 px-12 md:px-24  ">Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor Sit Amanet </div>
-    <Image class="w-3/4 m-auto mt-8  object-cover border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark " alt="test" src={portfolioProjectImage} />
+
+    <Image class="w-3/4 m-auto mt-8  object-cover border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark " alt="test" src={spotifyProjectImage} />
     <div class="w-3/4  font-robotoCondensed md:w-[60%] pt-4 m-auto  h-full">
         <h1 class=" text-4xl md:text-6xl text-orange  border-b-8 link-underline link-underline-black blogSubtitle break-words">#Introduction</h1>
         <p class="text-xl md:text-3xl my-6">
@@ -42,11 +44,53 @@ import {Image} from "astro:assets";
             So, my goal today is to help demystify this stuff for you, to answer a lot of the questions you might have about React Server Components!
 
         </p>
-        <div class="mockup-code bg-secondary">
-            <pre data-prefix="$"><code>npm i daisyui</code></pre>
-            <pre data-prefix=">" class="text-warning"><code>installing...</code></pre>
-            <pre data-prefix=">" class="text-success"><code>Done!</code></pre>
-        </div>
+
+            <Code wrap={true} class="bg-dark" code={`import {cloudGeneratingFunction, starGeneratingFunction} from "../utils/clouds";
+    import {gsap} from "gsap";
+
+    let root = document.querySelector(".kick");
+
+
+    console.log(window.innerWidth*0.03)
+    cloudGeneratingFunction(root,3000,1,15)
+    starGeneratingFunction(root,window.innerWidth*0.03)
+
+
+    let target = document.querySelectorAll(".blogSubtitle");
+
+    const observer = new IntersectionObserver((entrie) => {
+
+        entrie.forEach((element) => {
+
+            if (
+                element.isIntersecting
+            ) {
+
+                gsap.to(element.target,{duration:0.2, backgroundSize: "100% 6px",backgroundPosition:" 0 100%"})
+
+
+            }
+            else {
+
+                gsap.to(element.target,{duration:0.2, backgroundSize: "0 0px",backgroundPosition:" 0 0"})
+
+            }
+
+        });
+    },);
+
+    target.forEach((target) => {
+        observer.observe(target);
+    });
+`} lang="js" />
+
+
+
+
+
+
+
+
         </div>
 </Layout>
 
@@ -59,12 +103,10 @@ import {Image} from "astro:assets";
 
     let root = document.querySelector(".kick");
 
-    // let blogSubtitle=document.querySelector(".blogSubtitle")
-    //
-    // gsap.to(blogSubtitle,{duration:0.2, backgroundSize: "100% 6px",backgroundPosition:" 0 100%"})
 
-    cloudGeneratingFunction(root,3000,1,15)
-    starGeneratingFunction(root,25)
+    // console.log(window.innerWidth*0.03)
+    // cloudGeneratingFunction(root,3000,1,15)
+    // starGeneratingFunction(root,window.innerWidth*0.03)
 
 
     let target = document.querySelectorAll(".blogSubtitle");
