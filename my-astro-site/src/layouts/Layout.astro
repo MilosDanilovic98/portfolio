@@ -4,9 +4,11 @@ import Footer from "./components/Footer.astro";
 import "../global.css";
 import Drawer from "./components/Drawer.astro";
 import { ViewTransitions } from 'astro:transitions';
+
+
 ---
 
-<html id="root" lang="en" class="lightTheme">
+<html id="root" lang="en" class="">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -25,3 +27,13 @@ import { ViewTransitions } from 'astro:transitions';
     <Footer/>
   </body>
 </html>
+
+<script is:inline >
+
+    const root2 = document.querySelector("#root");
+    const currentTheme = localStorage.getItem("theme");
+    root2.classList.add(currentTheme??"lightTheme")
+    console.log(currentTheme)
+
+
+</script>

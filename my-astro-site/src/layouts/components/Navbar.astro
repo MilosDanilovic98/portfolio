@@ -54,7 +54,7 @@ import Drawer from "./Drawer.astro";
   </label>
 </div>
 
-<script>
+<script is:inline>
   // Find all buttons with the `alert` class on the page.
   const root = document.querySelector("#root");
   const changeThemeButton = document.querySelector("#changeThemeButton");
@@ -84,17 +84,20 @@ import Drawer from "./Drawer.astro";
   });
 
 
-
+  changeThemeButton.checked =
 
   changeThemeButton.addEventListener("click", (e) => {
     if (e.target.checked) {
       root.classList.add("lightTheme");
       root.classList.remove("darkTheme");
+      localStorage.setItem("theme", "lightTheme");
     } else {
       root.classList.add("darkTheme");
       root.classList.remove("lightTheme");
+      localStorage.setItem("theme", "darkTheme");
     }
   });
 
   // Handle clicks on each button.
+
 </script>

@@ -8,7 +8,7 @@ const {image}=Astro.props
 ---
 
 
-<div class="card e bg-projectCardBg drop-shadow-3xl ">
+<div class="card singleBlogCard bg-projectCardBg drop-shadow-3xl ">
     <figure class="h-auto">
         <Image class="w-full h-full object-cover"  src={image} alt="Album"/>
     </figure>
@@ -20,3 +20,38 @@ const {image}=Astro.props
         </div>
     </div>
 </div>
+
+
+
+<script>
+    import {gsap} from "gsap";
+
+    let target = document.querySelectorAll(".singleBlogCard");
+
+    const observer = new IntersectionObserver((entrie) => {
+
+        entrie.forEach((element) => {
+
+            if (
+                element.isIntersecting
+            ) {
+
+                gsap.to(element.target,{right:0,duration:2,ease: "elastic.out(1,1)",force3D: true})
+
+
+            }
+            else {
+
+                gsap.to(element.target,{right:"45%",duration:2, ease: "elastic.out(1,1)",force3D: true})
+
+            }
+
+        });
+    },{
+    threshold:0,
+    });
+
+    target.forEach((target) => {
+        observer.observe(target);
+    });
+</script>
