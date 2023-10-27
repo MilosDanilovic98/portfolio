@@ -1,0 +1,22 @@
+---
+import portfolioProjectImage from "./../../public/images/portfolioProject.png";
+import spotifyProjectImage from "./../../public/images/spotifyProject.png";
+import landingAndBlogProjectImage from "./../../public/images/landingAndBlogProject.png";
+import {Image} from "astro:assets";
+
+const {image}=Astro.props
+---
+
+
+<div class="card e bg-projectCardBg drop-shadow-3xl ">
+    <figure class="h-auto">
+        <Image class="w-full h-full object-cover"  src={image} alt="Album"/>
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">New album is released!</h2>
+        <p>Click the button to listen on Spotiwhy app.</p>
+        <div class="card-actions justify-end">
+            <a href="/blog" class="btn btn-primary">Listen</a>
+        </div>
+    </div>
+</div>

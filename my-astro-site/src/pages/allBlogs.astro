@@ -1,0 +1,37 @@
+---
+import portfolioProjectImage from "./../public/images/portfolioProject.png";
+import spotifyProjectImage from "./../public/images/spotifyProject.png";
+import landingAndBlogProjectImage from "./../public/images/landingAndBlogProject.png";
+
+import MainBlogCard from "../components/Blog/MainBlogCard.astro";
+import Layout from "../layouts/Layout.astro";
+import SingleBlogCard from "../components/Blog/SingleBlogCard.astro";---
+
+
+
+<Layout>
+<div class="p-6">
+    <MainBlogCard/>
+</div>
+    <div class="divider text-4xl md:text-6xl   border-b-8 link-underline link-underline-black ">All Blogs</div>
+<div class=" p-6 grid grid-cols-1   sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <SingleBlogCard image={portfolioProjectImage}/>
+    <SingleBlogCard image={spotifyProjectImage}/>
+    <SingleBlogCard image={landingAndBlogProjectImage}/>
+
+    <SingleBlogCard image={portfolioProjectImage}/>
+    <SingleBlogCard image={spotifyProjectImage}/>
+    <SingleBlogCard image={landingAndBlogProjectImage}/>
+</div>
+
+
+
+
+</Layout>
+
+<script>
+    import {gsap} from "gsap";
+    const divider =document.querySelector(".divider")
+    gsap.to(divider,{duration:0.2, backgroundSize: "100% 6px",backgroundPosition:" 0 100%"})
+
+</script>

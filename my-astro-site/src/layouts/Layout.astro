@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar.astro";
 import Footer from "./components/Footer.astro";
 import "../global.css";
 import Drawer from "./components/Drawer.astro";
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <html id="root" lang="en" class="lightTheme">
@@ -12,6 +13,7 @@ import Drawer from "./components/Drawer.astro";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Astro</title>
+    <ViewTransitions/>
   </head>
   <body class="bg-white text-dark font-mainFont ">
   <Navbar/>
