@@ -26,6 +26,17 @@
     font-style: normal;
     font-display: swap;
   }
+
+
+  @font-face {
+    font-family: "robotoCondensed";
+    src: url("public/fonts/RobotoCondensed-VariableFont_wght.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+
 }
 .lightTheme {
   --appBackground: #fefcfb;
@@ -106,7 +117,7 @@
 
 .star {
   position: absolute;
-  z-index: -1;
+  z-index: 1;
   display: var(--visibleInDarkMode);
 }
 

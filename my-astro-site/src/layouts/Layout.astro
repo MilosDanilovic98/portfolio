@@ -1,7 +1,8 @@
 ---
-import Navbar from "../components/Navbar.astro";
-import Footer from "../components/Footer.astro";
+import Navbar from "./components/Navbar.astro";
+import Footer from "./components/Footer.astro";
 import "../global.css";
+import Drawer from "./components/Drawer.astro";
 ---
 
 <html id="root" lang="en" class="lightTheme">
@@ -13,8 +14,12 @@ import "../global.css";
     <title>Astro</title>
   </head>
   <body class="bg-white text-dark font-mainFont ">
+  <Navbar/>
 
-    <slot />
+
+    <slot  />
+
+
     <Footer/>
   </body>
 </html>

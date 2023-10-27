@@ -1,46 +1,98 @@
 ---
 import "../global.css";
-
+import Layout from "../layouts/Layout.astro";
+import spotifyProjectImage from "./../public/images/spotifyProject.png"
+import portfolioProjectImage from "./../public/images/portfolioProject.png";
+import {Image} from "astro:assets";
 
 
 ---
-<button id="bbb" class="btn" >open modal</button>
-asdas
-<dialog id="my_modal_4" class="modal">
 
-    <div class="modal-box w-11/12 max-w-5xl">
-        <h3 class="font-bold text-lg">Hello!</h3>
-        <p class="py-4">Click the button below to close</p>
-        <div class="modal-action">
-            <form method="dialog">
-                <!-- if there is a button, it will close the modal -->
-                <button class="btn">Close</button>
-            </form>
+<Layout>
+    <div class="bg-white relative  overflow-hidden kick text-3xl md:text-6xl font-bold text-center  font-robotoCondensed flex justify-center items-center  border-dark  border-b-4 py-4 px-12 md:px-24  ">Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor Sit Amanet </div>
+    <Image class="w-3/4 m-auto mt-8  object-cover border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark " alt="test" src={portfolioProjectImage} />
+    <div class="w-3/4  font-robotoCondensed md:w-[60%] pt-4 m-auto  h-full">
+        <h1 class=" text-4xl md:text-6xl text-orange  border-b-8 link-underline link-underline-black blogSubtitle break-words">#Introduction</h1>
+        <p class="text-xl md:text-3xl my-6">
+            So, here's something that makes me feel old: React celebrated its 10th birthday this year!
+
+            In the decade since React was first introduced to a bewildered dev community, it’s gone through several evolutions. The React team has not been shy when it comes to radical changes: if they discover a better solution to a problem, they'll run with it.
+
+            A couple of months ago, the React team unveiled React Server Components, the latest paradigm shift. For the first time ever, React components can run exclusively on the server.
+
+            There's been so much friggin’ confusion about this online. Lots of folks have lots of questions around what this is, how it works, what the benefits are, and how it fits together with things like Server Side Rendering.
+
+            I've been doing a lot of experimentation with React Server Components, and I've answered a lot of my own questions. I have to admit, I'm way more excited about this stuff than I expected to be. It's really cool!
+
+            So, my goal today is to help demystify this stuff for you, to answer a lot of the questions you might have about React Server Components!
+
+        </p>
+        <h1 class="text-6xl text-orange  border-b-8 link-underline  link-underline-black blogSubtitle">#Title</h1>
+        <p class="text-3xl my-6">
+            So, here's something that makes me feel old: React celebrated its 10th birthday this year!
+
+            In the decade since React was first introduced to a bewildered dev community, it’s gone through several evolutions. The React team has not been shy when it comes to radical changes: if they discover a better solution to a problem, they'll run with it.
+
+            A couple of months ago, the React team unveiled React Server Components, the latest paradigm shift. For the first time ever, React components can run exclusively on the server.
+
+            There's been so much friggin’ confusion about this online. Lots of folks have lots of questions around what this is, how it works, what the benefits are, and how it fits together with things like Server Side Rendering.
+
+            I've been doing a lot of experimentation with React Server Components, and I've answered a lot of my own questions. I have to admit, I'm way more excited about this stuff than I expected to be. It's really cool!
+
+            So, my goal today is to help demystify this stuff for you, to answer a lot of the questions you might have about React Server Components!
+
+        </p>
+        <div class="mockup-code bg-secondary">
+            <pre data-prefix="$"><code>npm i daisyui</code></pre>
+            <pre data-prefix=">" class="text-warning"><code>installing...</code></pre>
+            <pre data-prefix=">" class="text-success"><code>Done!</code></pre>
         </div>
-    </div>
-</dialog>
+        </div>
+</Layout>
 
 
 <script>
 
+
+    import {cloudGeneratingFunction, starGeneratingFunction} from "../utils/clouds";
     import {gsap} from "gsap";
 
-    let sayHiButton=document.querySelector("#bbb")
-    const modal = document.querySelector("#my_modal_4");
+    let root = document.querySelector(".kick");
+
+    // let blogSubtitle=document.querySelector(".blogSubtitle")
+    //
+    // gsap.to(blogSubtitle,{duration:0.2, backgroundSize: "100% 6px",backgroundPosition:" 0 100%"})
+
+    cloudGeneratingFunction(root,3000,1,15)
+    starGeneratingFunction(root,25)
 
 
+    let target = document.querySelectorAll(".blogSubtitle");
 
-    sayHiButton.addEventListener("click",()=>{
-        let buttonTimeLine= gsap.timeline()
-        buttonTimeLine.to(sayHiButton,{y:6,duration:0.3,onEnd:()=>{sayHiButton.classList.remove("drop-shadow-3xl")}})
-        buttonTimeLine.to(sayHiButton,{y:0,duration:0.3,onEnd:()=>{sayHiButton.classList.add("drop-shadow-3xl")}})
-        modal.showModal()
+    const observer = new IntersectionObserver((entrie) => {
+
+        entrie.forEach((element) => {
+
+            if (
+                element.isIntersecting
+            ) {
+
+                gsap.to(element.target,{duration:0.2, backgroundSize: "100% 6px",backgroundPosition:" 0 100%"})
 
 
-    })
+            }
+            else {
 
+                gsap.to(element.target,{duration:0.2, backgroundSize: "0 0px",backgroundPosition:" 0 0"})
 
+            }
 
+        });
+    },);
+
+    target.forEach((target) => {
+        observer.observe(target);
+    });
 
 
 

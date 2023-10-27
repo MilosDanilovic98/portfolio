@@ -21,8 +21,8 @@ module.exports = {
       fontFamily: {
         'mainFont': ['mainFont', 'serif'],
         'lightFont': ['lightFont', 'serif'],
-        'italicFont': ['italicFont', 'serif']
-        
+        'italicFont': ['italicFont', 'serif'],
+        'robotoCondensed': ['robotoCondensed', 'serif']
       },
       colors: {
         appBackground: "var(--appBackground)",
