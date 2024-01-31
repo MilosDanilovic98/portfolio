@@ -24,6 +24,7 @@
     "@astrojs/tailwind": "^5.0.2",
     "astro": "^3.3.3",
     "gsap": "^3.11.3",
+    "husky": "^9.0.7",
     "tailwindcss": "^3.1.8"
   },
   "devDependencies": {
@@ -32,7 +33,6 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
-    "husky": "^8.0.0",
     "lint-staged": "^15.2.1",
     "prettier": "^3.2.4",
     "prettier-plugin-astro": "^0.13.0"
