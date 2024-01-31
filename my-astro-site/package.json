@@ -11,8 +11,7 @@
     "astro": "astro"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
-    "preserveUnused": ["commit-msg"]
+    "pre-commit": "npx lint-staged"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.0.2",
