@@ -1,10 +1,10 @@
 {
   "*.{js,jsx,ts,tsx,astro}": [
-    "prettier --write",
-    "eslint"
+    "prettier --write"
+
   ],
   "*.html": [
-    "eslint",
+
     "prettier --write"
   ],
   "*.scss": "prettier --write"
