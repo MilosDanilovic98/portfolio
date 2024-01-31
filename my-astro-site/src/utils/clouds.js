@@ -10,12 +10,14 @@ function getRandomIntInclusive(min, max) {
 
 
 export const cloudGeneratingFunction = (rootElement, interval, dencity,speed) => {
+
   const changeThemeButton = document.querySelector("#changeThemeButton");
   let cloudAnimations=[]
   let isPaused = false
 
   changeThemeButton.addEventListener("click", (e) => {
-    if (e.target.checked) {
+    if (!e.target.checked) {
+      console.log("test2")
       createClouds()
       for (let i = 0; i < cloudAnimations.length; i++) {
         cloudAnimations[i].play()

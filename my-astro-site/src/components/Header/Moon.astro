@@ -32,28 +32,9 @@ import "../../global.css";
 
 <style>
 
-    @keyframes desktopMoon {
-        0% { opacity: 0.1; top:-70%;  }
-        100% { opacity: 1; top:-90%;}
-    }
 
-    @keyframes mobileMoon {
-        0% { opacity: 0.1; top:-40%;  }
-        100% { opacity: 1; top:-50%;;}
-    }
 
-    #contain-all-moon  {
-        position: absolute;
-        overflow: hidden;
-        z-index: -20;
-        width: 100%;
-        left: -25%;
-        top:-90%;
-        padding: 0;
-        box-sizing: border-box;
-        display: var(--visibleInDarkMode);
-        animation: desktopMoon 1s;
-    }
+
     #contain-all-moon svg {
         transform-origin: 50% 50%;
         box-sizing: border-box;
@@ -109,12 +90,60 @@ import "../../global.css";
         }
     }
 
-    @media screen and (max-width: 1023px) {
 
+    @keyframes desktopMoon {
+      0% { opacity: 0.1; top:-50%;  }
+      100% { opacity: 1; top:-65%;}
+    }
+
+    @keyframes mediumMoon {
+      0% { opacity: 0.1; top:-60%;  }
+      100% { opacity: 1; top:-50%;;}
+    }
+
+    @keyframes mobileMoon {
+      0% { opacity: 0.1; top:-40%;  }
+      100% { opacity: 1; top:-30%;;}
+    }
+
+
+    #contain-all-moon  {
+      position: absolute;
+      overflow: hidden;
+      z-index: -20;
+      width: 100%;
+
+      padding: 0;
+      box-sizing: border-box;
+      display: var(--visibleInDarkMode);
+
+    }
+
+     @media screen and (max-width: 425px) {
         #contain-all-moon {
             left: 10%;
-            top:-50%;
+            top:-30%;
             animation: mobileMoon 1s;
         }
     }
+    @media screen and (min-width:425px) {
+      #contain-all-moon {
+        left: 5%;
+        top:-50%;
+        animation: mediumMoon 1s;
+      }
+    }
+
+    @media screen and (min-width:1427px) {
+      #contain-all-moon {
+        left: -30%;
+        top:-65%;
+        animation: desktopMoon 1s;
+      }
+    }
+
+
+
+
+
 </style>

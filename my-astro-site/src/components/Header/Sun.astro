@@ -30,26 +30,17 @@ import "../../global.css";
 
 <style>
 
-    @keyframes desktopSun {
-        0% { opacity: 0.1; top:-70%;  }
-        100% { opacity: 1; top:-90%;}
-    }
 
-    @keyframes mobileSun {
-        0% { opacity: 0.1; top:-40%;  }
-        100% { opacity: 1; top:-50%;}
-    }
 
     #contain-all-sun  {
         position: absolute;
         overflow: hidden;
         width: 100%;
-        left: -25%;
-        top:-90%;
+        z-index: -20;
         padding: 0;
         box-sizing: border-box;
         display: var(--visibleInLightMode);
-        animation: desktopMoon 1s;
+
 
 
     }
@@ -96,13 +87,44 @@ import "../../global.css";
     }
 
 
-    @media screen and (max-width: 1023px) {
+    @keyframes desktopSun {
+        0% { opacity: 0.1; top:-50%;  }
+        100% { opacity: 1; top:-65%;}
+    }
 
+    @keyframes mediumSun {
+        0% { opacity: 0.1; top:-60%;  }
+        100% { opacity: 1; top:-50%;;}
+    }
+
+    @keyframes mobileSun {
+        0% { opacity: 0.1; top:-40%;  }
+        100% { opacity: 1; top:-30%;;}
+    }
+
+
+
+
+    @media screen and (max-width: 425px) {
         #contain-all-sun {
-
             left: 10%;
-            top:-50%;
+            top:-30%;
             animation: mobileSun 1s;
+        }
+    }
+    @media screen and (min-width:425px) {
+        #contain-all-sun {
+            left: 5%;
+            top:-50%;
+            animation: mediumSun 1s;
+        }
+    }
+
+    @media screen and (min-width:1427px) {
+        #contain-all-sun {
+            left: -30%;
+            top:-65%;
+            animation: desktopSun 1s;
         }
     }
 </style>
