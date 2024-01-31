@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "prepare": "cd .. && husky install my-astro-site/.husky",
+    "prepare": "cd .. && husky my-astro-site/.husky",
     "pre-commit": "lint-staged"
   },
   "dependencies": {
