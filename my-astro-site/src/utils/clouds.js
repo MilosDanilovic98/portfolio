@@ -99,7 +99,7 @@ export const starGeneratingFunction = (rootElement, dencity) => {
 
     star.style.top = `${topValue}px`;
 
-    star.style.right = `${rightValue}px`;
+                     star.style.right = `${rightValue}px`;
 
     rootElement.appendChild(star);
 
