@@ -3,12 +3,10 @@ import Navbar from "./components/Navbar.astro";
 import Footer from "./components/Footer.astro";
 import "../global.css";
 import Drawer from "./components/Drawer.astro";
-import { ViewTransitions } from 'astro:transitions';
-
-
+import { ViewTransitions } from "astro:transitions";
 ---
 
-<html id="root" lang="en"">
+<html id="root" lang="en" ">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -17,13 +15,11 @@ import { ViewTransitions } from 'astro:transitions';
     <title>Astro</title>
     <!--<ViewTransitions/>-->
   </head>
-  <body class="bg-white text-dark font-mainFont ">
-  <Navbar/>
+  <body class="bg-white text-dark font-mainFont">
+    <Navbar />
 
-    <slot  />
+    <slot />
 
-    <Footer/>
+    <Footer />
   </body>
 </html>
-
-

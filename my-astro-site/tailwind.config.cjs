@@ -5,24 +5,23 @@ module.exports = {
     extend: {
       keyframes: {
         float: {
-          '0%': {transform: 'rotate(translateY(0px))' },
-          '50%': { transform: 'rotate(translateY(-20px))' },
-          '100%': {transform: 'rotate(translateY(0px))' },
-        }
+          "0%": { transform: "rotate(translateY(0px))" },
+          "50%": { transform: "rotate(translateY(-20px))" },
+          "100%": { transform: "rotate(translateY(0px))" },
+        },
       },
       animation: {
-        float: 'float 6s ease-in-out infinite',
-
+        float: "float 6s ease-in-out infinite",
       },
       dropShadow: {
-        '3xl': '4px 4px 0px var(--dark)',
-        '1xl': '0px 0px 0px var(--dark)',
+        "3xl": "4px 4px 0px var(--dark)",
+        "1xl": "0px 0px 0px var(--dark)",
       },
       fontFamily: {
-        'mainFont': ['mainFont', 'serif'],
-        'lightFont': ['lightFont', 'serif'],
-        'italicFont': ['italicFont', 'serif'],
-        'robotoCondensed': ['robotoCondensed', 'serif']
+        mainFont: ["mainFont", "serif"],
+        lightFont: ["lightFont", "serif"],
+        italicFont: ["italicFont", "serif"],
+        robotoCondensed: ["robotoCondensed", "serif"],
       },
       colors: {
         appBackground: "var(--appBackground)",

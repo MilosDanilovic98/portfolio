@@ -3,30 +3,62 @@ import "../../global.css";
 import Drawer from "./Drawer.astro";
 ---
 
-
-<Drawer/>
-<div class="navbar z-10 border-dark  bg-white justify-between font-MyFont text-xs sticky top-0 ">
-
-  <label for="my-drawer" class="  swap swap-rotate md:hidden">
-
+<Drawer />
+<div
+  class="navbar z-10 border-dark bg-white justify-between font-MyFont text-xs sticky top-0"
+>
+  <label for="my-drawer" class="swap swap-rotate md:hidden">
     <!-- this hidden checkbox controls the state -->
-    <input id="drawerIcon"  type="checkbox" />
+    <input id="drawerIcon" type="checkbox" />
 
     <!-- hamburger icon -->
-    <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
+    <svg
+      class="swap-off fill-current"
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 512 512"
+      ><path
+        d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"
+      ></path></svg
+    >
 
     <!-- close icon -->
-    <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
-
+    <svg
+      class="swap-on fill-current"
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 512 512"
+      ><polygon
+        points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"
+      ></polygon></svg
+    >
   </label>
 
   <div class="hidden md:flex flex-1">
-    <a href="/" class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black">Home</a>
-    <a class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black">About me</a>
-    <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Projects</a>
-    <a href="/allBlogs/" class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Blogs</a>
-    <a class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black">Contact</a>
-
+    <a
+      href="/"
+      class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black"
+      >Home</a
+    >
+    <a
+      class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black"
+      >About me</a
+    >
+    <a
+      class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
+      >Projects</a
+    >
+    <a
+      href="/allBlogs/"
+      class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
+      >Blogs</a
+    >
+    <a
+      class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
+      >Contact</a
+    >
   </div>
 
   <label class="swap swap-rotate">
@@ -58,60 +90,45 @@ import Drawer from "./Drawer.astro";
 <script is:inline>
   // Find all buttons with the `alert` class on the page.
   const changeThemeButton = document.querySelector("#changeThemeButton");
-  const drawerCheckbox= document.querySelector("#my-drawer");
-  const drawerIconCheckbox= document.querySelector("#drawerIcon");
-  const drawer=document.querySelector(".drawer");
-  const navbar=document.querySelector(".navbar");
-
-
-
+  const drawerCheckbox = document.querySelector("#my-drawer");
+  const drawerIconCheckbox = document.querySelector("#drawerIcon");
+  const drawer = document.querySelector(".drawer");
+  const navbar = document.querySelector(".navbar");
 
   drawerCheckbox.addEventListener("click", (e) => {
     if (e.target.checked) {
-      drawerIconCheckbox.checked=true
-      drawer.classList.remove("w-0")
-      navbar.classList.add("border-b-4")
-
+      drawerIconCheckbox.checked = true;
+      drawer.classList.remove("w-0");
+      navbar.classList.add("border-b-4");
     } else {
-      drawerIconCheckbox.checked=false
-      setTimeout(()=>{
-        drawer.classList.add("w-0")
-      },200)
+      drawerIconCheckbox.checked = false;
+      setTimeout(() => {
+        drawer.classList.add("w-0");
+      }, 200);
 
-
-      navbar.classList.remove("border-b-4")
-
+      navbar.classList.remove("border-b-4");
     }
   });
 
-
-
   const theme = (() => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
     }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'darkTheme';
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "darkTheme";
     }
-    return 'lightTheme';
+    return "lightTheme";
   })();
 
-
-
-  if (theme === 'lightTheme') {
-    document.documentElement.classList.add('lightTheme');
-    document.documentElement.classList.remove('darkTheme');
+  if (theme === "lightTheme") {
+    document.documentElement.classList.add("lightTheme");
+    document.documentElement.classList.remove("darkTheme");
   } else {
-    document.documentElement.classList.remove('lightTheme');
-    document.documentElement.classList.add('darkTheme');
+    document.documentElement.classList.remove("lightTheme");
+    document.documentElement.classList.add("darkTheme");
   }
 
-
-
-  window.localStorage.setItem('theme', theme);
-
-
-
+  window.localStorage.setItem("theme", theme);
 
   const handleToggleClick = () => {
     const element = document.documentElement;
@@ -119,11 +136,7 @@ import Drawer from "./Drawer.astro";
     element.classList.toggle("lightTheme");
     const isDark = element.classList.contains("darkTheme");
     localStorage.setItem("theme", isDark ? "darkTheme" : "lightTheme");
-  }
+  };
 
   changeThemeButton.addEventListener("click", handleToggleClick);
-
-
-
-
 </script>

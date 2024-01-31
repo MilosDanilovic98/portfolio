@@ -3,128 +3,156 @@ import "../../global.css";
 ---
 
 <div id="contain-all-sun">
-    <svg style="isolation:isolate" viewBox="0 0 400 400" width="50%" height="50%">
-        <g id="sun-group">
-            <g id="aura-group" fill="#f4e04d" fill-opacity=".16">
-                <path d="M90.138 200c0-60.634 49.228-109.862 109.862-109.862 60.634 0 109.862 49.228 109.862 109.862 0 60.634-49.228 109.862-109.862 109.862-60.634 0-109.862-49.228-109.862-109.862z" id="aura-1" />
-                <path d="M70.638 200c0-71.397 57.965-129.362 129.362-129.362 71.397 0 129.362 57.965 129.362 129.362 0 71.397-57.965 129.362-129.362 129.362-71.397 0-129.362-57.965-129.362-129.362z" id="aura-2" />
-                <path d="M51.333 200c0-82.051 66.616-148.667 148.667-148.667S348.667 117.949 348.667 200 282.051 348.667 200 348.667 51.333 282.051 51.333 200z" id="aura-3" />
-            </g>
-            <!-- 	moon		 -->
-            <radialGradient fill="#f4e04d" class="-z-20"  fx=".5" fy=".5" cx=".5" cy=".5" r=".5" gradientTransform="translate(107.867 107.867) scale(184.265)" gradientUnits="userSpaceOnUse">
-                <stop offset="88.69218161%" stop-color="#ffe" />
-                <stop offset="100%" stop-color="#fff" />
-            </radialGradient>
-            <path d="M107.867 200c0-50.849 41.284-92.133 92.133-92.133s92.133 41.284 92.133 92.133-41.284 92.133-92.133 92.133-92.133-41.284-92.133-92.133z" id="sun" fill="#f4e04d" />
-            <!-- end moon -->
+  <svg style="isolation:isolate" viewBox="0 0 400 400" width="50%" height="50%">
+    <g id="sun-group">
+      <g id="aura-group" fill="#f4e04d" fill-opacity=".16">
+        <path
+          d="M90.138 200c0-60.634 49.228-109.862 109.862-109.862 60.634 0 109.862 49.228 109.862 109.862 0 60.634-49.228 109.862-109.862 109.862-60.634 0-109.862-49.228-109.862-109.862z"
+          id="aura-1"></path>
+        <path
+          d="M70.638 200c0-71.397 57.965-129.362 129.362-129.362 71.397 0 129.362 57.965 129.362 129.362 0 71.397-57.965 129.362-129.362 129.362-71.397 0-129.362-57.965-129.362-129.362z"
+          id="aura-2"></path>
+        <path
+          d="M51.333 200c0-82.051 66.616-148.667 148.667-148.667S348.667 117.949 348.667 200 282.051 348.667 200 348.667 51.333 282.051 51.333 200z"
+          id="aura-3"></path>
+      </g>
+      <!-- 	moon		 -->
+      <radialGradient
+        fill="#f4e04d"
+        class="-z-20"
+        fx=".5"
+        fy=".5"
+        cx=".5"
+        cy=".5"
+        r=".5"
+        gradientTransform="translate(107.867 107.867) scale(184.265)"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="88.69218161%" stop-color="#ffe"></stop>
+        <stop offset="100%" stop-color="#fff"></stop>
+      </radialGradient>
+      <path
+        d="M107.867 200c0-50.849 41.284-92.133 92.133-92.133s92.133 41.284 92.133 92.133-41.284 92.133-92.133 92.133-92.133-41.284-92.133-92.133z"
+        id="sun"
+        fill="#f4e04d"></path>
+      <!-- end moon -->
 
-
-
-            <path class="sun-rays" fill="#f4e04d" fill-opacity=".16"  stroke-miterlimit="0" stroke-width="10" d="M187.5 100V0M187.5 374.5v-100M275 187h100M0 187h100M252.1 121.4l70.7-70.7M52.1 326.6l70.7-70.7M122.5 122L51.8 51.3M323.5 323l-70.7-70.7"/>
-
-        </g>
-    </svg>
+      <path
+        class="sun-rays"
+        fill="#f4e04d"
+        fill-opacity=".16"
+        stroke-miterlimit="0"
+        stroke-width="10"
+        d="M187.5 100V0M187.5 374.5v-100M275 187h100M0 187h100M252.1 121.4l70.7-70.7M52.1 326.6l70.7-70.7M122.5 122L51.8 51.3M323.5 323l-70.7-70.7"
+      ></path>
+    </g>
+  </svg>
 </div>
 
-
-
 <style>
-
-
-
-    #contain-all-sun  {
-        position: absolute;
-        overflow: hidden;
-        width: 100%;
-        z-index: -20;
-        padding: 0;
-        box-sizing: border-box;
-        display: var(--visibleInLightMode);
-
-
-
+  #contain-all-sun {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    z-index: -20;
+    padding: 0;
+    box-sizing: border-box;
+    display: var(--visibleInLightMode);
+  }
+  #contain-all-sun svg {
+    transform-origin: 50% 50%;
+    box-sizing: border-box;
+    z-index: -20;
+  }
+  @keyframes hover {
+    50% {
+      transform: translatey(-1%);
     }
-    #contain-all-sun svg {
-        transform-origin: 50% 50%;
-        box-sizing: border-box;
-        z-index: -20;
+  }
+  #contain-all-sun #sun-group #sun {
+    fill: #f4e04d;
+    animation: hover 2000ms 500ms ease-in-out infinite;
+  }
+  @keyframes pulse {
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  #contain-all-sun #sun-group #aura-group #aura-1 {
+    transform-origin: 50% 50%;
+    animation: pulse 3000ms 750ms ease-in-out infinite;
+  }
+  #contain-all-sun #sun-group #aura-group #aura-2 {
+    transform-origin: 50% 50%;
+    animation: pulse 3000ms 1500ms ease-in-out infinite;
+  }
+  #contain-all-sun #sun-group #aura-group #aura-3 {
+    transform-origin: 50% 50%;
+    animation: pulse 3000ms 2250ms ease-in-out infinite;
+  }
 
+  @keyframes jam {
+    30% {
+      transform: translatex(2%) translatey(2%);
     }
-    @keyframes hover {
-        50% {
-            transform: translatey(-1%);
-        }
+    60% {
+      transform: translatex(-2%) translatey(2%);
     }
-    #contain-all-sun #sun-group #sun {
-        fill: #f4e04d;
-        animation: hover 2000ms 500ms ease-in-out infinite;
-    }
-    @keyframes pulse {
-        50% {
-            transform: scale(1.05);
-        }
-    }
-    #contain-all-sun #sun-group #aura-group #aura-1 {
-        transform-origin: 50% 50%;
-        animation: pulse 3000ms 750ms ease-in-out infinite;
-    }
-    #contain-all-sun #sun-group #aura-group #aura-2 {
-        transform-origin: 50% 50%;
-        animation: pulse 3000ms 1500ms ease-in-out infinite;
-    }
-    #contain-all-sun #sun-group #aura-group #aura-3 {
-        transform-origin: 50% 50%;
-        animation: pulse 3000ms 2250ms ease-in-out infinite;
-    }
+  }
 
-    @keyframes jam {
-        30% {
-            transform: translatex(2%) translatey(2%);
-        }
-        60% {
-            transform: translatex(-2%) translatey(2%);
-        }
+  @keyframes desktopSun {
+    0% {
+      opacity: 0.1;
+      top: -50%;
     }
-
-
-    @keyframes desktopSun {
-        0% { opacity: 0.1; top:-50%;  }
-        100% { opacity: 1; top:-65%;}
+    100% {
+      opacity: 1;
+      top: -65%;
     }
+  }
 
-    @keyframes mediumSun {
-        0% { opacity: 0.1; top:-60%;  }
-        100% { opacity: 1; top:-50%;;}
+  @keyframes mediumSun {
+    0% {
+      opacity: 0.1;
+      top: -60%;
     }
-
-    @keyframes mobileSun {
-        0% { opacity: 0.1; top:-40%;  }
-        100% { opacity: 1; top:-30%;;}
+    100% {
+      opacity: 1;
+      top: -50%;
     }
+  }
 
-
-
-
-    @media screen and (max-width: 425px) {
-        #contain-all-sun {
-            left: 10%;
-            top:-30%;
-            animation: mobileSun 1s;
-        }
+  @keyframes mobileSun {
+    0% {
+      opacity: 0.1;
+      top: -40%;
     }
-    @media screen and (min-width:425px) {
-        #contain-all-sun {
-            left: 5%;
-            top:-50%;
-            animation: mediumSun 1s;
-        }
+    100% {
+      opacity: 1;
+      top: -30%;
     }
+  }
 
-    @media screen and (min-width:1427px) {
-        #contain-all-sun {
-            left: -30%;
-            top:-65%;
-            animation: desktopSun 1s;
-        }
+  @media screen and (max-width: 425px) {
+    #contain-all-sun {
+      left: 10%;
+      top: -30%;
+      animation: mobileSun 1s;
     }
+  }
+  @media screen and (min-width: 425px) {
+    #contain-all-sun {
+      left: 5%;
+      top: -50%;
+      animation: mediumSun 1s;
+    }
+  }
+
+  @media screen and (min-width: 1427px) {
+    #contain-all-sun {
+      left: -30%;
+      top: -65%;
+      animation: desktopSun 1s;
+    }
+  }
 </style>

@@ -27,7 +27,6 @@
     font-display: swap;
   }
 
-
   @font-face {
     font-family: "robotoCondensed";
     src: url("public/fonts/RobotoCondensed-VariableFont_wght.ttf");
@@ -35,8 +34,6 @@
     font-style: normal;
     font-display: swap;
   }
-
-
 }
 .lightTheme {
   --appBackground: #fefcfb;
@@ -55,11 +52,11 @@
   --secondary: #139a43;
   --dark: #231f20;
   --orange: #ffff00;
-  --projectCardBg:#ffff00;
+  --projectCardBg: #ffff00;
   --white: #0096ff;
   --drawerBackground: #ffff00;
-  --visibleInDarkMode:none;
-  --visibleInLightMode:block
+  --visibleInDarkMode: none;
+  --visibleInLightMode: block;
 }
 .darkTheme {
   --appBackground: #1f1206;
@@ -79,10 +76,10 @@
   --dark: #dce0df;
   --orange: #d16f0d;
   --white: #031031;
-  --projectCardBg:#307351;
+  --projectCardBg: #307351;
   --drawerBackground: #031031;
-  --visibleInDarkMode:block;
-  --visibleInLightMode:none
+  --visibleInDarkMode: block;
+  --visibleInLightMode: none;
 }
 
 .link-underline {
@@ -105,10 +102,6 @@
   background-position: 0 100%;
 }
 
-
-
-
-
 .cloud {
   position: absolute;
   z-index: 1;
@@ -120,13 +113,3 @@
   z-index: 1;
   display: var(--visibleInDarkMode);
 }
-
-
-
-
-
-
-
-
-
-

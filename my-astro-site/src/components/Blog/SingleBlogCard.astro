@@ -2,56 +2,55 @@
 import portfolioProjectImage from "./../../public/images/portfolioProject.png";
 import spotifyProjectImage from "./../../public/images/spotifyProject.png";
 import landingAndBlogProjectImage from "./../../public/images/landingAndBlogProject.png";
-import {Image} from "astro:assets";
+import { Image } from "astro:assets";
 
-const {image}=Astro.props
+const { image } = Astro.props;
 ---
 
-
-<div class="card singleBlogCard bg-projectCardBg drop-shadow-3xl ">
-    <figure class="h-auto">
-        <Image class="w-full h-full object-cover"  src={image} alt="Album"/>
-    </figure>
-    <div class="card-body">
-        <h2 class="card-title">New album is released!</h2>
-        <p>Click the button to listen on Spotiwhy app.</p>
-        <div class="card-actions justify-end">
-            <a href="/blog" class="btn btn-primary">Listen</a>
-        </div>
+<div class="card singleBlogCard bg-projectCardBg drop-shadow-3xl">
+  <figure class="h-auto">
+    <Image class="w-full h-full object-cover" src={image} alt="Album" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">New album is released!</h2>
+    <p>Click the button to listen on Spotiwhy app.</p>
+    <div class="card-actions justify-end">
+      <a href="/blog" class="btn btn-primary">Listen</a>
     </div>
+  </div>
 </div>
 
-
-
 <script>
-    import {gsap} from "gsap";
+  import { gsap } from "gsap";
 
-    let target = document.querySelectorAll(".singleBlogCard");
+  let target = document.querySelectorAll(".singleBlogCard");
 
-    const observer = new IntersectionObserver((entrie) => {
+  const observer = new IntersectionObserver(
+    (entrie) => {
+      entrie.forEach((element) => {
+        if (element.isIntersecting) {
+          gsap.to(element.target, {
+            right: 0,
+            duration: 2,
+            ease: "elastic.out(1,1)",
+            force3D: true,
+          });
+        } else {
+          gsap.to(element.target, {
+            right: "45%",
+            duration: 2,
+            ease: "elastic.out(1,1)",
+            force3D: true,
+          });
+        }
+      });
+    },
+    {
+      threshold: 0,
+    },
+  );
 
-        entrie.forEach((element) => {
-
-            if (
-                element.isIntersecting
-            ) {
-
-                gsap.to(element.target,{right:0,duration:2,ease: "elastic.out(1,1)",force3D: true})
-
-
-            }
-            else {
-
-                gsap.to(element.target,{right:"45%",duration:2, ease: "elastic.out(1,1)",force3D: true})
-
-            }
-
-        });
-    },{
-    threshold:0,
-    });
-
-    target.forEach((target) => {
-        observer.observe(target);
-    });
+  target.forEach((target) => {
+    observer.observe(target);
+  });
 </script>
