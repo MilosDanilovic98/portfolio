@@ -9,7 +9,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "prepare": "husky"
+    "prepare": "husky && husky install",
+    "lint-staged": {
+      "*.{js, jsx,ts,tsx,astro}": [
+        "eslint --quiet --fix"
+      ],
+      "*.{json,js,ts,jsx,tsx,html,astro}": [
+        "prettier --write --ignore-unknown"
+      ]
+    }
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.0.2",
@@ -19,7 +27,12 @@
   },
   "devDependencies": {
     "daisyui": "^3.9.3",
-    "husky": "^9.0.7",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.1",
     "prettier": "^3.2.4",
     "prettier-plugin-astro": "^0.13.0"
   }
