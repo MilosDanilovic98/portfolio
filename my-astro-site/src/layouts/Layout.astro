@@ -8,7 +8,7 @@ import { ViewTransitions } from 'astro:transitions';
 
 ---
 
-<html id="root" lang="en" class="">
+<html id="root" lang="en"">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -20,20 +20,10 @@ import { ViewTransitions } from 'astro:transitions';
   <body class="bg-white text-dark font-mainFont ">
   <Navbar/>
 
-
     <slot  />
-
 
     <Footer/>
   </body>
 </html>
 
-<script is:inline >
 
-    const root2 = document.querySelector("#root");
-    const currentTheme = localStorage.getItem("theme");
-    root2.classList=currentTheme??"lightTheme"
-    console.log(currentTheme)
-
-
-</script>
