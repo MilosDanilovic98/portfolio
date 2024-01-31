@@ -10,13 +10,14 @@
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "cd .. && husky install my-astro-site/.husky",
+    "pre-commit": "lint-staged",
     "lint-staged": {
       "*.{js,jsx,ts,tsx,astro}": [
         "eslint --quiet --fix",
-        "prettier --write --ignore-unknown"
+        "prettier --write "
       ],
       "*.{json,html,astro}": [
-        "prettier --write --ignore-unknown"
+        "prettier --write "
       ]
     }
   },
