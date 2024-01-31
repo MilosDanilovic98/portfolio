@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "prepare": "cd .. && husky install .husky",
+    "prepare": "cd .. && husky install my-astro-site/.husky",
     "lint-staged": {
       "*.{js,jsx,ts,tsx,astro}": [
         "eslint --quiet --fix",
