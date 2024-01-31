@@ -11,10 +11,11 @@
     "astro": "astro",
     "prepare": "husky && husky install",
     "lint-staged": {
-      "*.{js, jsx,ts,tsx,astro}": [
-        "eslint --quiet --fix"
+      "*.{js,jsx,ts,tsx,astro}": [
+        "eslint --quiet --fix",
+        "prettier --write --ignore-unknown"
       ],
-      "*.{json,js,ts,jsx,tsx,html,astro}": [
+      "*.{json,html,astro}": [
         "prettier --write --ignore-unknown"
       ]
     }
