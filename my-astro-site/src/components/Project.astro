@@ -30,8 +30,8 @@ const { image, description, title, gitHub, liveSite } = Astro.props;
           class="object-cover object-top min-h-[30vh] h-full w-full border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark"
         />
         <div class="flex gap-4 pt-6 pl-6">
-          <a href={liveSite} target="_blank">
-                                      <Image
+              <a href={liveSite} target="_blank">
+            <Image
               class="fill-dark cursor-pointer"
               height="40"
               width="40"
@@ -40,13 +40,13 @@ const { image, description, title, gitHub, liveSite } = Astro.props;
             />
           </a>
           <a href={gitHub} target="_blank">
-          <Image
-            class="fill-dark cursor-pointer"
-            height="40"
-            width="40"
-            alt="gitHubImage"
-            src={gitHubImage}
-          />
+            <Image
+              class="fill-dark cursor-pointer"
+              height="40"
+              width="40"
+              alt="gitHubImage"
+              src={gitHubImage}
+            />
           </a>
         </div>
       </div>
