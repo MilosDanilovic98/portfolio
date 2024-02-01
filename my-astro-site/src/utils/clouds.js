@@ -8,6 +8,8 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
+let cloudsArePaused = localStorage.getItem("theme") === "darkTheme";
+
 export const cloudGeneratingFunction = (
   rootElement,
   interval,
@@ -16,22 +18,6 @@ export const cloudGeneratingFunction = (
 ) => {
   const changeThemeButton = document.querySelector("#changeThemeButton");
   let cloudAnimations = [];
-  let isPaused = false;
-
-  changeThemeButton.addEventListener("click", (e) => {
-    if (!e.target.checked) {
-      createClouds();
-      for (let i = 0; i < cloudAnimations.length; i++) {
-        cloudAnimations[i].play();
-        isPaused = false;
-      }
-    } else {
-      for (let i = 0; i < cloudAnimations.length; i++) {
-        cloudAnimations[i].pause();
-        isPaused = true;
-      }
-    }
-  });
 
   const createClouds = () => {
     for (let index = 0; index < dencity; index++) {
@@ -62,10 +48,26 @@ export const cloudGeneratingFunction = (
     }
   };
 
-  createClouds();
+  changeThemeButton.addEventListener("click", (e) => {
+    cloudsArePaused = localStorage.getItem("theme") === "darkTheme";
+
+    if (cloudsArePaused) {
+      for (let i = 0; i < cloudAnimations.length; i++) {
+        cloudAnimations[i].pause();
+      }
+    } else {
+      for (let i = 0; i < cloudAnimations.length; i++) {
+        cloudAnimations[i].play();
+      }
+    }
+  });
+
+  if (!cloudsArePaused) {
+    createClouds();
+  }
 
   setInterval(() => {
-    if (!document.hidden && !isPaused) {
+    if (!document.hidden && !cloudsArePaused) {
       createClouds();
     }
   }, interval);
@@ -75,7 +77,9 @@ export const starGeneratingFunction = (rootElement, dencity) => {
   let starAnimations = [];
 
   changeThemeButton.addEventListener("click", (e) => {
-    if (e.target.checked) {
+    cloudsArePaused = localStorage.getItem("theme") === "darkTheme";
+
+    if (!cloudsArePaused) {
       for (let i = 0; i < starAnimations.length; i++) {
         starAnimations[i].pause();
       }
@@ -130,5 +134,9 @@ export const starGeneratingFunction = (rootElement, dencity) => {
         duration: getRandomIntInclusive(12, 24),
       }),
     );
+
+    for (let i = 0; i < starAnimations.length; i++) {
+      starAnimations[i].play();
+    }
   }
 };
