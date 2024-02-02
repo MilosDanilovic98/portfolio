@@ -5,6 +5,7 @@
   version="1.1"
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
+  class="hello"
 >
   <g
     class="fill-dark"
@@ -17,6 +18,7 @@
     <g
       id="Dribbble-Light-Preview"
       transform="translate(-140.000000, -7559.000000)"
+      fill="white"
     >
       <g id="icons" transform="translate(56.000000, 160.000000)">
         <path
