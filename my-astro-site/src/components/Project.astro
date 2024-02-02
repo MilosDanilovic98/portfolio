@@ -1,10 +1,10 @@
 ---
 import portfolioImage from "../public/images/portfolio.svg";
-import webSiteImage from "../public/images/website-program-svgrepo-com.svg";
-import gitHubImage from "../public/images/github-142-svgrepo-com.svg";
-import astroIcon from "../public/images/astroIcon.svg";
-import tailwindIcon from "../public/images/tailwindIcon.png";
+import webSiteImage from "../public/images/WebsiteIcon.astro";
+import gitHubImage from "../public/images/GithubIcon.astro";
 import { Image } from "astro:assets";
+import GithubIcon from "../public/images/GithubIcon.astro";
+import WebsiteIcon from "../public/images/WebsiteIcon.astro";
 
 const { image, description, title, gitHub, liveSite } = Astro.props;
 ---
@@ -17,8 +17,6 @@ const { image, description, title, gitHub, liveSite } = Astro.props;
       class="text-xl md:text-3xl flex justify-between items-center text-dark border-2 border-b-4 rounded-t-md border-dark p-4 bg-secondary"
     >
       {title}
-
-      <img class="h-14" src={portfolioImage.src} />
       <img class="h-14" src={portfolioImage.src} />
     </p>
 
@@ -30,24 +28,26 @@ const { image, description, title, gitHub, liveSite } = Astro.props;
           alt="projectImage2"
           class="object-cover object-top min-h-[30vh] h-full w-full border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark"
         />
-        <div class="flex gap-4 pt-6 pl-6">
-          <a href={liveSite} target="_blank">
-            <Image
-              class="fill-dark cursor-pointer"
-              height="40"
-              width="40"
-              alt="webSiteImage"
-              src={webSiteImage}
-            />
+
+        <div
+          class="flex flex-col md:flex-row gap-4 pt-3 pl-1 text-2xl md:text-3xl font-extrabold text-dark"
+        >
+          <a
+            href={liveSite}
+            target="_blank"
+            class="hover:translate-y-[-5px] flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 project-info-link-underline project-info-link-underline-black"
+          >
+            <span> Live Site </span>
+            <WebsiteIcon />
           </a>
-          <a href={gitHub} target="_blank">
-            <Image
-              class="fill-dark cursor-pointer"
-              height="40"
-              width="40"
-              alt="gitHubImage"
-              src={gitHubImage}
-            />
+
+          <a
+            href={gitHub}
+            target="_blank"
+            class="hover:translate-y-[-5px] flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 project-info-link-underline project-info-link-underline-black"
+          >
+            <span> GitHub </span>
+            <GithubIcon />
           </a>
         </div>
       </div>
@@ -56,14 +56,30 @@ const { image, description, title, gitHub, liveSite } = Astro.props;
         {description}
       </p>
     </div>
-
-    <!--  <div class="flex justify-around items-center bg-amber-400">
-              <img class="h-14 w-14" src={astroIcon} />
-              <img class="h-14 w-14" src={tailwindIcon} />
-            </div>
-          -->
   </div>
 </div>
+
+<style>
+  .project-info-link-underline > span {
+    border-bottom-width: 0;
+    background-image: linear-gradient(transparent, transparent),
+      linear-gradient(var(--dark), var(--dark));
+    background-size: 0 4px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.2s ease-in-out;
+  }
+
+  .project-info-link-black > span {
+    background-image: linear-gradient(transparent, transparent),
+      linear-gradient(var(--dark), var(--dark));
+  }
+
+  .project-info-link-underline:hover > span {
+    background-size: 100% 4px;
+    background-position: 0 100%;
+  }
+</style>
 
 <script>
   import { gsap } from "gsap";
