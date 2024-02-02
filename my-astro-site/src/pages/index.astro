@@ -10,7 +10,7 @@ import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.p
 
 <Layout>
   <Header />
-  <div class="overflow-hidden">
+  <div class="overflow-hidden bip relative">
     <Project
       title="Portfolio"
       image={portfolioProjectImage}
@@ -36,4 +36,14 @@ import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.p
   </div>
 </Layout>
 
-<script></script>
+<script>
+  import {
+    cloudGeneratingFunction,
+    starGeneratingFunction,
+  } from "../utils/clouds";
+
+  let root = document.querySelector(".bip");
+
+  cloudGeneratingFunction(root, 3000, 5, 15);
+  starGeneratingFunction(root, 25);
+</script>

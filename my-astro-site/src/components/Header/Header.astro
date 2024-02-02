@@ -21,12 +21,12 @@ import Sun from "./Sun.astro";
 </dialog>
 
 <div class="hero relative min-h-screen bg-base-200 overflow-hidden">
-  <div class="hero-content text-center relative">
-    <Moon />
-    <Sun />
+  <div class="hero-content text-center relative z-10">
+    <Moon class="-z-40" />
+    <Sun class="-z-40" />
 
-    <div class="max-w-xl">
-      <h1 class="text-6xl md:text-7xl font-bold">
+    <div class="max-w-xl z-10">
+      <h1 class="text-6xl md:text-7xl font-bold z-10">
         <!--Hi my name is <span class="text-orange font-italicFont">MILOŠ</span> and-->
         <!--i am a <span class="text-orange font-italicFont">FULLSTACK</span> web developer.-->
         Lorem ipsum<span class="text-orange font-italicFont">LOREM</span> IPS i am
@@ -35,7 +35,7 @@ import Sun from "./Sun.astro";
 
       <button
         id="sayHiButton"
-        class="drop-shadow-3xl bg-primary border-dark border-4 p-2 md:p-4 text-2xl md:text-4xl"
+        class="drop-shadow-3xl bg-primary border-dark border-4 p-2 md:p-4 text-2xl md:text-4xl z-30"
         >Say hi to me
       </button>
     </div>

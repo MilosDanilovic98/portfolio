@@ -104,12 +104,12 @@
 
 .cloud {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   display: var(--visibleInLightMode);
 }
 
 .star {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   display: var(--visibleInDarkMode);
 }
