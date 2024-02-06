@@ -3,19 +3,24 @@ import portfolioProjectImage from "./../../public/images/portfolioProject.png";
 import spotifyProjectImage from "./../../public/images/spotifyProject.png";
 import landingAndBlogProjectImage from "./../../public/images/landingAndBlogProject.png";
 import { Image } from "astro:assets";
+import WebsiteIconBlack from "../../public/images/WebsiteIconBlack.svg";
+import WebsiteIconWhite from "../../public/images/WebsiteIconWhite.svg";
+import PrimaryButton from "../Buttons/PrimaryButton.astro";
 
-const { image } = Astro.props;
+const { image, title, description } = Astro.props;
 ---
 
-<div class="card singleBlogCard bg-projectCardBg drop-shadow-3xl">
+<div class="card singleBlogCard bg-projectCardBg drop-shadow-4xl">
   <figure class="h-auto">
     <Image class="w-full h-full object-cover" src={image} alt="Album" />
   </figure>
   <div class="card-body">
-    <h2 class="card-title">New album is released!</h2>
-    <p>Click the button to listen on Spotiwhy app.</p>
+    <h2 class="card-title text-4xl">{title}</h2>
+    <p>
+      {description}
+    </p>
     <div class="card-actions justify-end">
-      <a href="/blog" class="btn btn-primary">Listen</a>
+      <PrimaryButton text="Read more" href="/blog" />
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@ import spotifyProjectImage from "./../../public/images/spotifyProject.png";
 import { Image } from "astro:assets";
 ---
 
-<div class="card sm:card-side bg-projectCardBg drop-shadow-3xl">
+<div class="card sm:card-side bg-projectCardBg drop-shadow-4xl">
   <figure class="sm:w-2/3 md:w-1/2 h-auto">
     <Image
       class="w-full h-full object-cover"
@@ -13,10 +13,19 @@ import { Image } from "astro:assets";
     />
   </figure>
   <div class="card-body">
-    <h2 class="card-title">New album is released!</h2>
-    <p>Click the button to listen on Spotiwhy app.</p>
+    <h2 class="card-title text-4xl">New album is released!</h2>
+    <p>
+      Inline SVG animations are slow on mobile so the only solution is to use a
+      Image component and hope for the best lorem ipsum tessn nste testing
+      helllo hi give me vbla lblaa
+    </p>
     <div class="card-actions justify-end">
-      <a href="/blog" class="btn btn-primary">Listen</a>
+      <a
+        href="/blog"
+        class="hover:translate-y-[-5px] px-12 flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 button-link-underline button-link-underline-black"
+      >
+        <span> Read more </span>
+      </a>
     </div>
   </div>
 </div>
