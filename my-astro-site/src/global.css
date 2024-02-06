@@ -97,6 +97,13 @@ html {
   display: var(--visibleInDarkMode);
 }
 
+.darkIcon {
+  display: var(--visibleInLightMode);
+}
+.whiteIcon {
+  display: var(--visibleInDarkMode);
+}
+
 /*HEADER LINKS UNDERLINE ANIMATIONS*/
 .link-underline {
   border-bottom-width: 0;
