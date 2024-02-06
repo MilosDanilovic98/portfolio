@@ -1,0 +1,82 @@
+---
+import uniqid from "uniqid";
+import WebsiteIconBlack from "../../../public/WebsiteIconBlack.svg";
+import WebsiteIconWhite from "../../../public/WebsiteIconWhite.svg";
+import { Image } from "astro:assets";
+import GithubIconBlack from "../../../public/GithubIconBlack.svg";
+import GitHubIconWhite from "../../../public/GithubIconWhite.svg";
+const { text, href, darkModeImage, lightModeImage, size } = Astro.props;
+const id = uniqid();
+console.log(darkModeImage);
+---
+
+<button-with-image data-id={id} data-href={href}>
+  <button
+    class="w-full text-2xl md:text-3xl drop-shadow-3xl hover:translate-y-[-5px] justify-between flex gap-2 bg-drawerBackground border-dark border-4 p-2 button-link-underline button-link-underline-black"
+  >
+    <span> {text} </span>
+    <Image
+      class="darkIcon"
+      height={size}
+      width={size}
+      alt="gitHubImage"
+      src={darkModeImage}
+    />
+    <Image
+      class="whiteIcon"
+      height={size}
+      width={size}
+      alt="gitHubImage"
+      src={lightModeImage}
+    />
+  </button>
+</button-with-image>
+
+<style>
+  .darkIcon {
+    display: var(--visibleInLightMode);
+  }
+  .whiteIcon {
+    display: var(--visibleInDarkMode);
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  class ButtonWithImage extends HTMLElement {
+    constructor() {
+      super();
+      let sayHiButton = document.querySelector(
+        `[data-id="${this.dataset.id}"]`,
+      );
+
+      sayHiButton.addEventListener("click", () => {
+        let buttonTimeLine = gsap.timeline();
+        buttonTimeLine.to(sayHiButton, {
+          y: 6,
+          duration: 0.3,
+          onEnd: () => {
+            console.log("test");
+            sayHiButton.firstElementChild.classList.remove("drop-shadow-3xl");
+          },
+        });
+        buttonTimeLine.to(sayHiButton, {
+          y: 0,
+          duration: 0.3,
+          onEnd: () => {
+            sayHiButton.firstElementChild.classList.add("drop-shadow-3xl");
+            console.log("EEE");
+            if (this.dataset.href) {
+              setTimeout(() => {
+                location.href = this.dataset.href;
+              }, 200);
+            }
+          },
+        });
+      });
+    }
+  }
+
+  customElements.define("button-with-image", ButtonWithImage);
+</script>

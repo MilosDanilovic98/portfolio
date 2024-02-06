@@ -58,6 +58,7 @@ import Drawer from "./Drawer.astro";
       >Blogs</a
     >
     <a
+      onclick="document.querySelector('#my_modal_1').showModal()"
       class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
       >Contact</a
     >
@@ -96,6 +97,7 @@ import Drawer from "./Drawer.astro";
   const drawerIconCheckbox = document.querySelector("#drawerIcon");
   const drawer = document.querySelector(".drawer");
   const navbar = document.querySelector(".navbar");
+  const modal = document.querySelector("#my_modal_1");
 
   drawerCheckbox.addEventListener("click", (e) => {
     if (e.target.checked) {

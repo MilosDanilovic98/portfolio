@@ -4,23 +4,6 @@ import Moon from "./Moon.astro";
 import Sun from "./Sun.astro";
 ---
 
-<dialog id="my_modal_1" class="modal drop-shadow-3xl">
-  <div class="modal-box bg-drawerBackground">
-    <h3 class="font-bold text-lg">Hello!</h3>
-    <p class="py-4">Press ESC key or click the button below to close</p>
-    <div class="modal-action">
-      <form method="dialog">
-        <!-- if there is a button in form, it will close the modal -->
-        <button
-          class="hover:translate-y-[-5px] px-12 flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 button-link-underline button-link-underline-black"
-        >
-          <span> Close </span>
-        </button>
-      </form>
-    </div>
-  </div>
-</dialog>
-
 <div class="hero relative min-h-screen bg-base-200 overflow-hidden">
   <Moon class="-z-40" />
   <Sun class="-z-40" />

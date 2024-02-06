@@ -4,6 +4,14 @@ import Footer from "./components/Footer.astro";
 import "../global.css";
 import Drawer from "./components/Drawer.astro";
 import { ViewTransitions } from "astro:transitions";
+import EmailIconBlack from "../../public/EmailIconBlack.svg";
+import EmailIconWhite from "../../public/EmailIconWhite.svg";
+import GitHubIconBlack from "../../public/GithubIconBlack.svg";
+import GitHubIconWhite from "../../public/GithubIconWhite.svg";
+import LinkedInIconBlack from "../../public/LinkedInIconBlack.svg";
+import LinkedInIconWhite from "../../public/LinkedInIconWhite.svg";
+import ButtonWithImage from "../components/Buttons/ButtonWithImage.astro";
+import ContactMeModal from "../components/Modals/ContactMeModal.astro";
 ---
 
 <html id="root" lang="en" ">
@@ -44,6 +52,7 @@ import { ViewTransitions } from "astro:transitions";
     <!--<ViewTransitions/>-->
   </head>
   <body class="bg-white text-dark font-mainFont">
+    <ContactMeModal />
     <Navbar />
 
     <slot />
