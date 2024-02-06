@@ -147,33 +147,23 @@ import "../../global.css";
     position: absolute;
     overflow: hidden;
     z-index: -20;
-    width: 100%;
-
+    width: 70%;
+    top: 0;
+    left: 10%;
     padding: 0;
     box-sizing: border-box;
     display: var(--visibleInDarkMode);
+    animation: Moon 1s;
   }
 
-  @media screen and (max-width: 425px) {
-    #contain-all-moon {
-      left: 10%;
-      top: -30%;
-      animation: mobileMoon 1s;
+  @keyframes Moon {
+    0% {
+      opacity: 0.1;
+      top: 10%;
     }
-  }
-  @media screen and (min-width: 425px) {
-    #contain-all-moon {
-      left: 5%;
-      top: -50%;
-      animation: mediumMoon 1s;
-    }
-  }
-
-  @media screen and (min-width: 1427px) {
-    #contain-all-moon {
-      left: -30%;
-      top: -65%;
-      animation: desktopMoon 1s;
+    100% {
+      opacity: 1;
+      top: 0;
     }
   }
 </style>

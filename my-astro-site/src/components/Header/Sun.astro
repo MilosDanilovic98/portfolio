@@ -52,11 +52,15 @@ import "../../global.css";
   #contain-all-sun {
     position: absolute;
     overflow: hidden;
-    width: 100%;
+    width: 70%;
+    min-width: 500px;
+    top: 0;
+    left: 10%;
     z-index: -20;
     padding: 0;
     box-sizing: border-box;
     display: var(--visibleInLightMode);
+    animation: Sun 1s;
   }
   #contain-all-sun svg {
     transform-origin: 50% 50%;
@@ -99,59 +103,14 @@ import "../../global.css";
     }
   }
 
-  @keyframes desktopSun {
+  @keyframes Sun {
     0% {
       opacity: 0.1;
-      top: -50%;
+      top: 10%;
     }
     100% {
       opacity: 1;
-      top: -65%;
-    }
-  }
-
-  @keyframes mediumSun {
-    0% {
-      opacity: 0.1;
-      top: -60%;
-    }
-    100% {
-      opacity: 1;
-      top: -50%;
-    }
-  }
-
-  @keyframes mobileSun {
-    0% {
-      opacity: 0.1;
-      top: -40%;
-    }
-    100% {
-      opacity: 1;
-      top: -30%;
-    }
-  }
-
-  @media screen and (max-width: 425px) {
-    #contain-all-sun {
-      left: 10%;
-      top: -30%;
-      animation: mobileSun 1s;
-    }
-  }
-  @media screen and (min-width: 425px) {
-    #contain-all-sun {
-      left: 5%;
-      top: -50%;
-      animation: mediumSun 1s;
-    }
-  }
-
-  @media screen and (min-width: 1427px) {
-    #contain-all-sun {
-      left: -30%;
-      top: -65%;
-      animation: desktopSun 1s;
+      top: 0;
     }
   }
 </style>
