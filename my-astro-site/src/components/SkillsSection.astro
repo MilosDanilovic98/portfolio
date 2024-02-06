@@ -5,6 +5,10 @@ import ReactIconBlack from "./../public/images/ReactIconBlack.svg";
 import ReactIconWhite from "./../public/images/ReactIconWhite.svg";
 import TypeScryptIconBlack from "./../public/images/TypeScryptIconBlack.svg";
 import TypeScryptIconWhite from "./../public/images/TypeScryptIconWhite.svg";
+import TailwindIconBlack from "./../public/images/TailwindIconBlack.svg";
+import TailWindIconWhite from "./../public/images/TailWindIconWhite.svg";
+import AstroJsIconBlack from "./../public/images/AtroJsIconBlack.svg";
+import AstroJsIconWhite from "./../public/images/AstroJsIconWhite.svg";
 import { Image } from "astro:assets";
 ---
 
@@ -73,6 +77,46 @@ import { Image } from "astro:assets";
           src={TypeScryptIconWhite}
         />
         <span class="text-3xl">TypeScript</span>
+      </div>
+
+      <div
+        class="flex flex-col gap-4 items-center md:border-r-0 rounded-xl drop-shadow-4xl border-dark bg-projectCardBg p-4"
+      >
+        <Image
+          class="darkIcon"
+          height="150"
+          width="150"
+          alt="gitHubImage"
+          src={TailwindIconBlack}
+        />
+        <Image
+          class="whiteIcon"
+          height="150"
+          width="150"
+          alt="gitHubImage"
+          src={TailWindIconWhite}
+        />
+        <span class="text-3xl">TailWind</span>
+      </div>
+
+      <div
+        class="flex flex-col gap-4 items-center md:border-r-0 rounded-xl drop-shadow-4xl border-dark bg-projectCardBg p-4"
+      >
+        <Image
+          class="darkIcon"
+          height="150"
+          width="150"
+          alt="gitHubImage"
+          src={AstroJsIconBlack}
+        />
+        <Image
+          class="whiteIcon"
+          height="150"
+          width="150"
+          alt="gitHubImage"
+          src={AstroJsIconWhite}
+        />
+        <span class="text-3xl">AstroJs</span>
       </div>
     </div>
   </div>
