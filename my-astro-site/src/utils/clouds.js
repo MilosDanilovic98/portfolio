@@ -24,7 +24,7 @@ export const cloudGeneratingFunction = (
       const cloud = document.createElement("img");
       cloud.src = cloudImage.src;
       let topValue = getRandomIntInclusive(0, rootElement.offsetHeight - 120);
-      let rightValue = getRandomIntInclusive(-200, -1600);
+      let rightValue = getRandomIntInclusive(-200, -1000);
 
       cloud.classList.add("cloud");
       cloud.style.top = `${topValue}px`;
