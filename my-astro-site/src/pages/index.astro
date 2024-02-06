@@ -6,10 +6,13 @@ import Project from "../components/Project.astro";
 import portfolioProjectImage from "../public/images/portfolioProject.png";
 import spotifyProjectImage from "../public/images/spotifyProject.png";
 import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.png";
+import AboutSection from "../components/AboutSection.astro";
 ---
 
 <Layout>
   <Header />
+  <span id="projectSection">&nbsp;</span>
+  <br /><br /><br /><br /><br />
   <div class="overflow-hidden bip relative">
     <Project
       title="Portfolio"
@@ -34,6 +37,11 @@ import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.p
       description={"A fully responsive landing page made with AstroJS  together with CMS"}
     />
   </div>
+
+  <span id="aboutSection">&nbsp;</span>
+  <br /><br /><br /><br /><br />
+
+  <AboutSection />
 </Layout>
 
 <script>

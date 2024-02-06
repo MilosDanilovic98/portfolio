@@ -15,6 +15,7 @@ module.exports = {
       },
       dropShadow: {
         "3xl": "4px 4px 0px var(--dark)",
+        "4xl": "7px 7px 0px var(--dark)",
         "1xl": "0px 0px 0px var(--dark)",
       },
       fontFamily: {

@@ -22,12 +22,16 @@
 
       <li>
         <a
+          href="#aboutSection"
+          onclick="test()"
           class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black"
           >About me</a
         >
       </li>
       <li>
         <a
+          href="#projectSection"
+          onclick="test()"
           class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
           >Projects</a
         >
@@ -49,6 +53,14 @@
   </div>
 </div>
 
-<script></script>
+<script is:inline>
+  const test = () => {
+    document.querySelector("#drawerIcon").checked =
+      !document.querySelector("#drawerIcon").checked;
+
+    document.querySelector("#my-drawer").checked =
+      !document.querySelector("#my-drawer").checked;
+  };
+</script>
 
 <style></style>
