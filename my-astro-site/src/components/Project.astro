@@ -1,143 +1,131 @@
 ---
-import portfolioImage from "../public/images/portfolio.svg";
 import { Image } from "astro:assets";
 import GithubIconBlack from "../../public/GithubIconBlack.svg";
 import GitHubIconWhite from "../../public/GithubIconWhite.svg";
 import WebsiteIconBlack from "../../public/WebsiteIconBlack.svg";
 import WebsiteIconWhite from "../../public/WebsiteIconWhite.svg";
 
-const { image, description, title, gitHub, liveSite } = Astro.props;
+const { image, description, title, gitHub, liveSite, number } = Astro.props;
 ---
 
-<div class="min-h-screen overflow-hidden killMe md:p-20 p-8 relative z-10">
-  <div
-    class="h-full flex flex-col border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-projectCardBg"
-  >
-    <p
-      class="text-xl md:text-3xl flex justify-between items-center text-dark border-2 border-b-4 rounded-t-md border-dark p-4 bg-secondary"
-    >
-      {title}
-      <img class="h-14" src={portfolioImage.src} />
-    </p>
-
-    <div class="min-h-[60vh] w-full flex flex-col md:flex-row">
-      <div class="h-1/2 md:h-3/4 w-full md:w-1/2 mt-2 mx-4 pr-8 md:pr-0">
-        <Image
-          loading="lazy"
-          src={image}
-          alt="projectImage2"
-          class="object-cover object-top min-h-[30vh] h-full w-full border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark"
-        />
-
-        <div
-          class="flex flex-col md:flex-row gap-4 pt-3 pl-1 text-2xl md:text-3xl font-extrabold text-dark"
-        >
-          <a
-            href={liveSite}
-            target="_blank"
-            class="hover:translate-y-[-5px] flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 project-info-link-underline project-info-link-underline-black"
+<div
+  class="projectCard min-h-screen flex items-center px-6 md:px-16 py-20 relative z-10"
+>
+  <div class="w-full max-w-6xl mx-auto">
+    <!-- Card -->
+    <div class="border-4 border-dark drop-shadow-4xl bg-projectCardBg">
+      <!-- Title bar -->
+      <div
+        class="flex items-center justify-between border-b-4 border-dark px-6 py-4 bg-primary"
+      >
+        <div class="flex items-center gap-4">
+          <span class="font-mainFont text-5xl text-dark leading-none"
+            >{number}</span
           >
-            <span> Live Site </span>
-            <Image
-              class="darkIcon"
-              height="30"
-              width="30"
-              alt="gitHubImage"
-              src={WebsiteIconBlack}
-            />
-            <Image
-              class="whiteIcon"
-              height="30"
-              width="30"
-              alt="gitHubImage"
-              src={WebsiteIconWhite}
-            />
-          </a>
-
-          <a
-            href={gitHub}
-            target="_blank"
-            class="hover:translate-y-[-5px] flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 project-info-link-underline project-info-link-underline-black"
-          >
-            <span> GitHub </span>
-            <Image
-              class="darkIcon"
-              height="30"
-              width="30"
-              alt="gitHubImage"
-              src={GithubIconBlack}
-            />
-            <Image
-              class="whiteIcon"
-              height="30"
-              width="30"
-              alt="gitHubImage"
-              src={GitHubIconWhite}
-            />
-          </a>
+          <h3 class="font-mainFont text-3xl md:text-5xl text-dark">{title}</h3>
+        </div>
+        <div class="flex gap-2">
+          <span class="w-4 h-4 rounded-full bg-dark inline-block"></span>
+          <span class="w-4 h-4 rounded-full bg-dark inline-block opacity-50"
+          ></span>
+          <span class="w-4 h-4 rounded-full bg-dark inline-block opacity-25"
+          ></span>
         </div>
       </div>
 
-      <p class="text-xl w-full md:w-1/2 md:text-3xl p-6 text-dark">
-        {description}
-      </p>
+      <!-- Body -->
+      <div class="flex flex-col md:flex-row">
+        <!-- Screenshot -->
+        <div
+          class="md:w-3/5 border-b-4 md:border-b-0 md:border-r-4 border-dark"
+        >
+          <Image
+            loading="lazy"
+            src={image}
+            alt={title}
+            class="w-full h-full object-cover object-top"
+          />
+        </div>
+
+        <!-- Info -->
+        <div class="md:w-2/5 flex flex-col justify-between p-8 gap-8">
+          <p
+            class="font-lightFont text-xl md:text-2xl text-dark leading-relaxed"
+          >
+            {description}
+          </p>
+
+          <div class="flex flex-col gap-3">
+            <a
+              href={liveSite}
+              target="_blank"
+              class="flex items-center justify-between gap-3 drop-shadow-3xl bg-appBackground border-dark border-4 px-4 py-3 font-black text-xl text-dark hover:translate-y-[-4px] transition-transform group"
+            >
+              <span>Live Site</span>
+              <Image
+                class="darkIcon"
+                height="24"
+                width="24"
+                alt="live site"
+                src={WebsiteIconBlack}
+              />
+              <Image
+                class="whiteIcon"
+                height="24"
+                width="24"
+                alt="live site"
+                src={WebsiteIconWhite}
+              />
+            </a>
+
+            <a
+              href={gitHub}
+              target="_blank"
+              class="flex items-center justify-between gap-3 drop-shadow-3xl bg-appBackground border-dark border-4 px-4 py-3 font-black text-xl text-dark hover:translate-y-[-4px] transition-transform"
+            >
+              <span>GitHub</span>
+              <Image
+                class="darkIcon"
+                height="24"
+                width="24"
+                alt="github"
+                src={GithubIconBlack}
+              />
+              <Image
+                class="whiteIcon"
+                height="24"
+                width="24"
+                alt="github"
+                src={GitHubIconWhite}
+              />
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<style>
-  .project-info-link-underline > span {
-    border-bottom-width: 0;
-    background-image: linear-gradient(transparent, transparent),
-      linear-gradient(var(--dark), var(--dark));
-    background-size: 0 4px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    transition: background-size 0.2s ease-in-out;
-  }
-
-  .project-info-link-black > span {
-    background-image: linear-gradient(transparent, transparent),
-      linear-gradient(var(--dark), var(--dark));
-  }
-
-  .project-info-link-underline:hover > span {
-    background-size: 100% 4px;
-    background-position: 0 100%;
-  }
-</style>
-
 <script>
   import { gsap } from "gsap";
 
-  let target = document.querySelectorAll(".killMe");
+  const cards = document.querySelectorAll(".projectCard");
+  gsap.set(cards, { opacity: 0, y: 60 });
 
   const observer = new IntersectionObserver(
-    (entrie) => {
-      entrie.forEach((element) => {
-        if (element.isIntersecting) {
-          gsap.to(element.target, {
-            left: 0,
-            duration: 2,
-            ease: "elastic.out(1,1)",
-            force3D: true,
-          });
-        } else {
-          gsap.to(element.target, {
-            left: "45%",
-            duration: 2,
-            ease: "elastic.out(1,1)",
-            force3D: true,
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          gsap.to(e.target, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "back.out(1.4)",
           });
         }
       });
     },
-    {
-      threshold: 0.4,
-    },
+    { threshold: 0.15 },
   );
-
-  target.forEach((target) => {
-    observer.observe(target);
-  });
+  cards.forEach((c) => observer.observe(c));
 </script>

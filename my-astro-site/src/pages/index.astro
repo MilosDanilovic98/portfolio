@@ -6,54 +6,47 @@ import Project from "../components/Project.astro";
 import portfolioProjectImage from "../public/images/portfolioProject.png";
 import spotifyProjectImage from "../public/images/spotifyProject.png";
 import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.png";
-import AboutSection from "../components/AboutSection.astro";
 import SkillsSection from "../components/SkillsSection.astro";
+import ServicesSection from "../components/ServicesSection.astro";
+import CTASection from "../components/CTASection.astro";
 ---
 
 <Layout>
   <Header />
-  <span id="projectSection">&nbsp;</span>
-  <br /><br /><br /><br /><br />
-  <div class="overflow-hidden bip relative">
+
+  <ServicesSection />
+
+  <span id="projectSection" class="block"></span>
+  <div class="border-t-4 border-dark">
     <Project
+      number="01"
       title="Portfolio"
       image={portfolioProjectImage}
-      description={"Portfolio project made with AstroJS"}
-      liveSite={"https://milosdanilovicportfolio.vercel.app/"}
-      gitHub={"https://github.com/MilosDanilovic98/portfolio"}
+      description="This portfolio — built with AstroJS, Tailwind CSS, and GSAP. Neo-brutalist design with animated backgrounds, elastic scroll effects, and a PixiJS canvas for the space and sky scenes."
+      liveSite="https://milosdanilovicportfolio.vercel.app/"
+      gitHub="https://github.com/MilosDanilovic98/portfolio"
     />
     <Project
-      title="Spotify clone"
+      number="02"
+      title="Spotify Clone"
       image={spotifyProjectImage}
-      liveSite={"https://milos-danilovic-spotify-clone.vercel.app/"}
-      gitHub={"https://github.com/MilosDanilovic98/spotify-clone"}
-      description={"A fully responsive Spotify clone with options to upload,play and add a song to a list of favorites.Uses Spotify API to generate" +
-        "a playlist based on inputed songs,albums and artist with the option of adding the generated playlist to your spotify account."}
+      liveSite="https://milos-danilovic-spotify-clone.vercel.app/"
+      gitHub="https://github.com/MilosDanilovic98/spotify-clone"
+      description="A fully responsive Spotify clone. Upload, play, and add songs to favourites. Uses the Spotify API to generate playlists from songs, albums, and artists — with the option to save them directly to your Spotify account."
     />
     <Project
-      title="Landing page and blog"
-      liveSite={"https://landing-and-blog-project.vercel.app/index.html"}
-      gitHub={"https://github.com/MilosDanilovic98/landingAndBlogProject"}
+      number="03"
+      title="Landing Page & Blog"
+      liveSite="https://landing-and-blog-project.vercel.app/index.html"
+      gitHub="https://github.com/MilosDanilovic98/landingAndBlogProject"
       image={landingAndBlogProjectImage}
-      description={"A fully responsive landing page made with AstroJS  together with CMS"}
+      description="A fully responsive landing page and blog built with AstroJS and a headless CMS. Clean reading experience, dynamic content, and fast load times."
     />
   </div>
 
-  <span id="aboutSection">&nbsp;</span>
-  <br /><br /><br /><br /><br />
+  <div class="border-t-4 border-dark">
+    <SkillsSection />
+  </div>
 
-  <AboutSection />
-  <SkillsSection />
+  <CTASection />
 </Layout>
-
-<script>
-  import {
-    cloudGeneratingFunction,
-    starGeneratingFunction,
-  } from "../utils/clouds";
-
-  let root = document.querySelector(".bip");
-
-  cloudGeneratingFunction(root, 3000, 3, 15);
-  starGeneratingFunction(root, 15);
-</script>

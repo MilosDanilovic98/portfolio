@@ -10,143 +10,169 @@ import TailWindIconWhite from "./../public/images/TailWindIconWhite.svg";
 import AstroJsIconBlack from "./../public/images/AtroJsIconBlack.svg";
 import AstroJsIconWhite from "./../public/images/AstroJsIconWhite.svg";
 import { Image } from "astro:assets";
+
+const textSkills = [
+  { name: "Node.js", category: "Backend" },
+  { name: "Git", category: "Tools" },
+  { name: "PostgreSQL", category: "Database" },
+];
 ---
 
-<div>
+<div class="skillsSection py-16 px-6 md:px-16">
   <div
-    class="skillsTitle text-right text-4xl md:text-6xl border-b-8 link-underline link-underline-black"
+    class="skillsTitle text-right text-4xl md:text-6xl border-b-8 link-underline link-underline-black mb-12"
   >
     Skills
   </div>
-  <div>
-    <div class="flex gap-12 p-24 flex-wrap">
-      <div
-        class="flex flex-col gap-4 items-center md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-projectCardBg p-4"
-      >
-        <Image
-          class="darkIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={NexJsIconBlack}
-        />
-        <Image
-          class="whiteIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={NexJsIconWhite}
-        />
-        <span class="text-3xl">NextJs</span>
-      </div>
-      <div
-        class="flex flex-col gap-4 items-center md:border-r-0 rounded-xl drop-shadow-3xl border-dark bg-projectCardBg p-4"
-      >
-        <Image
-          class="darkIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={ReactIconBlack}
-        />
-        <Image
-          class="whiteIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={ReactIconWhite}
-        />
-        <span class="text-3xl">React</span>
-      </div>
-
-      <div
-        class="flex flex-col gap-4 items-center md:border-r-0 rounded-xl drop-shadow-4xl border-dark bg-projectCardBg p-4"
-      >
-        <Image
-          class="darkIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={TypeScryptIconBlack}
-        />
-        <Image
-          class="whiteIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={TypeScryptIconWhite}
-        />
-        <span class="text-3xl">TypeScript</span>
-      </div>
-
-      <div
-        class="flex flex-col gap-4 items-center md:border-r-0 rounded-xl drop-shadow-4xl border-dark bg-projectCardBg p-4"
-      >
-        <Image
-          class="darkIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={TailwindIconBlack}
-        />
-        <Image
-          class="whiteIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={TailWindIconWhite}
-        />
-        <span class="text-3xl">TailWind</span>
-      </div>
-
-      <div
-        class="flex flex-col gap-4 items-center md:border-r-0 rounded-xl drop-shadow-4xl border-dark bg-projectCardBg p-4"
-      >
-        <Image
-          class="darkIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={AstroJsIconBlack}
-        />
-        <Image
-          class="whiteIcon"
-          height="150"
-          width="150"
-          alt="gitHubImage"
-          src={AstroJsIconWhite}
-        />
-        <span class="text-3xl">AstroJs</span>
-      </div>
+  <div class="skillsGrid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+    <div
+      class="skillCard flex flex-col gap-3 items-center border-4 border-dark drop-shadow-3xl bg-projectCardBg p-6 hover:translate-y-[-5px]"
+    >
+      <Image
+        class="darkIcon"
+        height="90"
+        width="90"
+        alt="NextJS"
+        src={NexJsIconBlack}
+      />
+      <Image
+        class="whiteIcon"
+        height="90"
+        width="90"
+        alt="NextJS"
+        src={NexJsIconWhite}
+      />
+      <span class="font-black text-lg text-dark">Next.js</span>
     </div>
+
+    <div
+      class="skillCard flex flex-col gap-3 items-center border-4 border-dark drop-shadow-3xl bg-projectCardBg p-6 hover:translate-y-[-5px]"
+    >
+      <Image
+        class="darkIcon"
+        height="90"
+        width="90"
+        alt="React"
+        src={ReactIconBlack}
+      />
+      <Image
+        class="whiteIcon"
+        height="90"
+        width="90"
+        alt="React"
+        src={ReactIconWhite}
+      />
+      <span class="font-black text-lg text-dark">React</span>
+    </div>
+
+    <div
+      class="skillCard flex flex-col gap-3 items-center border-4 border-dark drop-shadow-3xl bg-projectCardBg p-6 hover:translate-y-[-5px]"
+    >
+      <Image
+        class="darkIcon"
+        height="90"
+        width="90"
+        alt="TypeScript"
+        src={TypeScryptIconBlack}
+      />
+      <Image
+        class="whiteIcon"
+        height="90"
+        width="90"
+        alt="TypeScript"
+        src={TypeScryptIconWhite}
+      />
+      <span class="font-black text-lg text-dark">TypeScript</span>
+    </div>
+
+    <div
+      class="skillCard flex flex-col gap-3 items-center border-4 border-dark drop-shadow-3xl bg-projectCardBg p-6 hover:translate-y-[-5px]"
+    >
+      <Image
+        class="darkIcon"
+        height="90"
+        width="90"
+        alt="Tailwind CSS"
+        src={TailwindIconBlack}
+      />
+      <Image
+        class="whiteIcon"
+        height="90"
+        width="90"
+        alt="Tailwind CSS"
+        src={TailWindIconWhite}
+      />
+      <span class="font-black text-lg text-dark">Tailwind CSS</span>
+    </div>
+
+    <div
+      class="skillCard flex flex-col gap-3 items-center border-4 border-dark drop-shadow-3xl bg-projectCardBg p-6 hover:translate-y-[-5px]"
+    >
+      <Image
+        class="darkIcon"
+        height="90"
+        width="90"
+        alt="AstroJS"
+        src={AstroJsIconBlack}
+      />
+      <Image
+        class="whiteIcon"
+        height="90"
+        width="90"
+        alt="AstroJS"
+        src={AstroJsIconWhite}
+      />
+      <span class="font-black text-lg text-dark">AstroJS</span>
+    </div>
+
+    {
+      textSkills.map((skill) => (
+        <div class="skillCard flex flex-col gap-2 items-center justify-center border-4 border-dark drop-shadow-3xl bg-primary p-6 hover:translate-y-[-5px]">
+          <span class="font-mainFont text-4xl text-dark leading-none">
+            {skill.name}
+          </span>
+          <span class="font-lightFont text-xs text-dark uppercase tracking-widest">
+            {skill.category}
+          </span>
+        </div>
+      ))
+    }
   </div>
 </div>
 
 <script>
   import { gsap } from "gsap";
-  const skillsTitle = document.querySelector(".skillsTitle");
 
-  const skillsTitleObserver = new IntersectionObserver(
-    (entrie) => {
-      entrie.forEach((element) => {
-        if (element.isIntersecting) {
-          gsap.to(skillsTitle, {
-            duration: 0.2,
-            backgroundSize: "100% 6px",
-            backgroundPosition: " 0 100%",
-          });
-        } else {
-          gsap.to(skillsTitle, {
-            duration: 0.2,
-            backgroundSize: "0 0",
-            backgroundPosition: " 0 0",
-          });
-        }
+  const skillsTitle = document.querySelector(".skillsTitle");
+  const skillCards = document.querySelectorAll(".skillCard");
+
+  gsap.set(skillCards, { opacity: 0, scale: 0.85 });
+
+  new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        gsap.to(skillsTitle, {
+          duration: 0.2,
+          backgroundSize: e.isIntersecting ? "100% 6px" : "0 0",
+          backgroundPosition: e.isIntersecting ? "0 100%" : "0 0",
+        });
       });
     },
-    {
-      threshold: 0.1,
+    { threshold: 0.1 },
+  ).observe(skillsTitle);
+
+  new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        gsap.to(skillCards, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.07,
+          ease: "back.out(1.7)",
+        });
+      }
     },
-  );
-  skillsTitleObserver.observe(skillsTitle);
+    { threshold: 0.1 },
+  ).observe(document.querySelector(".skillsGrid"));
 </script>

@@ -1,30 +1,40 @@
 ---
 import spotifyProjectImage from "./../../public/images/spotifyProject.png";
-
 import { Image } from "astro:assets";
 ---
 
-<div class="card sm:card-side bg-projectCardBg drop-shadow-4xl">
-  <figure class="sm:w-2/3 md:w-1/2 h-auto">
+<div
+  class="border-4 border-dark drop-shadow-4xl bg-projectCardBg flex flex-col md:flex-row"
+>
+  <div class="md:w-1/2 overflow-hidden min-h-[280px]">
     <Image
-      class="w-full h-full object-cover"
+      class="w-full h-full object-cover object-top"
       src={spotifyProjectImage}
-      alt="Album"
+      alt="React Server Components"
     />
-  </figure>
-  <div class="card-body">
-    <h2 class="card-title text-4xl">New album is released!</h2>
-    <p>
-      Inline SVG animations are slow on mobile so the only solution is to use a
-      Image component and hope for the best lorem ipsum tessn nste testing
-      helllo hi give me vbla lblaa
-    </p>
-    <div class="card-actions justify-end">
+  </div>
+  <div class="md:w-1/2 p-8 flex flex-col justify-between">
+    <div>
+      <p
+        class="font-lightFont text-sm uppercase tracking-widest text-dark mb-2 border-b-2 border-dark pb-2"
+      >
+        Featured Post
+      </p>
+      <h2 class="font-black text-3xl md:text-4xl text-dark mt-4 mb-4">
+        React Server Components — What Are They and Why Should You Care?
+      </h2>
+      <p class="font-lightFont text-lg text-dark">
+        React turned 10 and keeps reinventing itself. Server Components are the
+        latest paradigm shift — components that run exclusively on the server.
+        Here's everything demystified.
+      </p>
+    </div>
+    <div class="mt-6">
       <a
         href="/blog"
-        class="hover:translate-y-[-5px] px-12 flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 button-link-underline button-link-underline-black"
+        class="inline-flex hover:translate-y-[-5px] drop-shadow-3xl bg-drawerBackground border-dark border-4 p-3 px-8 text-xl font-bold button-link-underline button-link-underline-black"
       >
-        <span> Read more </span>
+        <span>Read more</span>
       </a>
     </div>
   </div>

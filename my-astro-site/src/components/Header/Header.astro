@@ -1,63 +1,74 @@
 ---
 import "../../global.css";
-import Moon from "./Moon.astro";
-import Sun from "./Sun.astro";
 ---
 
-<div class="hero relative min-h-screen bg-base-200 overflow-hidden">
-  <Moon class="-z-40" />
-  <Sun class="-z-40" />
-  <div class="hero-content text-center relative z-10">
-    <div class="max-w-xl z-10">
-      <h1 class="text-6xl md:text-7xl font-bold z-10">
-        Hi my name is <span class="text-orange font-italicFont">MILOŠ</span> and
-        i am a <span class="text-orange font-italicFont">FULLSTACK</span> web developer.
-        <!--Lo is nume id<span class="text-orange font-italicFont">LOREM</span> IPS i-->
-        <!--am a <span class="text-orange font-italicFont">LOREMLORE</span> ipu loremium.-->
-      </h1>
-
+<div
+  class="heroSection relative min-h-screen overflow-hidden flex items-center justify-center"
+>
+  <div class="text-center relative z-10 px-6 max-w-5xl mx-auto">
+    <p
+      class="font-lightFont text-base md:text-xl text-dark tracking-[0.3em] uppercase mb-2"
+    >
+      Hello, I'm
+    </p>
+    <h1
+      class="font-mainFont text-[6rem] md:text-[10rem] leading-none text-dark"
+    >
+      MILOŠ
+    </h1>
+    <h2 class="font-italicFont text-4xl md:text-6xl text-orange -mt-2 mb-6">
+      Danilović
+    </h2>
+    <p
+      class="font-lightFont text-xl md:text-2xl text-dark mb-10 max-w-lg mx-auto"
+    >
+      I build fast, animated, and visually bold experiences for the web.
+    </p>
+    <div class="flex flex-wrap gap-4 md:gap-6 justify-center">
       <button
         id="sayHiButton"
-        class="drop-shadow-3xl bg-primary border-dark border-4 p-2 md:p-4 text-2xl md:text-4xl z-30 hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+        class="drop-shadow-4xl bg-primary border-dark border-4 p-3 md:p-5 text-2xl md:text-3xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
       >
-        <span> Say hi to me </span>
+        <span>Say hi to me</span>
       </button>
+      <a
+        href="#projectSection"
+        class="drop-shadow-4xl bg-drawerBackground border-dark border-4 p-3 md:p-5 text-2xl md:text-3xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+      >
+        <span>View my work</span>
+      </a>
     </div>
+  </div>
+
+  <div
+    class="absolute bottom-8 z-10 flex flex-col items-center gap-1 text-dark"
+    style="left: 50%; transform: translateX(-50%)"
+  >
+    <span class="font-lightFont text-xs tracking-widest uppercase">Scroll</span>
+    <span class="text-2xl font-black animate-bounce">↓</span>
   </div>
 </div>
 
 <script>
-  import {
-    cloudGeneratingFunction,
-    starGeneratingFunction,
-  } from "../../utils/clouds";
   import { gsap } from "gsap";
 
-  let root = document.querySelector(".hero");
   let sayHiButton = document.querySelector("#sayHiButton");
   const modal = document.querySelector("#my_modal_1");
 
-  cloudGeneratingFunction(root, 3000, 5, 15);
-  starGeneratingFunction(root, 25);
-
   sayHiButton.addEventListener("click", () => {
-    let buttonTimeLine = gsap.timeline();
-    buttonTimeLine.to(sayHiButton, {
+    let tl = gsap.timeline();
+    tl.to(sayHiButton, {
       y: 6,
-      duration: 0.3,
-      onEnd: () => {
-        sayHiButton.classList.remove("drop-shadow-3xl");
-      },
+      duration: 0.15,
+      onComplete: () => sayHiButton.classList.remove("drop-shadow-4xl"),
     });
-    buttonTimeLine.to(sayHiButton, {
+    tl.to(sayHiButton, {
       y: 0,
-      duration: 0.3,
-      onEnd: () => {
-        sayHiButton.classList.add("drop-shadow-3xl");
+      duration: 0.15,
+      onComplete: () => {
+        sayHiButton.classList.add("drop-shadow-4xl");
         modal.showModal();
       },
     });
   });
 </script>
-
-<style></style>

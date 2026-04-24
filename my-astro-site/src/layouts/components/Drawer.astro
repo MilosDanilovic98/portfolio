@@ -3,50 +3,42 @@
 ---
 
 <div
-  class="drawer md:hidden fixed test top-[3rem] h-screen r-10 w-0 z-50 drop-shadow-3xl overflow-hidden"
+  class="drawer md:hidden fixed top-16 h-screen w-0 z-50 overflow-hidden drop-shadow-3xl transition-all duration-200"
 >
   <input id="my-drawer" type="checkbox" class="drawer-toggle" />
   <div class="drawer-side">
     <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"
     ></label>
     <ul
-      class="menu fixed pt-[4rem] p-4 w-80 h-full flex bg-drawerBackground text-dark"
+      class="menu fixed pt-6 p-4 w-72 h-full flex bg-drawerBackground border-r-4 border-dark text-dark"
     >
-      <li>
+      <li class="border-b-2 border-dark/20">
         <a
           href="/"
-          class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black"
+          onclick="closeDrawer()"
+          class="font-black text-sm uppercase tracking-widest text-dark py-4 hover:bg-primary"
           >Home</a
         >
       </li>
-
-      <li>
-        <a
-          href="#aboutSection"
-          onclick="test()"
-          class="hover:cursor-pointer text-xl p-4 link-underline link-underline-black"
-          >About me</a
-        >
-      </li>
-      <li>
+      <li class="border-b-2 border-dark/20">
         <a
           href="#projectSection"
-          onclick="test()"
-          class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
+          onclick="closeDrawer()"
+          class="font-black text-sm uppercase tracking-widest text-dark py-4 hover:bg-primary"
           >Projects</a
         >
       </li>
-      <li>
+      <li class="border-b-2 border-dark/20">
         <a
           href="/allBlogs/"
-          class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
-          >Blogs</a
+          class="font-black text-sm uppercase tracking-widest text-dark py-4 hover:bg-primary"
+          >Blog</a
         >
       </li>
       <li>
         <a
-          onclick="document.querySelector('#my_modal_1').showModal()"
-          class="text-xl hover:cursor-pointer p-4 link-underline link-underline-black"
+          onclick="closeDrawer(); document.querySelector('#my_modal_1').showModal()"
+          class="font-black text-sm uppercase tracking-widest text-dark py-4 hover:bg-primary cursor-pointer"
           >Contact</a
         >
       </li>
@@ -55,13 +47,8 @@
 </div>
 
 <script is:inline>
-  const test = () => {
-    document.querySelector("#drawerIcon").checked =
-      !document.querySelector("#drawerIcon").checked;
-
-    document.querySelector("#my-drawer").checked =
-      !document.querySelector("#my-drawer").checked;
+  const closeDrawer = () => {
+    const drawerCheckbox = document.querySelector("#my-drawer");
+    if (drawerCheckbox) drawerCheckbox.checked = false;
   };
 </script>
-
-<style></style>

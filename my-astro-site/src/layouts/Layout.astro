@@ -12,6 +12,7 @@ import LinkedInIconBlack from "../../public/LinkedInIconBlack.svg";
 import LinkedInIconWhite from "../../public/LinkedInIconWhite.svg";
 import ButtonWithImage from "../components/Buttons/ButtonWithImage.astro";
 import ContactMeModal from "../components/Modals/ContactMeModal.astro";
+import BackgroundCanvas from "../components/BackgroundCanvas.astro";
 ---
 
 <html id="root" lang="en" ">
@@ -51,7 +52,8 @@ import ContactMeModal from "../components/Modals/ContactMeModal.astro";
     <title>Astro</title>
     <!--<ViewTransitions/>-->
   </head>
-  <body class="bg-white text-dark font-mainFont">
+  <body class="text-dark font-mainFont">
+    <BackgroundCanvas />
     <ContactMeModal />
     <Navbar />
 

@@ -6,7 +6,8 @@
       "Bash(npm outdated *)",
       "Bash(echo \"exit: $?\")",
       "Bash(npm audit *)",
-      "Bash(npx astro *)"
+      "Bash(npx astro *)",
+      "Bash(npm run *)"
     ]
   }
 }

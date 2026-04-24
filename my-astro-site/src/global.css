@@ -75,51 +75,57 @@
     font-display: swap;
   }
 }
+body {
+  background: var(--canvasBg);
+}
+
 .lightTheme {
-  --appBackground: #fefcfb;
-  --subtleBackground: #fef8f4;
-  --componentBackground: #fff1e7;
-  --componentBackgroundHover: #ffe8d7;
-  --componentBackgroundSelected: #ffdcc3;
-  --subtleBorder: #ffcca7;
-  --focusBorder: #fa934e;
-  --hoverBorder: #f76808;
-  --solidBackground: #f76808;
-  --solidBackgroundHover: #ed5f00;
-  --lowContrastText: #bd4b00;
-  --highContrastText: #451e11;
-  --primary: #f4e04d;
-  --secondary: #139a43;
-  --dark: #231f20;
-  --orange: #ffff00;
-  --projectCardBg: #ffff00;
-  --white: #0096ff;
-  --drawerBackground: #ffff00;
+  --appBackground: #fdf8f0;
+  --subtleBackground: #fef3e2;
+  --componentBackground: #fde8c8;
+  --componentBackgroundHover: #fddba8;
+  --componentBackgroundSelected: #fccf88;
+  --subtleBorder: #d4900a;
+  --focusBorder: #b87200;
+  --hoverBorder: #9a5f00;
+  --solidBackground: #e07800;
+  --solidBackgroundHover: #c86a00;
+  --lowContrastText: #7a4200;
+  --highContrastText: #140c00;
+  --primary: #ffe234;
+  --secondary: #140c00;
+  --dark: #140c00;
+  --orange: #e07800;
+  --white: #fdf8f0;
+  --projectCardBg: #b8f0c8;
+  --drawerBackground: #fef3e2;
   --visibleInDarkMode: none;
   --visibleInLightMode: block;
+  --canvasBg: #87ceeb;
 }
 .darkTheme {
-  --appBackground: #1f1206;
-  --subtleBackground: #2b1400;
-  --componentBackground: #391a03;
-  --componentBackgroundHover: #441f04;
-  --componentBackgroundSelected: #4f2305;
-  --subtleBorder: #5f2a06;
-  --focusBorder: #763205;
-  --hoverBorder: #943e00;
-  --solidBackground: #f76808;
-  --solidBackgroundHover: #ff802b;
-  --lowContrastText: #ff8b3e;
-  --highContrastText: #feeadd;
-  --primary: #0b1fb2;
-  --secondary: #000000;
-  --dark: #dce0df;
-  --orange: #d16f0d;
-  --white: #031031;
-  --projectCardBg: #307351;
-  --drawerBackground: #031031;
+  --appBackground: #0d0c1d;
+  --subtleBackground: #13122b;
+  --componentBackground: #1a1935;
+  --componentBackgroundHover: #21203f;
+  --componentBackgroundSelected: #28274b;
+  --subtleBorder: #3b3870;
+  --focusBorder: #6d5ff0;
+  --hoverBorder: #8b7cf7;
+  --solidBackground: #6d5ff0;
+  --solidBackgroundHover: #5b4de0;
+  --lowContrastText: #a89df5;
+  --highContrastText: #f0effe;
+  --primary: #6d5ff0;
+  --secondary: #0d0c1d;
+  --dark: #e8e4ff;
+  --orange: #ff6b35;
+  --white: #0d0c1d;
+  --projectCardBg: #162240;
+  --drawerBackground: #13122b;
   --visibleInDarkMode: block;
   --visibleInLightMode: none;
+  --canvasBg: #050514;
 }
 
 html {
