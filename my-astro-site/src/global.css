@@ -1,7 +1,46 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@plugin "daisyui" {
+  themes: false;
+}
+
+@theme {
+  --font-mainFont: mainFont, serif;
+  --font-lightFont: lightFont, serif;
+  --font-italicFont: italicFont, serif;
+  --font-robotoCondensed: robotoCondensed, serif;
+
+  --color-appBackground: var(--appBackground);
+  --color-subtleBackground: var(--subtleBackground);
+  --color-componentBackground: var(--componentBackground);
+  --color-componentBackgroundHover: var(--componentBackgroundHover);
+  --color-componentBackgroundSelected: var(--componentBackgroundSelected);
+  --color-subtleBorder: var(--subtleBorder);
+  --color-focusBorder: var(--focusBorder);
+  --color-hoverBorder: var(--hoverBorder);
+  --color-solidBackground: var(--solidBackground);
+  --color-solidBackgroundHover: var(--solidBackgroundHover);
+  --color-lowContrastText: var(--lowContrastText);
+  --color-highContrastText: var(--highContrastText);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-dark: var(--dark);
+  --color-orange: var(--orange);
+  --color-white: var(--white);
+  --color-projectCardBg: var(--projectCardBg);
+  --color-drawerBackground: var(--drawerBackground);
+
+  --drop-shadow-3xl: 4px 4px 0px var(--dark);
+  --drop-shadow-4xl: 7px 7px 0px var(--dark);
+  --drop-shadow-1xl: 0px 0px 0px var(--dark);
+
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+  }
+}
 
 @layer base {
   @font-face {

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm ls *)",
+      "Bash(npm outdated *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(npm audit *)",
+      "Bash(npx astro *)"
+    ]
+  }
+}
