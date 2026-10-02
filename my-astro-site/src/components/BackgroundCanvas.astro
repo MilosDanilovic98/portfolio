@@ -7,9 +7,12 @@
 <style>
   #bg-canvas {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    /* large viewport: stays put while the mobile toolbar shows and hides */
+    height: 100vh;
+    height: 100lvh;
     z-index: -1;
     pointer-events: none;
   }
@@ -28,11 +31,18 @@
   const rand = (s) => ((s * 9301 + 49297) % 233280) / 233280;
 
   async function init() {
+    const canvas = document.getElementById("bg-canvas");
     const app = new Application();
+    // Not `resizeTo: window`: on phones that resizes the WebGL canvas every time the
+    // toolbar shows or hides during a scroll. Only a width change needs a new size.
+    const size = () => [canvas.clientWidth, canvas.clientHeight];
+    const [w, h] = size();
     await app.init({
-      canvas: document.getElementById("bg-canvas"),
-      resizeTo: window,
-      antialias: true,
+      canvas,
+      width: w,
+      height: h,
+      // MSAA is costly on phone GPUs and invisible on these flat shapes there
+      antialias: window.matchMedia("(pointer: fine)").matches,
       background: document.documentElement.classList.contains("darkTheme")
         ? DARK_BG
         : LIGHT_BG,
@@ -88,6 +98,17 @@
       app.renderer.background.color = isDark ? DARK_BG : LIGHT_BG;
     };
     apply();
+    let lastW = w;
+    window.addEventListener(
+      "resize",
+      () => {
+        const [nw, nh] = size();
+        if (!nw || nw === lastW) return; // unchanged, or hidden by another design
+        lastW = nw;
+        app.renderer.resize(nw, nh);
+      },
+      { passive: true },
+    );
     new MutationObserver(apply).observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
