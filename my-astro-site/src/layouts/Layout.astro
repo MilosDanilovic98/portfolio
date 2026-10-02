@@ -2,57 +2,93 @@
 import Navbar from "./components/Navbar.astro";
 import Footer from "./components/Footer.astro";
 import "../global.css";
-import Drawer from "./components/Drawer.astro";
-import { ViewTransitions } from "astro:transitions";
-import EmailIconBlack from "../../public/EmailIconBlack.svg";
-import EmailIconWhite from "../../public/EmailIconWhite.svg";
-import GitHubIconBlack from "../../public/GithubIconBlack.svg";
-import GitHubIconWhite from "../../public/GithubIconWhite.svg";
-import LinkedInIconBlack from "../../public/LinkedInIconBlack.svg";
-import LinkedInIconWhite from "../../public/LinkedInIconWhite.svg";
-import ButtonWithImage from "../components/Buttons/ButtonWithImage.astro";
 import ContactMeModal from "../components/Modals/ContactMeModal.astro";
 import BackgroundCanvas from "../components/BackgroundCanvas.astro";
+import SkinSwitcher from "../components/Skins/SkinSwitcher.astro";
+import "../components/Skins/fonts.css";
+import "../components/Skins/skins.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Miloš Danilović — Full-Stack Web Developer",
+  description = "Full-Stack Web Developer based in Montenegro. I build fast, animated, and visually bold experiences for the web with React, Next.js, Astro, and Node.js.",
+} = Astro.props;
 ---
 
-<html id="root" lang="en" ">
+<html id="root" lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link
-      rel="preload"
-      href="/src/public/fonts/BebasKai.otf"
-      as="font"
-      type="font/otf"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/src/public/fonts/InriaSans-Light.ttf"
-      as="font"
-      type="font/ttf"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/src/public/fonts/Syne-Italic.otf"
-      as="font"
-      type="font/otf"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/src/public/fonts/RobotoCondensed-VariableFont_wght.ttf"
-      as="font"
-      type="font/ttf"
-      crossorigin
-    />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-    <!--<ViewTransitions/>-->
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Miloš Danilović" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Syne:ital,wght@1,700;1,800&display=swap"
+    />
+
+    <!-- Apply the saved theme before anything renders (no flash, and the
+         background canvas reads the correct theme on init) -->
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem("theme");
+        const theme =
+          stored ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "darkTheme"
+            : "lightTheme");
+        document.documentElement.classList.add(theme);
+        localStorage.setItem("theme", theme);
+      })();
+    </script>
+    <!-- Apply the saved design (see components/Skins) before the first paint.
+         ?skin=<id> or #<id> links straight to a design. -->
+    <script is:inline>
+      (() => {
+        const ids =
+          "original diorama poster lowpoly paper watercolor synthwave neobrutal pixel riso blueprint folk bauhaus ukiyoe deco desktop glass aurora clay comic topo terminal midcentury crayon manuscript sunset linocut mosaic chalk engraving aero monoline".split(
+            " ",
+          );
+        let s = null;
+        try {
+          const h = location.hash.slice(1);
+          s =
+            new URLSearchParams(location.search).get("skin") ||
+            (ids.includes(h) ? h : null) ||
+            localStorage.getItem("skin");
+        } catch (e) {}
+        if (!ids.includes(s)) s = "original";
+        const r = document.documentElement;
+        r.dataset.skin = s;
+        if (s !== "original") r.classList.add("skin-on");
+        if (
+          /^(lowpoly|synthwave|pixel|blueprint|deco|glass|aurora|terminal|sunset|chalk)$/.test(
+            s,
+          )
+        )
+          r.classList.add("skin-dark");
+      })();
+    </script>
   </head>
-  <body class="text-dark font-mainFont">
+  <body class="text-dark font-lightFont">
     <BackgroundCanvas />
     <ContactMeModal />
     <Navbar />
@@ -60,5 +96,6 @@ import BackgroundCanvas from "../components/BackgroundCanvas.astro";
     <slot />
 
     <Footer />
+    <SkinSwitcher />
   </body>
 </html>

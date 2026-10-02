@@ -1,0 +1,602 @@
+---
+---
+
+<canvas id="bg-canvas"></canvas>
+
+<style>
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import { Application, Graphics, Container, FillGradient } from "pixi.js";
+  import { gsap } from "gsap";
+
+  // Keep in sync with --canvasBg in global.css
+  const DARK_BG = 0x06051a;
+  const LIGHT_BG = 0x7ec9ee;
+  const INK = 0x181100; // --dark (light theme) — neobrutal outline color
+
+  // Seeded deterministic pseudo-random — same input always → same output
+  const rand = (s) => ((s * 9301 + 49297) % 233280) / 233280;
+
+  async function init() {
+    const app = new Application();
+    await app.init({
+      canvas: document.getElementById("bg-canvas"),
+      resizeTo: window,
+      antialias: true,
+      background: document.documentElement.classList.contains("darkTheme")
+        ? DARK_BG
+        : LIGHT_BG,
+    });
+
+    const dark = new Container();
+    const light = new Container();
+
+    // Sky gradients (back-most)
+    addSky(app, dark, [
+      [0, 0x06051a],
+      [0.55, 0x0c0a2c],
+      [1, 0x1a1442],
+    ]);
+    addSky(app, light, [
+      [0, 0x5fb8e8],
+      [0.6, 0x9adcf8],
+      [1, 0xd8f2ff],
+    ]);
+
+    // Sky elements (behind landscape)
+    addStars(app, dark);
+    addMoon(app, dark);
+    addSun(app, light);
+
+    // Landscape — always visible at bottom, depth via mouse parallax
+    const darkLand = buildLandscape(app, true);
+    const lightLand = buildLandscape(app, false);
+    dark.addChild(darkLand.container);
+    light.addChild(lightLand.container);
+
+    // Atmospheric elements (in front of landscape)
+    scheduleShootingStars(app, dark);
+    scheduleSatellites(app, dark);
+    spawnCloud(app, light);
+    spawnCloud(app, light);
+    spawnCloud(app, light);
+    scheduleCloud(app, light);
+    scheduleBirds(app, light);
+
+    app.stage.addChild(dark);
+    app.stage.addChild(light);
+
+    app.ticker.add(() => {
+      darkLand.update();
+      lightLand.update();
+    });
+
+    const apply = () => {
+      const isDark = document.documentElement.classList.contains("darkTheme");
+      dark.visible = isDark;
+      light.visible = !isDark;
+      app.renderer.background.color = isDark ? DARK_BG : LIGHT_BG;
+    };
+    apply();
+    new MutationObserver(apply).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
+
+  // ─── SKY ─────────────────────────────────────────────────────────────────────
+
+  function addSky(app, scene, stops) {
+    const grad = new FillGradient(0, 0, 0, app.screen.height);
+    stops.forEach(([offset, color]) => grad.addColorStop(offset, color));
+    const g = new Graphics();
+    g.rect(0, 0, app.screen.width, app.screen.height).fill(grad);
+    scene.addChild(g);
+  }
+
+  // ─── DARK SKY ────────────────────────────────────────────────────────────────
+
+  function addStars(app, scene) {
+    const count = window.innerWidth < 768 ? 100 : 220;
+    for (let i = 0; i < count; i++) {
+      const g = new Graphics();
+      g.circle(0, 0, Math.random() * 1.2 + 0.3).fill(0xffffff);
+      g.x = Math.random() * app.screen.width;
+      g.y = Math.random() * app.screen.height * 0.72;
+      g.alpha = Math.random() * 0.5 + 0.15;
+      scene.addChild(g);
+      gsap.to(g, {
+        alpha: Math.random() * 0.4 + 0.6,
+        duration: Math.random() * 3 + 1,
+        repeat: -1, yoyo: true, ease: "sine.inOut", delay: Math.random() * 5,
+      });
+    }
+  }
+
+  function addMoon(app, scene) {
+    const mc = new Container();
+    const glow = new Graphics();
+    glow.circle(0, 0, 150).fill({ color: 0xfff5d6, alpha: 0.05 });
+    glow.circle(0, 0, 112).fill({ color: 0xfff5d6, alpha: 0.08 });
+    glow.circle(0, 0, 84).fill({ color: 0xfff5d6, alpha: 0.12 });
+    const moon = new Graphics();
+    moon.circle(0, 0, 68).fill(0xfff8e0);
+    moon.circle(0, 0, 68).stroke({ color: 0xfffdf0, width: 3, alpha: 0.8 });
+    moon.circle(-20, -14, 10).fill(0xd8ca96);
+    moon.circle(18, -24, 7).fill(0xd8ca96);
+    moon.circle(26, 18, 13).fill(0xd8ca96);
+    moon.circle(-8, 24, 9).fill(0xd8ca96);
+    moon.circle(4, -8, 5).fill(0xd8ca96);
+    mc.addChild(glow); mc.addChild(moon);
+    mc.x = app.screen.width * 0.78; mc.y = 150;
+    scene.addChild(mc);
+    gsap.to(mc, { y: 138, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+  }
+
+  function spawnShootingStar(app, scene) {
+    const g = new Graphics();
+    scene.addChild(g);
+    const startX = 80 + Math.random() * (app.screen.width * 0.55);
+    const startY = 30 + Math.random() * (app.screen.height * 0.35);
+    const angle = ((28 + Math.random() * 22) * Math.PI) / 180;
+    const totalDist = 260 + Math.random() * 140;
+    let progress = 0;
+    const tick = () => {
+      progress = Math.min(progress + 7, totalDist);
+      const pct = progress / totalDist;
+      const hx = startX + Math.cos(angle) * progress;
+      const hy = startY + Math.sin(angle) * progress;
+      g.clear()
+        .moveTo(hx, hy)
+        .lineTo(hx - Math.cos(angle) * Math.sin(pct * Math.PI) * 120, hy - Math.sin(angle) * Math.sin(pct * Math.PI) * 120)
+        .stroke({ color: 0xffffff, width: 2, alpha: (1 - pct) * 0.9 });
+      if (progress >= totalDist) { app.ticker.remove(tick); g.destroy(); }
+    };
+    app.ticker.add(tick);
+  }
+
+  function scheduleShootingStars(app, scene) {
+    const fire = () => {
+      spawnShootingStar(app, scene);
+      if (Math.random() > 0.45) setTimeout(() => spawnShootingStar(app, scene), 350 + Math.random() * 350);
+      setTimeout(fire, 5000 + Math.random() * 8000);
+    };
+    setTimeout(fire, 2500 + Math.random() * 3000);
+  }
+
+  function spawnSatellite(app, scene) {
+    const sat = new Container();
+    const body = new Graphics(); body.rect(-9, -5, 18, 10).fill(0xb0b0b0);
+    const p1 = new Graphics(); p1.rect(-34, -3, 21, 7).fill(0x2244bb);
+    const p2 = new Graphics(); p2.rect(13, -3, 21, 7).fill(0x2244bb);
+    const ant = new Graphics();
+    ant.moveTo(0, -5).lineTo(0, -14).stroke({ color: 0xdddddd, width: 1.5 });
+    ant.circle(0, -15, 2).fill(0xffffff);
+    sat.addChild(p1); sat.addChild(p2); sat.addChild(body); sat.addChild(ant);
+    const fromRight = Math.random() > 0.5;
+    sat.x = fromRight ? app.screen.width + 70 : -70;
+    sat.y = 60 + Math.random() * (app.screen.height * 0.36);
+    sat.rotation = fromRight ? Math.PI : 0;
+    const dir = fromRight ? -1 : 1;
+    const speed = 0.45 + Math.random() * 0.4;
+    scene.addChild(sat);
+    const tick = () => {
+      sat.x += dir * speed;
+      if (fromRight ? sat.x < -90 : sat.x > app.screen.width + 90) { app.ticker.remove(tick); sat.destroy(); }
+    };
+    app.ticker.add(tick);
+  }
+
+  function scheduleSatellites(app, scene) {
+    spawnSatellite(app, scene);
+    const fire = () => { spawnSatellite(app, scene); setTimeout(fire, 18000 + Math.random() * 16000); };
+    setTimeout(fire, 10000 + Math.random() * 8000);
+  }
+
+  // ─── LIGHT SKY ───────────────────────────────────────────────────────────────
+
+  // Neobrutalist sun — bold yellow disc with ink outline and chunky rays,
+  // matching the site's --primary / border style.
+  function addSun(app, scene) {
+    const SUN = 0xffd500;
+    const sc = new Container();
+    const glow = new Graphics();
+    glow.circle(0, 0, 115).fill({ color: 0xffe96b, alpha: 0.18 });
+    glow.circle(0, 0, 88).fill({ color: 0xffe96b, alpha: 0.22 });
+    const rays = new Graphics();
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 2;
+      const inner = 70, outer = inner + (i % 2 === 0 ? 26 : 16);
+      rays.moveTo(Math.cos(a) * inner, Math.sin(a) * inner).lineTo(Math.cos(a) * outer, Math.sin(a) * outer);
+    }
+    rays.stroke({ color: INK, width: 6, alpha: 0.9 });
+    const body = new Graphics();
+    // Offset ink disc behind = the drop-shadow-3xl look
+    body.circle(5, 5, 58).fill({ color: INK, alpha: 0.9 });
+    body.circle(0, 0, 58).fill(SUN);
+    body.circle(0, 0, 58).stroke({ color: INK, width: 5 });
+    sc.addChild(glow); sc.addChild(rays); sc.addChild(body);
+    sc.x = app.screen.width * 0.82; sc.y = 130;
+    scene.addChild(sc);
+    gsap.to(rays, { rotation: Math.PI * 2, duration: 40, repeat: -1, ease: "linear" });
+    gsap.to(sc, { y: 118, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+  }
+
+  function spawnCloud(app, scene) {
+    const scale = 0.55 + Math.random() * 0.85;
+    const cloud = new Graphics();
+    const puffs = [[0,0,38],[42,-16,32],[84,0,38],[126,0,30],[28,14,27],[72,16,27],[110,10,22]];
+    // Ink-outline layer behind the puffs gives clouds the neobrutal border look
+    puffs.forEach(([cx, cy, r]) => cloud.circle(cx, cy, r + 4).fill({ color: INK, alpha: 0.85 }));
+    puffs.forEach(([cx, cy, r]) => cloud.circle(cx, cy, r).fill({ color: 0xffffff, alpha: 1 }));
+    cloud.scale.set(scale);
+    cloud.x = app.screen.width + 220;
+    cloud.y = 40 + Math.random() * (app.screen.height * 0.42);
+    scene.addChild(cloud);
+    const speed = 0.3 + Math.random() * 0.45;
+    const limit = -(160 * scale + 100);
+    const tick = () => { cloud.x -= speed; if (cloud.x < limit) { app.ticker.remove(tick); cloud.destroy(); } };
+    app.ticker.add(tick);
+  }
+
+  function scheduleCloud(app, scene) {
+    const fire = () => { spawnCloud(app, scene); setTimeout(fire, 7000 + Math.random() * 9000); };
+    setTimeout(fire, 4000 + Math.random() * 5000);
+  }
+
+  function spawnBirdFlock(app, scene) {
+    const count = 4 + Math.floor(Math.random() * 5);
+    const baseX = app.screen.width + 70;
+    const baseY = 70 + Math.random() * (app.screen.height * 0.38);
+    const speed = 1.3 + Math.random() * 0.7;
+    let wing = 0, done = false;
+    const birds = Array.from({ length: count }, (_, i) => {
+      const b = new Graphics();
+      b.x = baseX + (i % 3) * 36;
+      b.y = baseY + Math.floor(i / 3) * 24 + (i % 3) * 16;
+      scene.addChild(b); return b;
+    });
+    const tick = () => {
+      if (done) return;
+      wing += 0.1;
+      birds.forEach((b, i) => {
+        b.x -= speed;
+        const fl = Math.sin(wing + i * 0.4) * 4;
+        b.clear().moveTo(-14, fl).lineTo(0, -3).lineTo(14, fl).stroke({ color: 0x222222, width: 1.8 });
+      });
+      if (birds[0].x < -70) { done = true; app.ticker.remove(tick); birds.forEach(b => b.destroy()); }
+    };
+    app.ticker.add(tick);
+  }
+
+  function scheduleBirds(app, scene) {
+    setTimeout(() => spawnBirdFlock(app, scene), 3000 + Math.random() * 4000);
+    const fire = () => { spawnBirdFlock(app, scene); setTimeout(fire, 12000 + Math.random() * 16000); };
+    setTimeout(fire, 8000 + Math.random() * 8000);
+  }
+
+  // ─── PARALLAX LANDSCAPE ──────────────────────────────────────────────────────
+  // Landscape is anchored to the bottom of the viewport.
+  // Mouse movement drives per-layer parallax to create depth.
+
+  function buildLandscape(app, isDark) {
+    const W = app.screen.width;
+    const H = app.screen.height;
+    const FLOOR = H * 2.2; // polygons extend far below to prevent gaps
+
+    const container = new Container();
+    const farC  = new Container();
+    const midC  = new Container();
+    const forC  = new Container();
+    const citC  = new Container();
+
+    // ── Layer 1: Far mountains ────────────────────────────────────────────────
+    {
+      const g = new Graphics();
+      const col = isDark ? 0x0e1a2a : 0xaec8d8;
+      const pts = [0, FLOOR, 0, H * 0.50];
+      [[0.07,0.44],[0.14,0.55],[0.22,0.40],[0.31,0.58],[0.40,0.43],
+       [0.49,0.61],[0.58,0.38],[0.67,0.54],[0.76,0.44],[0.85,0.59],
+       [0.93,0.48],[1.0, 0.55]].forEach(([fx,fy]) => pts.push(fx*W, fy*H));
+      pts.push(W, FLOOR);
+      g.poly(pts).fill(col);
+      farC.addChild(g);
+    }
+
+    // ── Layer 2: Mid mountains ────────────────────────────────────────────────
+    {
+      const g = new Graphics();
+      const col = isDark ? 0x091510 : 0x72a872;
+      const pts = [0, FLOOR, 0, H * 0.66];
+      const peaks = [[0.06,0.61],[0.14,0.70],[0.23,0.63],[0.33,0.72],
+                     [0.43,0.60],[0.53,0.69],[0.62,0.64],[0.72,0.73],
+                     [0.81,0.61],[0.90,0.70],[1.0, 0.65]];
+      peaks.forEach(([fx,fy]) => pts.push(fx*W, fy*H));
+      pts.push(W, FLOOR);
+      g.poly(pts).fill(col);
+      if (!isDark) {
+        [[0.22,0.63],[0.43,0.60],[0.81,0.61]].forEach(([fx,fy]) => {
+          const px = fx*W, py = fy*H;
+          g.poly([px,py, px-14,py+22, px+14,py+22]).fill({ color: 0xffffff, alpha: 0.7 });
+        });
+      }
+      midC.addChild(g);
+    }
+
+    // ── Layer 3: Forest ───────────────────────────────────────────────────────
+    {
+      const g = new Graphics();
+      const tw = Math.max(26, W / 48);
+
+      const drawTrees = (groundY, treeW, colorHex, startSeed) => {
+        const col = colorHex;
+        const pts = [0, FLOOR];
+        let x = -treeW * 2, i = startSeed;
+        while (x < W + treeW * 3) {
+          const th = treeW * (1.0 + rand(i++) * 1.2);
+          pts.push(x, groundY, x + treeW / 2, groundY - th, x + treeW, groundY);
+          x += treeW * 0.70;
+        }
+        pts.push(W + treeW * 3, FLOOR);
+        g.poly(pts).fill(col);
+      };
+
+      drawTrees(H * 0.820, tw,        isDark ? 0x040908 : 0x2a6030, 0);
+      drawTrees(H * 0.855, tw * 0.72, isDark ? 0x060c07 : 0x347038, 100);
+      forC.addChild(g);
+    }
+
+    // ── Layer 4: City ─────────────────────────────────────────────────────────
+    {
+      const LIGHT_COLS = [0xc8b898, 0xb8a888, 0xd0c4a8, 0xb8b8c8, 0xccc0a8, 0xd4b89a, 0xbcc8d4];
+      const DARK_COLS  = [0x0e0e26, 0x101030, 0x0c0c22, 0x0a1020, 0x141428, 0x101226];
+      const groundY = H * 0.875;
+
+      // Deterministic building layout
+      const buildings = [];
+      let bx = 0, bi = 0;
+      while (bx < W + 80) {
+        const distFromCenter = Math.abs(bx + 30 - W / 2) / (W / 2);
+        const hScale = 1 - Math.min(distFromCenter, 1) * 0.52; // downtown peak
+        const bw   = Math.round(40 + rand(bi * 5    ) * 62);
+        const bh   = Math.round((88 + rand(bi * 5 + 1) * 220) * hScale);
+        const typeR = rand(bi * 5 + 2) * 4;
+        // 0=slab(40%), 1=art-deco(25%), 2=spire(20%), 3=glass(15%)
+        const type  = typeR < 1.6 ? 0 : typeR < 2.6 ? 1 : typeR < 3.4 ? 2 : 3;
+        const cIdx  = Math.floor(rand(bi * 5 + 3) * LIGHT_COLS.length);
+        buildings.push({ x: bx, bw, bh, top: groundY - bh, type, cIdx, bi });
+        bx += bw; bi++;
+      }
+
+      const g = new Graphics();
+
+      // Ground + road
+      g.rect(0, groundY, W + 100, FLOOR).fill(isDark ? 0x08080f : 0xa89878);
+      if (isDark) {
+        // Road sheen
+        g.rect(0, groundY, W, 6).fill({ color: 0x2020a0, alpha: 0.14 });
+        // Road markings
+        for (let mx = 30; mx < W; mx += 90) {
+          g.rect(mx, groundY + 2, 40, 2).fill({ color: 0xffffff, alpha: 0.06 });
+        }
+      }
+
+      // Buildings
+      for (const b of buildings) {
+        const { x, bw, bh, top, type, cIdx, bi } = b;
+        const col = isDark ? DARK_COLS[bi % DARK_COLS.length] : LIGHT_COLS[cIdx];
+
+        if (type === 1 && bh > 100) {
+          // Art deco — 3 stepped tiers
+          const h1 = bh * 0.45, h2 = bh * 0.30, h3 = bh * 0.25;
+          const w2 = bw * 0.76, w3 = bw * 0.52;
+          g.rect(x, groundY - h1,          bw, h1     ).fill(col);
+          g.rect(x + (bw-w2)/2, groundY - h1 - h2, w2, h2+1).fill(col);
+          g.rect(x + (bw-w3)/2, groundY - h1 - h2 - h3, w3, h3+1).fill(col);
+          // Decorative ledge
+          g.rect(x - 2, groundY - h1 + 2, bw + 4, 4).fill({ color: isDark ? 0xffffff : 0x000000, alpha: 0.06 });
+          g.rect(x + (bw-w2)/2 - 2, groundY - h1 - h2 + 2, w2 + 4, 4).fill({ color: isDark ? 0xffffff : 0x000000, alpha: 0.06 });
+        } else if (type === 2 && bh > 120) {
+          // Spire — wide base, narrowing tower, needle top
+          const baseH = bh * 0.55, midH = bh * 0.28, spH = bh * 0.17;
+          const midW = bw * 0.55, spW = Math.max(8, bw * 0.18);
+          const midX = x + (bw - midW) / 2;
+          const spX  = midX + (midW - spW) / 2;
+          g.rect(x,    groundY - baseH,           bw,   baseH  ).fill(col);
+          g.rect(midX, groundY - baseH - midH,    midW, midH+1 ).fill(col);
+          g.rect(spX,  groundY - baseH - midH - spH, spW, spH+1).fill(col);
+        } else if (type === 3) {
+          // Glass curtain wall — distinct tint
+          const gc = isDark ? 0x0a1a22 : 0xb6ccd8;
+          g.rect(x, top, bw, bh).fill(gc);
+          // Vertical mullion lines
+          for (let gx = x + 12; gx < x + bw - 6; gx += 12) {
+            g.rect(gx, top, 1.5, bh).fill({ color: isDark ? 0xffffff : 0x000000, alpha: 0.05 });
+          }
+          // Reflection stripe (light mode only)
+          if (!isDark) g.rect(x, top, bw * 0.26, bh).fill({ color: 0xffffff, alpha: 0.2 });
+        } else {
+          // Slab
+          g.rect(x, top, bw, bh).fill(col);
+          // Subtle horizontal floor lines for taller slabs
+          if (bh > 140) {
+            for (let fy = top + 18; fy < groundY - 8; fy += 18) {
+              g.rect(x, fy, bw, 1).fill({ color: isDark ? 0xffffff : 0x000000, alpha: 0.04 });
+            }
+          }
+        }
+      }
+
+      // ── Windows
+      if (isDark) {
+        let ws = 2000;
+        for (const b of buildings) {
+          // determine lit floor pattern — some floors mostly on, some mostly off
+          let floorIdx = 0;
+          let wy = b.top + 13;
+          while (wy + 7 < groundY - 6) {
+            // Whole floor lit or dark with some randomness
+            const floorLitBase = rand(ws + floorIdx * 17) > 0.30;
+            let wx = b.x + 9;
+            while (wx + 5 < b.x + b.bw - 6) {
+              const isLit = floorLitBase ? rand(ws++) > 0.18 : rand(ws++) > 0.80;
+              if (isLit) {
+                const t = rand(ws + 7000);
+                const wc = t > 0.65 ? 0x90c8ff : t > 0.28 ? 0xffb040 : 0xffec90;
+                g.rect(wx, wy, 5, 7).fill({ color: wc, alpha: 0.92 });
+              } else ws++;
+              wx += 14;
+            }
+            wy += 20; floorIdx++;
+          }
+        }
+      } else {
+        // Light mode window grid outlines
+        for (const b of buildings) {
+          if (b.bh > 100) {
+            for (let wy = b.top + 14; wy < groundY - 10; wy += 17) {
+              for (let wx = b.x + 7; wx < b.x + b.bw - 7; wx += 13) {
+                g.rect(wx, wy, 6, 9).fill({ color: 0x7a6a58, alpha: 0.15 });
+              }
+            }
+          }
+        }
+      }
+
+      // ── Dark-mode extras: glow, street lamps, antennas
+      const antennaPositions = [];
+      if (isDark) {
+        // City ambient glow
+        g.rect(0, groundY - 80, W, 80).fill({ color: 0xff5010, alpha: 0.035 });
+        g.rect(0, groundY - 40, W, 40).fill({ color: 0xff7030, alpha: 0.055 });
+
+        // Street lamps
+        let lxi = 0;
+        for (let lx = 50; lx < W - 20; lx += 75 + rand(lxi++) * 45) {
+          g.moveTo(lx, groundY).lineTo(lx, groundY - 40).stroke({ color: 0x606070, width: 2 });
+          g.moveTo(lx, groundY - 40).lineTo(lx + 10, groundY - 46).stroke({ color: 0x606070, width: 1.5 });
+          g.circle(lx + 10, groundY - 46, 5).fill(0xffdd80);
+          g.circle(lx + 10, groundY - 46, 16).fill({ color: 0xffcc60, alpha: 0.10 });
+          g.ellipse(lx + 10, groundY + 3, 22, 5).fill({ color: 0xffcc60, alpha: 0.07 });
+        }
+
+        // Antenna poles on ~40% of buildings — collect positions for blinking lights
+        for (let i = 0; i < buildings.length; i++) {
+          if (rand(i * 13 + 7) > 0.58) {
+            const b = buildings[i];
+            const cx = b.x + b.bw / 2;
+            g.moveTo(cx, b.top).lineTo(cx, b.top - 26).stroke({ color: 0x5060a0, width: 1.5 });
+            antennaPositions.push({ cx, cy: b.top - 27 });
+          }
+        }
+      }
+
+      // Add main static graphics first, then antenna lights on top
+      citC.addChild(g);
+
+      const antennaLights = [];
+      for (const pos of antennaPositions) {
+        const lg = new Graphics();
+        lg.circle(pos.cx, pos.cy, 3).fill(0xff2020);
+        citC.addChild(lg);
+        antennaLights.push(lg);
+      }
+
+      // Animate blinking — slow airport-style beacon
+      let blinkTime = 0;
+      app.ticker.add(() => {
+        blinkTime += 0.035;
+        for (let i = 0; i < antennaLights.length; i++) {
+          // Short pulse every ~3 seconds, staggered per building
+          const phase = i * 2.1;
+          const t = (blinkTime + phase) % 6.28;
+          antennaLights[i].alpha = t < 0.6 ? 1 : 0.04;
+        }
+      });
+
+      // Moving cars (dark mode only)
+      if (isDark) {
+        let carClock = 0;
+        const spawnCar = () => {
+          const fromRight = Math.random() > 0.5;
+          const carG = new Graphics();
+          if (fromRight) {
+            // Tail lights — red, going left
+            carG.rect(-24, -3, 8, 5).fill(0xff1818);
+            carG.rect(-14, -3, 7, 5).fill(0xff4040);
+            carG.rect(-24, -3, 30, 5).fill({ color: 0xff0000, alpha: 0.06 });
+          } else {
+            // Head lights — bright, going right
+            carG.rect(4, -3, 11, 5).fill({ color: 0xffee88, alpha: 0.95 });
+            carG.rect(17, -3, 7, 5).fill(0xffffff);
+            carG.rect(0, -3, 28, 5).fill({ color: 0xffee88, alpha: 0.08 });
+          }
+          carG.x = fromRight ? W + 35 : -35;
+          carG.y = groundY + 5 + Math.floor(Math.random() * 2) * 7;
+          citC.addChild(carG);
+          const dir = fromRight ? -1 : 1;
+          const spd = 1.8 + Math.random() * 2.8;
+          const moveFn = () => {
+            carG.x += dir * spd;
+            if (fromRight ? carG.x < -50 : carG.x > W + 50) {
+              app.ticker.remove(moveFn); carG.destroy();
+            }
+          };
+          app.ticker.add(moveFn);
+        };
+
+        // Spawn cars periodically
+        app.ticker.add(() => {
+          carClock++;
+          if (carClock % 200 === 0 && Math.random() > 0.3) {
+            spawnCar();
+            if (Math.random() > 0.5) setTimeout(spawnCar, 500 + Math.random() * 1400);
+          }
+        });
+
+        // Initial cars
+        setTimeout(spawnCar, 1500);
+        setTimeout(spawnCar, 3200);
+      }
+    }
+
+    container.addChild(farC);
+    container.addChild(midC);
+    container.addChild(forC);
+    container.addChild(citC);
+
+    // ── Mouse parallax — each layer shifts a different amount ─────────────────
+    const mlayers = [
+      { c: farC, mx: 12, my: 4  },
+      { c: midC, mx: 22, my: 7  },
+      { c: forC, mx: 36, my: 10 },
+      { c: citC, mx: 56, my: 14 },
+    ];
+    let mxN = 0, myN = 0;
+    window.addEventListener("mousemove", (e) => {
+      mxN = e.clientX / window.innerWidth  - 0.5;
+      myN = e.clientY / window.innerHeight - 0.5;
+    }, { passive: true });
+
+    return {
+      container,
+      update() {
+        for (const { c, mx, my } of mlayers) {
+          c.x += (-mxN * mx - c.x) * 0.08;
+          c.y += (-myN * my - c.y) * 0.08;
+        }
+      },
+    };
+  }
+
+  init();
+</script>

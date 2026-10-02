@@ -1,0 +1,51 @@
+---
+---
+
+<section
+  class="ctaSection relative border-t-4 border-dark bg-primary overflow-hidden py-24 px-6 text-center"
+>
+  <div class="relative z-10 max-w-4xl mx-auto">
+    <h2 class="font-mainFont text-6xl md:text-[8rem] text-dark leading-none">
+      LET'S BUILD
+    </h2>
+    <h2 class="font-italicFont text-4xl md:text-7xl text-dark mb-8">
+      something together
+    </h2>
+    <p
+      class="font-lightFont text-xl md:text-2xl text-dark max-w-2xl mx-auto mb-10"
+    >
+      I'm open to freelance projects, full-time positions, and interesting
+      collaborations. Don't be a stranger — reach out.
+    </p>
+    <button
+      onclick="document.querySelector('#my_modal_1').showModal()"
+      class="ctaButton drop-shadow-4xl bg-drawerBackground border-dark border-4 p-4 md:p-6 text-2xl md:text-4xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+    >
+      <span>Say hi to me</span>
+    </button>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  const ctaSection = document.querySelector(".ctaSection");
+  const ctaElements = ctaSection.querySelectorAll("h2, p, .ctaButton");
+
+  gsap.set(ctaElements, { opacity: 0, y: 40 });
+
+  new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        gsap.to(ctaElements, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: "back.out(1.4)",
+        });
+      }
+    },
+    { threshold: 0.25 }
+  ).observe(ctaSection);
+</script>

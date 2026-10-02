@@ -13,10 +13,10 @@ const { image, description, title, gitHub, liveSite, number } = Astro.props;
 >
   <div class="w-full max-w-6xl mx-auto">
     <!-- Card -->
-    <div class="border-4 border-dark drop-shadow-4xl bg-projectCardBg">
+    <div class="sk-card border-4 border-dark drop-shadow-4xl bg-projectCardBg">
       <!-- Title bar -->
       <div
-        class="flex items-center justify-between border-b-4 border-dark px-6 py-4 bg-primary"
+        class="sk-card-head flex items-center justify-between border-b-4 border-dark px-6 py-4 bg-primary"
       >
         <div class="flex items-center gap-4">
           <span class="font-mainFont text-5xl text-dark leading-none"
@@ -43,14 +43,14 @@ const { image, description, title, gitHub, liveSite, number } = Astro.props;
             loading="lazy"
             src={image}
             alt={title}
-            class="w-full h-full object-cover object-top"
+            class="sk-shot w-full h-full object-cover object-top"
           />
         </div>
 
         <!-- Info -->
         <div class="md:w-2/5 flex flex-col justify-between p-8 gap-8">
           <p
-            class="font-lightFont text-xl md:text-2xl text-dark leading-relaxed"
+            class="sk-desc font-lightFont text-xl md:text-2xl text-dark leading-relaxed"
           >
             {description}
           </p>
@@ -59,7 +59,7 @@ const { image, description, title, gitHub, liveSite, number } = Astro.props;
             <a
               href={liveSite}
               target="_blank"
-              class="flex items-center justify-between gap-3 drop-shadow-3xl bg-appBackground border-dark border-4 px-4 py-3 font-black text-xl text-dark hover:translate-y-[-4px] transition-transform group"
+              class="sk-btn flex items-center justify-between gap-3 drop-shadow-3xl bg-appBackground border-dark border-4 px-4 py-3 font-black text-xl text-dark hover:translate-y-[-4px] transition-transform group"
             >
               <span>Live Site</span>
               <Image
@@ -81,7 +81,7 @@ const { image, description, title, gitHub, liveSite, number } = Astro.props;
             <a
               href={gitHub}
               target="_blank"
-              class="flex items-center justify-between gap-3 drop-shadow-3xl bg-appBackground border-dark border-4 px-4 py-3 font-black text-xl text-dark hover:translate-y-[-4px] transition-transform"
+              class="sk-btn flex items-center justify-between gap-3 drop-shadow-3xl bg-appBackground border-dark border-4 px-4 py-3 font-black text-xl text-dark hover:translate-y-[-4px] transition-transform"
             >
               <span>GitHub</span>
               <Image

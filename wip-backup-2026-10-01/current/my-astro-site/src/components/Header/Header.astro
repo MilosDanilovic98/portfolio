@@ -1,0 +1,98 @@
+---
+import "../../global.css";
+---
+
+<div
+  class="heroSection relative min-h-screen overflow-hidden flex items-center justify-center"
+>
+  <div class="text-center relative z-10 px-6 max-w-5xl mx-auto">
+    <p
+      class="font-lightFont font-bold text-sm md:text-base text-dark tracking-[0.35em] uppercase mb-3"
+    >
+      Hello, I'm
+    </p>
+    <h1
+      class="font-mainFont text-[4.2rem] md:text-[8rem] leading-none text-dark"
+    >
+      MILOŠ
+    </h1>
+    <h2 class="font-italicFont text-4xl md:text-6xl text-orange -mt-1 mb-6">
+      Danilović
+    </h2>
+    <div
+      class="inline-block bg-primary border-4 border-dark drop-shadow-3xl px-4 py-1.5 mb-6"
+    >
+      <span
+        class="font-lightFont font-bold text-sm md:text-base tracking-[0.2em] uppercase text-secondary"
+      >
+        Full-Stack Web Developer
+      </span>
+    </div>
+    <p
+      class="font-lightFont text-xl md:text-2xl text-dark mb-6 max-w-lg mx-auto"
+    >
+      I build fast, animated, and visually bold experiences for the web.
+    </p>
+    <div
+      class="inline-flex items-center gap-2 border-2 border-dark bg-appBackground px-3 py-1 mb-10"
+    >
+      <span class="relative flex h-2.5 w-2.5">
+        <span
+          class="animate-ping absolute inline-flex h-full w-full bg-green-500 opacity-75"
+        ></span>
+        <span class="relative inline-flex h-2.5 w-2.5 bg-green-600"></span>
+      </span>
+      <span
+        class="font-lightFont font-bold text-xs tracking-widest uppercase text-dark"
+      >
+        Available for work
+      </span>
+    </div>
+    <div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+      <button
+        id="sayHiButton"
+        class="drop-shadow-4xl bg-primary border-dark border-4 px-5 py-3 md:px-7 md:py-4 text-xl md:text-2xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+      >
+        <span>Say hi to me</span>
+      </button>
+      <a
+        href="#projectSection"
+        class="drop-shadow-4xl bg-drawerBackground border-dark border-4 px-5 py-3 md:px-7 md:py-4 text-xl md:text-2xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+      >
+        <span>View my work</span>
+      </a>
+    </div>
+  </div>
+
+  <div
+    class="absolute bottom-8 z-10 flex flex-col items-center gap-1 text-dark"
+    style="left: 50%; transform: translateX(-50%)"
+  >
+    <span class="font-lightFont text-xs tracking-widest uppercase">Scroll</span>
+    <span class="text-2xl font-black animate-bounce">↓</span>
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  let sayHiButton = document.querySelector("#sayHiButton");
+  const modal = document.querySelector("#my_modal_1");
+
+  sayHiButton.addEventListener("click", () => {
+    let tl = gsap.timeline();
+    tl.to(sayHiButton, {
+      y: 6,
+      duration: 0.15,
+      onComplete: () => sayHiButton.classList.remove("drop-shadow-4xl"),
+    });
+    tl.to(sayHiButton, {
+      y: 0,
+      duration: 0.15,
+      onComplete: () => {
+        sayHiButton.classList.add("drop-shadow-4xl");
+        modal.showModal();
+      },
+    });
+  });
+</script>

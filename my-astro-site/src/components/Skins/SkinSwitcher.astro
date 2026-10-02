@@ -1,0 +1,147 @@
+---
+// The "Design" button and the picker with all skins.
+// Thumbnails are small WebP files that load only when the picker is opened.
+import { SKINS } from "./registry.js";
+
+const thumbs = import.meta.glob("./thumbs/*.webp", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
+const thumb = (id) => thumbs[`./thumbs/${id}.webp`];
+---
+
+<button
+  id="skin-fab"
+  type="button"
+  aria-haspopup="dialog"
+  aria-controls="skin-panel"
+  aria-expanded="false"
+>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path
+      d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.8-1.9 0-.5-.2-.9-.5-1.3-.3-.3-.5-.8-.5-1.3 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3Z"
+    ></path>
+    <circle cx="7.5" cy="10.5" r="1.2"></circle><circle cx="10.5" cy="7" r="1.2"
+    ></circle><circle cx="15" cy="7.5" r="1.2"></circle>
+  </svg>
+  <span>Design</span><span class="skin-fab-name" id="skin-fab-name"></span>
+</button>
+
+<div
+  id="skin-panel"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="skin-panel-title"
+>
+  <header>
+    <div style="flex:1">
+      <h2 id="skin-panel-title">Choose a design</h2>
+      <p>{SKINS.length} looks for the same site. Your choice is remembered.</p>
+    </div>
+    <div class="skin-nav">
+      <button type="button" data-step="-1" aria-label="Previous design"
+        >←</button
+      >
+      <button type="button" data-step="1" aria-label="Next design">→</button>
+    </div>
+    <button type="button" class="skin-close" aria-label="Close">✕</button>
+  </header>
+  <ul>
+    {
+      SKINS.map((s, i) => (
+        <li>
+          <button type="button" data-skin-id={s.id} aria-pressed="false">
+            <img
+              src={thumb(s.id)}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              width="264"
+              height="330"
+            />
+            <span class="skin-title">
+              {i < 2 ? s.name : `${i - 1} · ${s.name}`}
+            </span>
+            <span class="skin-blurb">{s.blurb}</span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  import { setSkin, currentSkin, prefetch } from "./manager.js";
+  import { SKINS, SKIN_IDS } from "./registry.js";
+
+  const fab = document.getElementById("skin-fab");
+  const panel = document.getElementById("skin-panel");
+  const nameEl = document.getElementById("skin-fab-name");
+  const buttons = [...panel.querySelectorAll("[data-skin-id]")];
+
+  const sync = () => {
+    const id = currentSkin();
+    const meta = SKINS.find((s) => s.id === id);
+    nameEl.textContent = meta ? meta.name : "";
+    for (const b of buttons)
+      b.setAttribute("aria-pressed", String(b.dataset.skinId === id));
+  };
+  const open = (v) => {
+    if (v) panel.setAttribute("data-open", "");
+    else panel.removeAttribute("data-open");
+    fab.setAttribute("aria-expanded", String(v));
+    if (v)
+      (panel.querySelector('[aria-pressed="true"]') || buttons[0]).focus({
+        preventScroll: true,
+      });
+  };
+  fab.addEventListener("click", () => open(!panel.hasAttribute("data-open")));
+  panel.querySelector(".skin-close").addEventListener("click", () => {
+    open(false);
+    fab.focus();
+  });
+  for (const b of buttons) {
+    b.addEventListener("click", () => setSkin(b.dataset.skinId));
+    b.addEventListener("pointerenter", () => prefetch(b.dataset.skinId), {
+      passive: true,
+    });
+  }
+  panel.querySelectorAll("[data-step]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const i = SKIN_IDS.indexOf(currentSkin());
+      const next =
+        SKIN_IDS[
+          (i + Number(b.dataset.step) + SKIN_IDS.length) % SKIN_IDS.length
+        ];
+      setSkin(next);
+      panel
+        .querySelector(`[data-skin-id="${next}"]`)
+        ?.scrollIntoView({ block: "nearest" });
+    }),
+  );
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && panel.hasAttribute("data-open")) {
+      open(false);
+      fab.focus();
+    }
+  });
+  document.addEventListener("pointerdown", (e) => {
+    if (
+      panel.hasAttribute("data-open") &&
+      !panel.contains(e.target) &&
+      !fab.contains(e.target)
+    )
+      open(false);
+  });
+  window.addEventListener("skinchange", sync);
+  sync();
+</script>
