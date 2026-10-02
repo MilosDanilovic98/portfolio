@@ -1,0 +1,48 @@
+---
+import EmailIconBlack from "../../../public/EmailIconBlack.svg";
+import EmailIconWhite from "../../../public/EmailIconWhite.svg";
+import GitHubIconBlack from "../../../public/GithubIconBlack.svg";
+import GitHubIconWhite from "../../../public/GithubIconWhite.svg";
+import LinkedInIconBlack from "../../../public/LinkedInIconBlack.svg";
+import LinkedInIconWhite from "../../../public/LinkedInIconWhite.svg";
+import ButtonWithImage from "../Buttons/ButtonWithImage.astro";
+---
+
+<dialog id="my_modal_1" class="modal drop-shadow-4xl">
+  <div class="modal-box bg-drawerBackground">
+    <h3 class="font-bold text-4xl text-center">Contact me</h3>
+    <div class="flex gap-6 flex-col px-16 pt-6">
+      <ButtonWithImage
+        href="mailto:danilovicmilos25@gmail.com"
+        text="Email"
+        darkModeImage={EmailIconBlack}
+        lightModeImage={EmailIconWhite}
+        size="50"
+      />
+      <ButtonWithImage
+        href="https://github.com/MilosDanilovic98"
+        text="GitHub"
+        darkModeImage={GitHubIconBlack}
+        lightModeImage={GitHubIconWhite}
+        size="50"
+      />
+      <ButtonWithImage
+        href="https://www.linkedin.com/in/milos-danilovic-631698252"
+        text="LinkedIn"
+        darkModeImage={LinkedInIconBlack}
+        lightModeImage={LinkedInIconWhite}
+        size="50"
+      />
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button
+          class="hover:translate-y-[-5px] px-12 flex gap-2 drop-shadow-3xl bg-drawerBackground border-dark border-4 p-2 button-link-underline button-link-underline-black"
+        >
+          <span> Close </span>
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>

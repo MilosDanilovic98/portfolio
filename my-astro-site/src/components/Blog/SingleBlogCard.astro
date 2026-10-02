@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+
+import PrimaryButton from "../Buttons/PrimaryButton.astro";
+
+const { image, title, description } = Astro.props;
+---
+
+<div class="card singleBlogCard bg-projectCardBg drop-shadow-4xl">
+  <figure class="h-auto">
+    <Image class="w-full h-full object-cover" src={image} alt="Album" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title text-4xl">{title}</h2>
+    <p>
+      {description}
+    </p>
+    <div class="card-actions justify-end">
+      <PrimaryButton text="Read more" href="/blog" />
+    </div>
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  let target = document.querySelectorAll(".singleBlogCard");
+
+  const observer = new IntersectionObserver(
+    (entrie) => {
+      entrie.forEach((element) => {
+        if (element.isIntersecting) {
+          gsap.to(element.target, {
+            right: 0,
+            duration: 2,
+            ease: "elastic.out(1,1)",
+            force3D: true,
+          });
+        } else {
+          gsap.to(element.target, {
+            right: "45%",
+            duration: 2,
+            ease: "elastic.out(1,1)",
+            force3D: true,
+          });
+        }
+      });
+    },
+    {
+      threshold: 0,
+    },
+  );
+
+  target.forEach((target) => {
+    observer.observe(target);
+  });
+</script>

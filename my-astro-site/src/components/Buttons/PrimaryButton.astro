@@ -1,0 +1,51 @@
+---
+import uniqid from "uniqid";
+const { text, href } = Astro.props;
+const id = uniqid();
+---
+
+<primary-button data-id={id} data-href={href}>
+  <button
+    class="drop-shadow-3xl hover:translate-y-[-5px] px-12 flex gap-2 bg-drawerBackground border-dark border-4 p-2 button-link-underline button-link-underline-black"
+  >
+    <span> {text} </span>
+  </button>
+</primary-button>
+
+<script>
+  import { gsap } from "gsap";
+
+  class PrimaryButton extends HTMLElement {
+    constructor() {
+      super();
+      let sayHiButton = document.querySelector(
+        `[data-id="${this.dataset.id}"]`,
+      );
+
+      sayHiButton.addEventListener("click", () => {
+        let buttonTimeLine = gsap.timeline();
+        buttonTimeLine.to(sayHiButton, {
+          y: 6,
+          duration: 0.3,
+          onEnd: () => {
+            sayHiButton.firstElementChild.classList.remove("drop-shadow-3xl");
+          },
+        });
+        buttonTimeLine.to(sayHiButton, {
+          y: 0,
+          duration: 0.3,
+          onEnd: () => {
+            sayHiButton.firstElementChild.classList.add("drop-shadow-3xl");
+            if (this.dataset.href) {
+              setTimeout(() => {
+                location.href = this.dataset.href;
+              }, 200);
+            }
+          },
+        });
+      });
+    }
+  }
+
+  customElements.define("primary-button", PrimaryButton);
+</script>

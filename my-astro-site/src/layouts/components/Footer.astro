@@ -1,0 +1,109 @@
+---
+import GithubIconBlack from "../../../public/GithubIconBlack.svg";
+import GitHubIconWhite from "../../../public/GithubIconWhite.svg";
+import LinkedInIconBlack from "../../../public/LinkedInIconBlack.svg";
+import LinkedInIconWhite from "../../../public/LinkedInIconWhite.svg";
+import EmailIconBlack from "../../../public/EmailIconBlack.svg";
+import EmailIconWhite from "../../../public/EmailIconWhite.svg";
+import { Image } from "astro:assets";
+---
+
+<footer class="border-t-4 border-dark bg-appBackground overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 md:px-16 py-12 md:py-16">
+    <div
+      class="flex flex-col md:flex-row justify-between items-start gap-12 mb-12"
+    >
+      <div>
+        <p class="font-mainFont text-6xl md:text-8xl text-dark leading-none">
+          MILOŠ
+        </p>
+        <p class="font-italicFont text-3xl md:text-4xl text-orange">
+          Danilović
+        </p>
+        <p class="font-lightFont text-lg text-dark mt-3 max-w-xs">
+          Full-Stack Web Developer based in Montenegro. Building bold things for
+          the web.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-3 w-full md:w-auto">
+        <p
+          class="font-black text-xl text-dark border-b-4 border-dark pb-1 mb-1"
+        >
+          Get in touch
+        </p>
+        <a
+          href="mailto:danilovicmilos25@gmail.com"
+          class="flex items-center gap-3 text-xl font-bold text-dark drop-shadow-3xl bg-drawerBackground border-dark border-4 p-3 hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+        >
+          <span>Email me</span>
+          <Image
+            class="darkIcon"
+            height="24"
+            width="24"
+            alt="email"
+            src={EmailIconBlack}
+          />
+          <Image
+            class="whiteIcon"
+            height="24"
+            width="24"
+            alt="email"
+            src={EmailIconWhite}
+          />
+        </a>
+        <a
+          href="https://github.com/MilosDanilovic98"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 text-xl font-bold text-dark drop-shadow-3xl bg-drawerBackground border-dark border-4 p-3 hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+        >
+          <span>GitHub</span>
+          <Image
+            class="darkIcon"
+            height="24"
+            width="24"
+            alt="github"
+            src={GithubIconBlack}
+          />
+          <Image
+            class="whiteIcon"
+            height="24"
+            width="24"
+            alt="github"
+            src={GitHubIconWhite}
+          />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/milos-danilovic-631698252"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 text-xl font-bold text-dark drop-shadow-3xl bg-drawerBackground border-dark border-4 p-3 hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+        >
+          <span>LinkedIn</span>
+          <Image
+            class="darkIcon"
+            height="24"
+            width="24"
+            alt="linkedin"
+            src={LinkedInIconBlack}
+          />
+          <Image
+            class="whiteIcon"
+            height="24"
+            width="24"
+            alt="linkedin"
+            src={LinkedInIconWhite}
+          />
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="border-t-4 border-dark pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-dark font-lightFont text-sm"
+    >
+      <p>© 2025 Miloš Danilović. All rights reserved.</p>
+      <p>Built with AstroJS · Tailwind CSS · GSAP</p>
+    </div>
+  </div>
+</footer>

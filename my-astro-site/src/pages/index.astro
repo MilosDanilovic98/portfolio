@@ -1,17 +1,52 @@
 ---
 import "../global.css";
-import Navbar from "../components/Navbar.astro";
-import Header from "../components/Header.astro";
+import Header from "../components/Header/Header.astro";
 import Layout from "../layouts/Layout.astro";
 import Project from "../components/Project.astro";
+import portfolioProjectImage from "../public/images/portfolioProject.png";
+import spotifyProjectImage from "../public/images/spotifyProject.png";
+import landingAndBlogProjectImage from "../public/images/landingAndBlogProject.png";
+import SkillsSection from "../components/SkillsSection.astro";
+import ServicesSection from "../components/ServicesSection.astro";
+import CTASection from "../components/CTASection.astro";
 ---
 
 <Layout>
-  <Navbar/>
   <Header />
-  <div class="overflow-hidden">
-    <Project/>
-    <Project/>
-    <Project/>
+
+  <ServicesSection />
+
+  <span id="projectSection" class="block"></span>
+  <div class="border-t-4 border-dark">
+    <Project
+      number="01"
+      title="Portfolio"
+      image={portfolioProjectImage}
+      description="This portfolio — built with AstroJS, Tailwind CSS, and GSAP. Neo-brutalist design with animated backgrounds, elastic scroll effects, and a PixiJS canvas for the space and sky scenes."
+      liveSite="https://milosdanilovicportfolio.vercel.app/"
+      gitHub="https://github.com/MilosDanilovic98/portfolio"
+    />
+    <Project
+      number="02"
+      title="Spotify Clone"
+      image={spotifyProjectImage}
+      liveSite="https://milos-danilovic-spotify-clone.vercel.app/"
+      gitHub="https://github.com/MilosDanilovic98/spotify-clone"
+      description="A fully responsive Spotify clone. Upload, play, and add songs to favourites. Uses the Spotify API to generate playlists from songs, albums, and artists — with the option to save them directly to your Spotify account."
+    />
+    <Project
+      number="03"
+      title="Landing Page & Blog"
+      liveSite="https://landing-and-blog-project.vercel.app/index.html"
+      gitHub="https://github.com/MilosDanilovic98/landingAndBlogProject"
+      image={landingAndBlogProjectImage}
+      description="A fully responsive landing page and blog built with AstroJS and a headless CMS. Clean reading experience, dynamic content, and fast load times."
+    />
   </div>
+
+  <div class="border-t-4 border-dark">
+    <SkillsSection />
+  </div>
+
+  <CTASection />
 </Layout>

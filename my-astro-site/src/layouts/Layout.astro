@@ -1,20 +1,64 @@
 ---
-import Navbar from "../components/Navbar.astro";
-import Footer from "../components/Footer.astro";
+import Navbar from "./components/Navbar.astro";
+import Footer from "./components/Footer.astro";
 import "../global.css";
+import Drawer from "./components/Drawer.astro";
+import { ViewTransitions } from "astro:transitions";
+import EmailIconBlack from "../../public/EmailIconBlack.svg";
+import EmailIconWhite from "../../public/EmailIconWhite.svg";
+import GitHubIconBlack from "../../public/GithubIconBlack.svg";
+import GitHubIconWhite from "../../public/GithubIconWhite.svg";
+import LinkedInIconBlack from "../../public/LinkedInIconBlack.svg";
+import LinkedInIconWhite from "../../public/LinkedInIconWhite.svg";
+import ButtonWithImage from "../components/Buttons/ButtonWithImage.astro";
+import ContactMeModal from "../components/Modals/ContactMeModal.astro";
+import BackgroundCanvas from "../components/BackgroundCanvas.astro";
 ---
 
-<html id="root" lang="en" class="darkTheme">
+<html id="root" lang="en" ">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/src/public/fonts/BebasKai.otf"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/src/public/fonts/InriaSans-Light.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/src/public/fonts/Syne-Italic.otf"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/src/public/fonts/RobotoCondensed-VariableFont_wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Astro</title>
+    <!--<ViewTransitions/>-->
   </head>
-  <body class="bg-white text-dark font-mainFont ">
-    
+  <body class="text-dark font-mainFont">
+    <BackgroundCanvas />
+    <ContactMeModal />
+    <Navbar />
+
     <slot />
-    <Footer/>
+
+    <Footer />
   </body>
 </html>
