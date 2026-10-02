@@ -35,6 +35,17 @@ host.setAttribute("aria-hidden", "true");
 document.body.prepend(host);
 
 // ---------------------------------------------------------------- scroll + layout
+// On phones the browser toolbar shows and hides while you scroll, which changes innerHeight and
+// fires `resize` many times per scroll. Sizing the layers from the *large* viewport (100lvh) keeps
+// them stable, so those resizes don't re-layout and re-rasterise every full-screen layer mid-scroll.
+const lvhProbe = document.createElement("div");
+lvhProbe.style.cssText =
+  "position:fixed;top:0;left:0;width:0;height:100vh;height:100lvh;visibility:hidden;pointer-events:none";
+document.body.appendChild(lvhProbe);
+const small = window.matchMedia("(max-width: 767px)");
+// background art does not need retina sharpness; this caps GPU memory per layer on 3x phones
+const MAX_DPR = 1.5;
+
 let vw = 0,
   vh = 0,
   scale = 1,
@@ -43,10 +54,13 @@ let vw = 0,
   ticking = false;
 function measure() {
   vw = window.innerWidth;
-  vh = window.innerHeight;
+  vh = Math.max(lvhProbe.offsetHeight, window.innerHeight);
   scale = Math.max(vw / W, vh / 1000);
   travel = Math.max(0, H * scale - vh);
-  docRange = Math.max(1, document.documentElement.scrollHeight - vh);
+  docRange = Math.max(
+    1,
+    document.documentElement.scrollHeight - window.innerHeight,
+  );
   if (current && current.layers) for (const l of current.layers) size(l);
   update();
 }
@@ -75,9 +89,21 @@ const onScroll = () => {
   }
 };
 window.addEventListener("scroll", onScroll, { passive: true });
-window.addEventListener("resize", () => requestAnimationFrame(measure), {
-  passive: true,
-});
+let lastW = window.innerWidth,
+  lastLvh = 0;
+window.addEventListener(
+  "resize",
+  () =>
+    requestAnimationFrame(() => {
+      // toolbar show/hide only changes innerHeight: nothing to re-measure
+      if (window.innerWidth === lastW && lvhProbe.offsetHeight === lastLvh)
+        return;
+      lastW = window.innerWidth;
+      lastLvh = lvhProbe.offsetHeight;
+      measure();
+    }),
+  { passive: true },
+);
 new ResizeObserver(() => {
   docRange = Math.max(
     1,
@@ -144,13 +170,18 @@ async function mountScene(id, descs) {
   if (meta.pixelated) el.classList.add("is-pixelated");
   const layers = [];
   // blend-mode texture overlays are subtle but cost a full-screen blend per frame: skip them on phones
-  const small = window.matchMedia("(max-width: 767px)").matches;
+  const isSmall = small.matches;
   for (const d of descs) {
-    if (small && d.kind === "O" && d.blend && d.blend !== "normal") continue;
+    if (isSmall && d.kind === "O" && d.blend && d.blend !== "normal") continue;
     let node;
     if (d.canvas) {
       // reuse the cached canvas when it is free, otherwise draw a copy
       node = d.canvas.isConnected ? cloneCanvas(d.canvas) : d.canvas;
+    } else if (isSmall) {
+      // An SVG <img> is rasterised at full device resolution: on a 3x phone that is ~65 MB of
+      // GPU memory per layer, and 5-7 such layers make scrolling stutter. Draw it once into a
+      // canvas at a capped pixel ratio instead.
+      node = await rasterizeSvg(d.url);
     } else {
       node = new Image();
       node.decoding = "async";
@@ -167,6 +198,18 @@ async function mountScene(id, descs) {
     layers.map((l) => (l.el.decode ? l.el.decode().catch(() => {}) : null)),
   );
   return { el, layers };
+}
+async function rasterizeSvg(url) {
+  const img = new Image();
+  img.src = url;
+  await img.decode();
+  const r = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+  const s = Math.max(window.innerWidth / W, lvhProbe.offsetHeight / 1000) * r;
+  const c = document.createElement("canvas");
+  c.width = Math.round(W * s);
+  c.height = Math.round(H * s);
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  return c;
 }
 function cloneCanvas(c) {
   const n = document.createElement("canvas");

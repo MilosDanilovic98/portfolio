@@ -129,6 +129,28 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* Nothing may widen the page: a few pixels of horizontal overflow make the whole page
+   slide sideways while scrolling on touch screens. `clip` (unlike `hidden`) keeps sticky working. */
+html,
+body {
+  overflow-x: clip;
+}
+
+/* The hard offset shadows are drawn on rectangular boxes, so box-shadow looks identical to
+   filter: drop-shadow() but is far cheaper: a filter re-renders the whole card offscreen
+   on every frame it moves (hover lifts, GSAP reveals, scrolling on phones). */
+html:not(.skin-on) .drop-shadow-1xl,
+html:not(.skin-on) .drop-shadow-3xl,
+html:not(.skin-on) .drop-shadow-4xl {
+  filter: none;
+}
+html:not(.skin-on) .drop-shadow-3xl {
+  box-shadow: 4px 4px 0 var(--dark);
+}
+html:not(.skin-on) .drop-shadow-4xl {
+  box-shadow: 7px 7px 0 var(--dark);
+}
 .cloud {
   position: absolute;
   z-index: -1;

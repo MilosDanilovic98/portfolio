@@ -33,7 +33,8 @@ html.skin-on {
   --sk-nav-bg: transparent; --sk-nav-ink: var(--sk-hero-ink); --sk-nav-border: 0; --sk-nav-shadow: none; --sk-nav-radius: 0; --sk-nav-margin: 0; --sk-nav-blur: none; --sk-nav-tt: none; --sk-nav-ls: normal;
   --sk-tl-title: var(--sk-card-ink); --sk-time: var(--sk-accent); --sk-rule: var(--sk-line);
   --sk-shot-border: var(--sk-card-border); --sk-shot-radius: 8px; --sk-shot-filter: none;
-  --sk-band-bg: var(--sk-card-bg);
+  --sk-band-bg: var(--sk-card-bg); --sk-band-accent: var(--sk-accent);
+  --sk-scrim: var(--sk-bg); --sk-scrim-strength: 84%;
 
   /* map the tokens onto the colour variables the site's Tailwind utilities read */
   --canvasBg: var(--sk-bg);
@@ -80,6 +81,13 @@ html.skin-on .heroSection h2 {
   -webkit-text-stroke: var(--sk-accent-stroke); paint-order: stroke fill;
 }
 html.skin-on .heroSection p, html.skin-on .heroSection > .absolute { color: var(--sk-hero-ink); text-shadow: var(--sk-hero-halo); }
+/* The hero copy sits straight on the illustration; a soft glow of the sky colour behind it keeps
+   the small text legible on busy textures (mosaic, engraving, halftone...) without boxing it in. */
+html.skin-on .sk-hero-box::after {
+  content: ""; position: absolute; inset: -2% -14% 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--sk-scrim) var(--sk-scrim-strength), transparent) 62%, transparent);
+}
+html[data-skin="desktop"] .sk-hero-box::after, html[data-skin="terminal"] .sk-hero-box::after { content: none; }
 html.skin-on .sk-badge { background: var(--sk-btn2-bg); border: var(--sk-btn2-border); border-radius: var(--sk-btn-radius); box-shadow: var(--sk-btn-shadow); }
 html.skin-on .sk-badge span { color: var(--sk-btn2-ink); font-family: var(--sk-font-btn); }
 html.skin-on .sk-chip { background: var(--sk-card-bg); color: var(--sk-card-ink); border: var(--sk-card-border); border-radius: var(--sk-btn-radius); -webkit-backdrop-filter: var(--sk-card-blur); backdrop-filter: var(--sk-card-blur); }
@@ -128,7 +136,7 @@ html.skin-on .ctaSection, html.skin-on footer {
   background: var(--sk-band-bg); color: var(--sk-card-ink); border-top: var(--sk-card-border); -webkit-backdrop-filter: var(--sk-card-blur); backdrop-filter: var(--sk-card-blur);
 }
 html.skin-on .ctaSection h2 { color: var(--sk-card-ink); }
-html.skin-on .ctaSection h2.font-italicFont, html.skin-on footer .font-italicFont { color: var(--sk-accent); }
+html.skin-on .ctaSection h2.font-italicFont, html.skin-on footer .font-italicFont { color: var(--sk-band-accent); }
 
 /* =====================================================================
    The 30 skins
@@ -157,7 +165,7 @@ html[data-skin="lowpoly"] {
   --sk-card-bg: rgba(16, 20, 52, 0.62); --sk-card-border: 1px solid rgba(255, 255, 255, 0.16); --sk-card-radius: 22px; --sk-card-shadow: 0 30px 60px rgba(0, 0, 0, 0.45); --sk-card-blur: blur(18px);
   --sk-head-bg: rgba(255, 255, 255, 0.06); --sk-head-ink: #ffffff;
   --sk-btn-bg: linear-gradient(90deg, #ffd2a1, #f08a5d); --sk-btn-ink: #1a1338; --sk-btn-border: 0; --sk-btn-radius: 999px; --sk-btn-shadow: 0 10px 40px rgba(240, 138, 93, 0.5);
-  --sk-btn2-bg: rgba(255, 255, 255, 0.08); --sk-btn2-ink: #ffffff; --sk-btn2-border: 1px solid rgba(255, 255, 255, 0.25);
+  --sk-btn2-bg: rgba(16, 20, 52, 0.82); --sk-btn2-ink: #ffffff; --sk-btn2-border: 1px solid rgba(255, 255, 255, 0.25);
   --sk-nav-bg: rgba(18, 22, 58, 0.45); --sk-nav-blur: blur(14px); --sk-nav-border: 1px solid rgba(255, 255, 255, 0.14); --sk-nav-radius: 16px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px; --sk-nav-ink: #e9e6ff;
   --sk-time: #f08a5d; --sk-shot-border: 0; --sk-shot-radius: 12px;
 }
@@ -168,6 +176,7 @@ html[data-skin="paper"] {
   --sk-font-body: "Fredoka", system-ui, sans-serif; --sk-hero-halo: 0 3px 0 rgba(255, 255, 255, 0.6);
   --sk-title-halo: 0 3px 0 #fff, 0 6px 18px rgba(43, 58, 74, 0.25);
   --sk-card-bg: #fffdf7; --sk-card-border: 0; --sk-card-radius: 8px; --sk-card-shadow: 0 2px 0 rgba(0, 0, 0, 0.05), 0 18px 34px rgba(43, 58, 74, 0.28);
+  --sk-band-accent: #d9573a;
   --sk-head-bg: #ffd166; --sk-btn-bg: #ffd166; --sk-btn-ink: #2c3e50; --sk-btn-border: 0; --sk-btn-radius: 16px; --sk-btn-shadow: 0 6px 0 #e0b04a, 0 14px 24px rgba(43, 58, 74, 0.25);
   --sk-btn2-bg: #ffffff; --sk-btn2-border: 0;
   --sk-nav-bg: #ffffff; --sk-nav-radius: 14px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px; --sk-nav-shadow: 0 6px 0 rgba(43, 58, 74, 0.12), 0 10px 24px rgba(43, 58, 74, 0.18);
@@ -240,6 +249,8 @@ html[data-skin="pixel"] .serviceCard h3 { font-size: 1.1rem; line-height: 1.5; m
 html[data-skin="pixel"] .serviceCard { font-size: 1.4rem; line-height: 1.15; }
 html[data-skin="pixel"] .sk-card-head { font-size: 1.1rem; }
 html[data-skin="pixel"] .sk-shot { image-rendering: pixelated; }
+/* Press Start is very wide: keep project titles on whole words on phones */
+@media (max-width: 480px) { html[data-skin="pixel"] .sk-card-head h3 { font-size: 1.05rem; line-height: 1.4; } html[data-skin="pixel"] .sk-card-head > div > span { font-size: 1.6rem; } }
 
 /* 8 · Risograph --------------------------------------------------------- */
 html[data-skin="riso"] {
@@ -254,6 +265,9 @@ html[data-skin="riso"] {
   --sk-shot-filter: grayscale(1) contrast(1.2) sepia(1) hue-rotate(170deg) saturate(3); --sk-tl-title: #0078bf;
 }
 
+/* the misregistration is the headline's signature; on small body copy it just blurs the letters */
+html[data-skin="riso"] .heroSection p { text-shadow: -2px -2px 0 #f4efe4, 2px -2px 0 #f4efe4, -2px 2px 0 #f4efe4, 2px 2px 0 #f4efe4; }
+
 /* 9 · Blueprint --------------------------------------------------------- */
 html[data-skin="blueprint"] {
   --sk-bg: #1b4f8f; --sk-ink: #e8f1ff; --sk-card-ink: #e8f1ff; --sk-line: #e8f1ff; --sk-accent: #e8f1ff;
@@ -261,7 +275,7 @@ html[data-skin="blueprint"] {
   --sk-hero-halo: 0 0 10px #1b4f8f, 0 0 4px #1b4f8f;
   --sk-card-bg: rgba(24, 70, 128, 0.92); --sk-card-border: 1.5px solid #e8f1ff; --sk-card-radius: 0;
   --sk-head-bg: transparent; --sk-head-ink: #e8f1ff; --sk-btn-bg: rgba(27, 79, 143, 0.85); --sk-btn-ink: #e8f1ff; --sk-btn-border: 1.5px solid #e8f1ff; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.2em;
-  --sk-btn2-bg: transparent; --sk-btn2-ink: #e8f1ff;
+  --sk-btn2-bg: rgba(24, 70, 128, 0.92); --sk-btn2-ink: #e8f1ff;
   --sk-nav-bg: rgba(27, 79, 143, 0.85); --sk-nav-border: 1.5px solid rgba(232, 241, 255, 0.6); --sk-nav-tt: uppercase; --sk-nav-ls: 0.14em;
   --sk-time: rgba(232, 241, 255, 0.7); --sk-shot-border: 1.5px dashed #e8f1ff; --sk-shot-radius: 0;
 }
@@ -319,7 +333,7 @@ html[data-skin="deco"] {
   --sk-hero-halo: 0 3px 16px rgba(0, 0, 0, 0.6); --sk-title-ink: #d4af6a;
   --sk-card-bg: #0f1b2d; --sk-card-border: 2px solid #d4af6a; --sk-card-radius: 0; --sk-head-bg: transparent; --sk-head-ink: #d4af6a;
   --sk-btn-bg: #d4af6a; --sk-btn-ink: #0f1b2d; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.4em; --sk-font-btn: "Josefin", sans-serif;
-  --sk-btn2-bg: transparent; --sk-btn2-ink: #d4af6a; --sk-btn2-border: 1.5px solid #d4af6a;
+  --sk-btn2-bg: #0f1b2d; --sk-btn2-ink: #d4af6a; --sk-btn2-border: 1.5px solid #d4af6a;
   --sk-nav-bg: rgba(15, 27, 45, 0.9); --sk-nav-border: 1px solid rgba(212, 175, 106, 0.5); --sk-nav-ink: #d4af6a; --sk-nav-tt: uppercase; --sk-nav-ls: 0.4em; --sk-font-nav: "Josefin", sans-serif;
   --sk-tl-title: #efe3c6;
 }
@@ -361,7 +375,7 @@ html[data-skin="aurora"] {
   --sk-accent-ink: #2affb0; --sk-hero-halo: 0 4px 30px rgba(4, 8, 26, 0.6);
   --sk-card-bg: rgba(10, 16, 40, 0.72); --sk-card-border: 1px solid rgba(123, 92, 255, 0.45); --sk-card-radius: 20px; --sk-card-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(42, 255, 176, 0.15); --sk-card-blur: blur(16px);
   --sk-head-bg: rgba(255, 255, 255, 0.04); --sk-head-ink: #ffffff; --sk-btn-bg: #0b1230; --sk-btn-ink: #ffffff; --sk-btn-border: 1px solid #2affb0; --sk-btn-radius: 999px; --sk-btn-shadow: 0 0 40px rgba(42, 255, 176, 0.25);
-  --sk-btn2-bg: rgba(42, 255, 176, 0.08); --sk-btn2-ink: #9fffd6; --sk-btn2-border: 1px solid rgba(42, 255, 176, 0.3);
+  --sk-btn2-bg: rgba(10, 16, 40, 0.82); --sk-btn2-ink: #9fffd6; --sk-btn2-border: 1px solid rgba(42, 255, 176, 0.3);
   --sk-nav-bg: rgba(10, 18, 48, 0.55); --sk-nav-blur: blur(14px); --sk-nav-border: 1px solid rgba(160, 190, 255, 0.18); --sk-nav-radius: 999px; --sk-nav-margin: 12px auto; --sk-nav-top: 12px; --sk-nav-ink: #c9d6ff;
   --sk-tl-title: #ffffff; --sk-shot-border: 0; --sk-shot-radius: 12px;
 }
@@ -372,6 +386,7 @@ html[data-skin="aurora"] .heroSection h2 { background: linear-gradient(90deg, #2
 html[data-skin="clay"] {
   --sk-bg: #fde6f1; --sk-ink: #4a3f6b; --sk-card-ink: #5a4a7a; --sk-accent: #ff7fa0;
   --sk-font-body: "Nunito", sans-serif; --sk-font-head: "Nunito", sans-serif; --sk-hero-halo: 0 4px 0 rgba(255, 255, 255, 0.7);
+  --sk-accent-ink: #d4507a; --sk-band-accent: #d4507a;
   --sk-card-bg: #fff7fb; --sk-card-border: 0; --sk-card-radius: 32px; --sk-card-shadow: 0 26px 50px rgba(120, 90, 160, 0.28), inset -10px -10px 20px rgba(160, 130, 200, 0.2), inset 10px 10px 20px #fff;
   --sk-head-bg: #efe9ff; --sk-head-ink: #4a3f6b; --sk-btn-bg: #ff8fab; --sk-btn-ink: #fff; --sk-btn-border: 0; --sk-btn-radius: 999px;
   --sk-btn-shadow: 0 16px 30px rgba(255, 120, 160, 0.4), inset -6px -8px 14px rgba(200, 60, 110, 0.35), inset 6px 6px 12px rgba(255, 255, 255, 0.55);
@@ -467,7 +482,7 @@ html[data-skin="sunset"] {
   --sk-accent-ink: #fff4d6; --sk-accent-shadow: 0 3px 0 #a94f45; --sk-hero-halo: 0 0 30px rgba(253, 227, 167, 0.6); --sk-title-ink: #fff1c9; --sk-title-halo: 0 3px 0 #7a2f3d;
   --sk-card-bg: rgba(46, 17, 40, 0.84); --sk-card-border: 1px solid rgba(255, 207, 122, 0.35); --sk-card-radius: 18px; --sk-card-shadow: 0 24px 50px rgba(20, 5, 15, 0.45); --sk-card-blur: blur(10px);
   --sk-head-bg: rgba(255, 207, 122, 0.12); --sk-head-ink: #ffcf7a; --sk-btn-bg: #fff1c9; --sk-btn-ink: #3a1022; --sk-btn-border: 0; --sk-btn-radius: 999px; --sk-btn-shadow: 0 10px 30px rgba(122, 47, 61, 0.35); --sk-btn-tt: uppercase; --sk-btn-ls: 0.12em;
-  --sk-btn2-bg: rgba(255, 207, 122, 0.12); --sk-btn2-ink: #ffcf7a; --sk-btn2-border: 1px solid rgba(255, 207, 122, 0.45);
+  --sk-btn2-bg: rgba(46, 17, 40, 0.84); --sk-btn2-ink: #ffcf7a; --sk-btn2-border: 1px solid rgba(255, 207, 122, 0.45);
   --sk-nav-bg: rgba(232, 113, 74, 0.6); --sk-nav-blur: blur(10px); --sk-nav-ink: #3a1022; --sk-nav-tt: uppercase; --sk-nav-ls: 0.12em; --sk-tl-title: #fff1c9; --sk-time: #f39a5b;
 }
 
@@ -503,7 +518,7 @@ html[data-skin="chalk"] {
   --sk-font-body: "Kalam", cursive; --sk-font-head: "Kalam", cursive; --sk-hero-halo: 0 0 2px rgba(255, 255, 255, 0.5), 0 0 16px #22302a; --sk-title-ink: #8fd0f0;
   --sk-card-bg: rgba(34, 48, 42, 0.94); --sk-card-border: 3px solid rgba(244, 244, 238, 0.85); --sk-card-radius: 6px 14px 8px 12px;
   --sk-head-bg: transparent; --sk-head-ink: #ffe48a; --sk-btn-bg: #f4f4ee; --sk-btn-ink: #22302a; --sk-btn-border: 0; --sk-btn-radius: 12px 30px 14px 26px;
-  --sk-btn2-bg: transparent; --sk-btn2-ink: #f4f4ee; --sk-btn2-border: 3px solid rgba(244, 244, 238, 0.85);
+  --sk-btn2-bg: rgba(34, 48, 42, 0.94); --sk-btn2-ink: #f4f4ee; --sk-btn2-border: 3px solid rgba(244, 244, 238, 0.85);
   --sk-nav-bg: linear-gradient(#8a5a32, #6a4224); --sk-nav-shadow: 0 6px 0 #4a2e18; --sk-nav-ink: #f4f4ee; --sk-tl-title: #8fd0f0; --sk-time: #ff9a8a;
 }
 
@@ -528,7 +543,7 @@ html[data-skin="aero"] {
   --sk-font-body: "Nunito", sans-serif; --sk-font-head: "Nunito", sans-serif;
   --sk-hero-halo: 0 2px 0 rgba(0, 70, 150, 0.35), 0 8px 24px rgba(0, 60, 140, 0.35); --sk-title-halo: var(--sk-hero-halo);
   --sk-card-bg: linear-gradient(rgba(255, 255, 255, 0.9), rgba(240, 248, 255, 0.74)); --sk-card-border: 1px solid #fff; --sk-card-radius: 20px; --sk-card-shadow: 0 18px 40px rgba(0, 60, 140, 0.25), inset 0 1px 0 #fff; --sk-card-blur: blur(12px);
-  --sk-head-bg: linear-gradient(#bfe6ff, #5fb4ff 50%, #3a9ae8 51%, #7fc8ff); --sk-head-ink: #fff;
+  --sk-head-bg: linear-gradient(#bfe6ff, #5fb4ff 50%, #3a9ae8 51%, #7fc8ff); --sk-head-ink: #fff; --sk-band-accent: #2a8a26; --sk-scrim: #2f86d6;
   --sk-btn-bg: linear-gradient(#7fe05a, #3aa832 50%, #2f9a2a 51%, #5fd03a); --sk-btn-ink: #fff; --sk-btn-border: 1px solid #2a8a26; --sk-btn-radius: 999px; --sk-btn-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 18px rgba(30, 120, 30, 0.35);
   --sk-btn2-bg: linear-gradient(#fff, #e3f2ff); --sk-btn2-ink: #0a4a8a; --sk-btn2-border: 1px solid #9fcff5;
   --sk-nav-bg: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.45) 50%, rgba(220, 240, 255, 0.35) 51%, rgba(255, 255, 255, 0.6)); --sk-nav-radius: 28px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px;
@@ -548,6 +563,18 @@ html[data-skin="monoline"] {
 html[data-skin="monoline"] .heroSection h1 { background: rgba(250, 250, 247, 0.85); }
 html[data-skin="monoline"] .heroSection h2 { font-weight: 700; }
 html[data-skin="monoline"] #sayHiButton > span::after, html[data-skin="monoline"] .ctaButton > span::after { content: " →"; }
+
+/* ---------------------------------------------------------------- phones */
+@media (max-width: 767px) {
+  /* backdrop blur re-samples the moving background under every card on every scroll frame,
+     which is what makes the glassy skins stutter on phones; use a more opaque fill instead */
+  html.skin-on { --sk-card-blur: none; --sk-nav-blur: none; }
+  html[data-skin="lowpoly"] { --sk-card-bg: rgba(16, 20, 52, 0.86); --sk-nav-bg: rgba(18, 22, 58, 0.9); }
+  html[data-skin="aurora"] { --sk-card-bg: rgba(10, 16, 40, 0.88); --sk-nav-bg: rgba(10, 18, 48, 0.9); }
+  html[data-skin="sunset"] { --sk-card-bg: rgba(46, 17, 40, 0.92); --sk-nav-bg: rgba(232, 113, 74, 0.94); }
+  html[data-skin="aero"] { --sk-card-bg: linear-gradient(rgba(255, 255, 255, 0.96), rgba(240, 248, 255, 0.9)); }
+  #skin-fab, #skin-panel { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(17, 20, 28, 0.97); }
+}
 
 /* ---------------------------------------------------------------- the skin picker */
 #skin-fab {

@@ -16,15 +16,20 @@ const { image, description, title, gitHub, liveSite, number } = Astro.props;
     <div class="sk-card border-4 border-dark drop-shadow-4xl bg-projectCardBg">
       <!-- Title bar -->
       <div
-        class="sk-card-head flex items-center justify-between border-b-4 border-dark px-6 py-4 bg-primary"
+        class="sk-card-head flex items-center justify-between gap-4 border-b-4 border-dark px-6 py-4 bg-primary"
       >
-        <div class="flex items-center gap-4">
-          <span class="font-mainFont text-5xl text-dark leading-none"
+        <div class="flex items-center gap-4 min-w-0">
+          <span
+            class="font-mainFont text-4xl md:text-5xl text-dark leading-none"
             >{number}</span
           >
-          <h3 class="font-mainFont text-3xl md:text-5xl text-dark">{title}</h3>
+          <h3
+            class="font-mainFont text-2xl sm:text-3xl md:text-5xl text-dark min-w-0 [overflow-wrap:anywhere]"
+          >
+            {title}
+          </h3>
         </div>
-        <div class="flex gap-2">
+        <div class="hidden sm:flex gap-2 shrink-0" aria-hidden="true">
           <span class="w-4 h-4 rounded-full bg-dark inline-block"></span>
           <span class="w-4 h-4 rounded-full bg-dark inline-block opacity-50"
           ></span>
