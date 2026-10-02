@@ -1,0 +1,120 @@
+---
+
+---
+
+<section
+  id="servicesSection"
+  class="py-20 px-6 md:px-16 border-t-4 border-dark overflow-hidden relative"
+>
+  <div
+    class="servicesTitle font-mainFont text-4xl md:text-6xl border-b-8 link-underline link-underline-black mb-16"
+  >
+    What I Do
+  </div>
+
+  <div class="servicesGrid grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+    <div
+      class="serviceCard border-4 border-dark drop-shadow-4xl bg-primary p-8 flex flex-col"
+    >
+      <div class="font-mainFont text-8xl text-dark mb-4 leading-none">01.</div>
+      <h3 class="font-black text-2xl md:text-3xl text-dark mb-4">
+        Frontend Development
+      </h3>
+      <p class="font-lightFont text-lg text-dark mb-6 flex-1">
+        Pixel-perfect, responsive interfaces with smooth animations that make
+        users stop and notice. I care deeply about every detail.
+      </p>
+      <ul
+        class="font-bold text-dark space-y-2 text-base border-t-4 border-dark pt-4"
+      >
+        <li>→ React / Next.js</li>
+        <li>→ AstroJS</li>
+        <li>→ Tailwind CSS</li>
+        <li>→ GSAP Animations</li>
+        <li>→ TypeScript</li>
+      </ul>
+    </div>
+
+    <div
+      class="serviceCard border-4 border-dark drop-shadow-4xl bg-appBackground p-8 flex flex-col"
+    >
+      <div class="font-mainFont text-8xl text-dark mb-4 leading-none">02.</div>
+      <h3 class="font-black text-2xl md:text-3xl text-dark mb-4">
+        Backend Development
+      </h3>
+      <p class="font-lightFont text-lg text-dark mb-6 flex-1">
+        Reliable server-side logic, clean REST APIs, and solid database design.
+        The engine that keeps everything running smoothly.
+      </p>
+      <ul
+        class="font-bold text-dark space-y-2 text-base border-t-4 border-dark pt-4"
+      >
+        <li>→ Node.js</li>
+        <li>→ REST APIs</li>
+        <li>→ SQL & NoSQL Databases</li>
+        <li>→ Authentication & Security</li>
+        <li>→ Server Deployment</li>
+      </ul>
+    </div>
+
+    <div
+      class="serviceCard border-4 border-dark drop-shadow-4xl bg-projectCardBg p-8 flex flex-col"
+    >
+      <div class="font-mainFont text-8xl text-dark mb-4 leading-none">03.</div>
+      <h3 class="font-black text-2xl md:text-3xl text-dark mb-4">
+        Full-Stack Solutions
+      </h3>
+      <p class="font-lightFont text-lg text-dark mb-6 flex-1">
+        From idea to deployed product — I handle the full journey. Design
+        decisions, code, CMS integration, and launch.
+      </p>
+      <ul
+        class="font-bold text-dark space-y-2 text-base border-t-4 border-dark pt-4"
+      >
+        <li>→ End-to-end Development</li>
+        <li>→ CMS Integration</li>
+        <li>→ Performance Optimisation</li>
+        <li>→ Freelance & Consulting</li>
+        <li>→ Code Reviews</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  const servicesTitle = document.querySelector(".servicesTitle");
+  const servicesGrid = document.querySelector(".servicesGrid");
+  const serviceCards = document.querySelectorAll(".serviceCard");
+
+  gsap.set(serviceCards, { opacity: 0, y: 80 });
+
+  new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        gsap.to(servicesTitle, {
+          duration: 0.2,
+          backgroundSize: e.isIntersecting ? "100% 6px" : "0 0",
+          backgroundPosition: e.isIntersecting ? "0 100%" : "0 0",
+        });
+      });
+    },
+    { threshold: 0.6 },
+  ).observe(servicesTitle);
+
+  new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        gsap.to(serviceCards, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: "back.out(1.7)",
+        });
+      }
+    },
+    { threshold: 0.1 },
+  ).observe(servicesGrid);
+</script>
