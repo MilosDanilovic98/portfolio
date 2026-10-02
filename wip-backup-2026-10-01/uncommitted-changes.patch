@@ -1,0 +1,1280 @@
+diff --git a/my-astro-site/.astro/content.d.ts b/my-astro-site/.astro/content.d.ts
+index 8d69e91..96b2fc3 100644
+--- a/my-astro-site/.astro/content.d.ts
++++ b/my-astro-site/.astro/content.d.ts
+@@ -1,229 +1,199 @@
+-declare module "astro:content" {
+-  export interface RenderResult {
+-    Content: import("astro/runtime/server/index.js").AstroComponentFactory;
+-    headings: import("astro").MarkdownHeading[];
+-    remarkPluginFrontmatter: Record<string, any>;
+-  }
+-  interface Render {
+-    ".md": Promise<RenderResult>;
+-  }
+-
+-  export interface RenderedContent {
+-    html: string;
+-    metadata?: {
+-      imagePaths: Array<string>;
+-      [key: string]: unknown;
+-    };
+-  }
++declare module 'astro:content' {
++	export interface RenderResult {
++		Content: import('astro/runtime/server/index.js').AstroComponentFactory;
++		headings: import('astro').MarkdownHeading[];
++		remarkPluginFrontmatter: Record<string, any>;
++	}
++	interface Render {
++		'.md': Promise<RenderResult>;
++	}
++
++	export interface RenderedContent {
++		html: string;
++		metadata?: {
++			imagePaths: Array<string>;
++			[key: string]: unknown;
++		};
++	}
+ }
+ 
+-declare module "astro:content" {
+-  type Flatten<T> = T extends { [K: string]: infer U } ? U : never;
+-
+-  export type CollectionKey = keyof AnyEntryMap;
+-  export type CollectionEntry<C extends CollectionKey> = Flatten<
+-    AnyEntryMap[C]
+-  >;
+-
+-  export type ContentCollectionKey = keyof ContentEntryMap;
+-  export type DataCollectionKey = keyof DataEntryMap;
+-
+-  type AllValuesOf<T> = T extends any ? T[keyof T] : never;
+-  type ValidContentEntrySlug<C extends keyof ContentEntryMap> = AllValuesOf<
+-    ContentEntryMap[C]
+-  >["slug"];
+-
+-  export type ReferenceDataEntry<
+-    C extends CollectionKey,
+-    E extends keyof DataEntryMap[C] = string,
+-  > = {
+-    collection: C;
+-    id: E;
+-  };
+-  export type ReferenceContentEntry<
+-    C extends keyof ContentEntryMap,
+-    E extends ValidContentEntrySlug<C> | (string & {}) = string,
+-  > = {
+-    collection: C;
+-    slug: E;
+-  };
+-  export type ReferenceLiveEntry<
+-    C extends keyof LiveContentConfig["collections"],
+-  > = {
+-    collection: C;
+-    id: string;
+-  };
+-
+-  /** @deprecated Use `getEntry` instead. */
+-  export function getEntryBySlug<
+-    C extends keyof ContentEntryMap,
+-    E extends ValidContentEntrySlug<C> | (string & {}),
+-  >(
+-    collection: C,
+-    // Note that this has to accept a regular string too, for SSR
+-    entrySlug: E,
+-  ): E extends ValidContentEntrySlug<C>
+-    ? Promise<CollectionEntry<C>>
+-    : Promise<CollectionEntry<C> | undefined>;
+-
+-  /** @deprecated Use `getEntry` instead. */
+-  export function getDataEntryById<
+-    C extends keyof DataEntryMap,
+-    E extends keyof DataEntryMap[C],
+-  >(collection: C, entryId: E): Promise<CollectionEntry<C>>;
+-
+-  export function getCollection<
+-    C extends keyof AnyEntryMap,
+-    E extends CollectionEntry<C>,
+-  >(
+-    collection: C,
+-    filter?: (entry: CollectionEntry<C>) => entry is E,
+-  ): Promise<E[]>;
+-  export function getCollection<C extends keyof AnyEntryMap>(
+-    collection: C,
+-    filter?: (entry: CollectionEntry<C>) => unknown,
+-  ): Promise<CollectionEntry<C>[]>;
+-
+-  export function getLiveCollection<
+-    C extends keyof LiveContentConfig["collections"],
+-  >(
+-    collection: C,
+-    filter?: LiveLoaderCollectionFilterType<C>,
+-  ): Promise<
+-    import("astro").LiveDataCollectionResult<
+-      LiveLoaderDataType<C>,
+-      LiveLoaderErrorType<C>
+-    >
+-  >;
+-
+-  export function getEntry<
+-    C extends keyof ContentEntryMap,
+-    E extends ValidContentEntrySlug<C> | (string & {}),
+-  >(
+-    entry: ReferenceContentEntry<C, E>,
+-  ): E extends ValidContentEntrySlug<C>
+-    ? Promise<CollectionEntry<C>>
+-    : Promise<CollectionEntry<C> | undefined>;
+-  export function getEntry<
+-    C extends keyof DataEntryMap,
+-    E extends keyof DataEntryMap[C] | (string & {}),
+-  >(
+-    entry: ReferenceDataEntry<C, E>,
+-  ): E extends keyof DataEntryMap[C]
+-    ? Promise<DataEntryMap[C][E]>
+-    : Promise<CollectionEntry<C> | undefined>;
+-  export function getEntry<
+-    C extends keyof ContentEntryMap,
+-    E extends ValidContentEntrySlug<C> | (string & {}),
+-  >(
+-    collection: C,
+-    slug: E,
+-  ): E extends ValidContentEntrySlug<C>
+-    ? Promise<CollectionEntry<C>>
+-    : Promise<CollectionEntry<C> | undefined>;
+-  export function getEntry<
+-    C extends keyof DataEntryMap,
+-    E extends keyof DataEntryMap[C] | (string & {}),
+-  >(
+-    collection: C,
+-    id: E,
+-  ): E extends keyof DataEntryMap[C]
+-    ? string extends keyof DataEntryMap[C]
+-      ? Promise<DataEntryMap[C][E]> | undefined
+-      : Promise<DataEntryMap[C][E]>
+-    : Promise<CollectionEntry<C> | undefined>;
+-  export function getLiveEntry<
+-    C extends keyof LiveContentConfig["collections"],
+-  >(
+-    collection: C,
+-    filter: string | LiveLoaderEntryFilterType<C>,
+-  ): Promise<
+-    import("astro").LiveDataEntryResult<
+-      LiveLoaderDataType<C>,
+-      LiveLoaderErrorType<C>
+-    >
+-  >;
+-
+-  /** Resolve an array of entry references from the same collection */
+-  export function getEntries<C extends keyof ContentEntryMap>(
+-    entries: ReferenceContentEntry<C, ValidContentEntrySlug<C>>[],
+-  ): Promise<CollectionEntry<C>[]>;
+-  export function getEntries<C extends keyof DataEntryMap>(
+-    entries: ReferenceDataEntry<C, keyof DataEntryMap[C]>[],
+-  ): Promise<CollectionEntry<C>[]>;
+-
+-  export function render<C extends keyof AnyEntryMap>(
+-    entry: AnyEntryMap[C][string],
+-  ): Promise<RenderResult>;
+-
+-  export function reference<C extends keyof AnyEntryMap>(
+-    collection: C,
+-  ): import("astro/zod").ZodEffects<
+-    import("astro/zod").ZodString,
+-    C extends keyof ContentEntryMap
+-      ? ReferenceContentEntry<C, ValidContentEntrySlug<C>>
+-      : ReferenceDataEntry<C, keyof DataEntryMap[C]>
+-  >;
+-  // Allow generic `string` to avoid excessive type errors in the config
+-  // if `dev` is not running to update as you edit.
+-  // Invalid collection names will be caught at build time.
+-  export function reference<C extends string>(
+-    collection: C,
+-  ): import("astro/zod").ZodEffects<import("astro/zod").ZodString, never>;
+-
+-  type ReturnTypeOrOriginal<T> = T extends (...args: any[]) => infer R ? R : T;
+-  type InferEntrySchema<C extends keyof AnyEntryMap> =
+-    import("astro/zod").infer<
+-      ReturnTypeOrOriginal<Required<ContentConfig["collections"][C]>["schema"]>
+-    >;
+-
+-  type ContentEntryMap = {};
+-
+-  type DataEntryMap = {};
+-
+-  type AnyEntryMap = ContentEntryMap & DataEntryMap;
+-
+-  type ExtractLoaderTypes<T> = T extends import("astro/loaders").LiveLoader<
+-    infer TData,
+-    infer TEntryFilter,
+-    infer TCollectionFilter,
+-    infer TError
+-  >
+-    ? {
+-        data: TData;
+-        entryFilter: TEntryFilter;
+-        collectionFilter: TCollectionFilter;
+-        error: TError;
+-      }
+-    : {
+-        data: never;
+-        entryFilter: never;
+-        collectionFilter: never;
+-        error: never;
+-      };
+-  type ExtractDataType<T> = ExtractLoaderTypes<T>["data"];
+-  type ExtractEntryFilterType<T> = ExtractLoaderTypes<T>["entryFilter"];
+-  type ExtractCollectionFilterType<T> =
+-    ExtractLoaderTypes<T>["collectionFilter"];
+-  type ExtractErrorType<T> = ExtractLoaderTypes<T>["error"];
+-
+-  type LiveLoaderDataType<C extends keyof LiveContentConfig["collections"]> =
+-    LiveContentConfig["collections"][C]["schema"] extends undefined
+-      ? ExtractDataType<LiveContentConfig["collections"][C]["loader"]>
+-      : import("astro/zod").infer<
+-          Exclude<LiveContentConfig["collections"][C]["schema"], undefined>
+-        >;
+-  type LiveLoaderEntryFilterType<
+-    C extends keyof LiveContentConfig["collections"],
+-  > = ExtractEntryFilterType<LiveContentConfig["collections"][C]["loader"]>;
+-  type LiveLoaderCollectionFilterType<
+-    C extends keyof LiveContentConfig["collections"],
+-  > = ExtractCollectionFilterType<
+-    LiveContentConfig["collections"][C]["loader"]
+-  >;
+-  type LiveLoaderErrorType<C extends keyof LiveContentConfig["collections"]> =
+-    ExtractErrorType<LiveContentConfig["collections"][C]["loader"]>;
+-
+-  export type ContentConfig = typeof import("./../src/content.config.mjs");
+-  export type LiveContentConfig = never;
++declare module 'astro:content' {
++	type Flatten<T> = T extends { [K: string]: infer U } ? U : never;
++
++	export type CollectionKey = keyof AnyEntryMap;
++	export type CollectionEntry<C extends CollectionKey> = Flatten<AnyEntryMap[C]>;
++
++	export type ContentCollectionKey = keyof ContentEntryMap;
++	export type DataCollectionKey = keyof DataEntryMap;
++
++	type AllValuesOf<T> = T extends any ? T[keyof T] : never;
++	type ValidContentEntrySlug<C extends keyof ContentEntryMap> = AllValuesOf<
++		ContentEntryMap[C]
++	>['slug'];
++
++	export type ReferenceDataEntry<
++		C extends CollectionKey,
++		E extends keyof DataEntryMap[C] = string,
++	> = {
++		collection: C;
++		id: E;
++	};
++	export type ReferenceContentEntry<
++		C extends keyof ContentEntryMap,
++		E extends ValidContentEntrySlug<C> | (string & {}) = string,
++	> = {
++		collection: C;
++		slug: E;
++	};
++	export type ReferenceLiveEntry<C extends keyof LiveContentConfig['collections']> = {
++		collection: C;
++		id: string;
++	};
++
++	/** @deprecated Use `getEntry` instead. */
++	export function getEntryBySlug<
++		C extends keyof ContentEntryMap,
++		E extends ValidContentEntrySlug<C> | (string & {}),
++	>(
++		collection: C,
++		// Note that this has to accept a regular string too, for SSR
++		entrySlug: E,
++	): E extends ValidContentEntrySlug<C>
++		? Promise<CollectionEntry<C>>
++		: Promise<CollectionEntry<C> | undefined>;
++
++	/** @deprecated Use `getEntry` instead. */
++	export function getDataEntryById<C extends keyof DataEntryMap, E extends keyof DataEntryMap[C]>(
++		collection: C,
++		entryId: E,
++	): Promise<CollectionEntry<C>>;
++
++	export function getCollection<C extends keyof AnyEntryMap, E extends CollectionEntry<C>>(
++		collection: C,
++		filter?: (entry: CollectionEntry<C>) => entry is E,
++	): Promise<E[]>;
++	export function getCollection<C extends keyof AnyEntryMap>(
++		collection: C,
++		filter?: (entry: CollectionEntry<C>) => unknown,
++	): Promise<CollectionEntry<C>[]>;
++
++	export function getLiveCollection<C extends keyof LiveContentConfig['collections']>(
++		collection: C,
++		filter?: LiveLoaderCollectionFilterType<C>,
++	): Promise<
++		import('astro').LiveDataCollectionResult<LiveLoaderDataType<C>, LiveLoaderErrorType<C>>
++	>;
++
++	export function getEntry<
++		C extends keyof ContentEntryMap,
++		E extends ValidContentEntrySlug<C> | (string & {}),
++	>(
++		entry: ReferenceContentEntry<C, E>,
++	): E extends ValidContentEntrySlug<C>
++		? Promise<CollectionEntry<C>>
++		: Promise<CollectionEntry<C> | undefined>;
++	export function getEntry<
++		C extends keyof DataEntryMap,
++		E extends keyof DataEntryMap[C] | (string & {}),
++	>(
++		entry: ReferenceDataEntry<C, E>,
++	): E extends keyof DataEntryMap[C]
++		? Promise<DataEntryMap[C][E]>
++		: Promise<CollectionEntry<C> | undefined>;
++	export function getEntry<
++		C extends keyof ContentEntryMap,
++		E extends ValidContentEntrySlug<C> | (string & {}),
++	>(
++		collection: C,
++		slug: E,
++	): E extends ValidContentEntrySlug<C>
++		? Promise<CollectionEntry<C>>
++		: Promise<CollectionEntry<C> | undefined>;
++	export function getEntry<
++		C extends keyof DataEntryMap,
++		E extends keyof DataEntryMap[C] | (string & {}),
++	>(
++		collection: C,
++		id: E,
++	): E extends keyof DataEntryMap[C]
++		? string extends keyof DataEntryMap[C]
++			? Promise<DataEntryMap[C][E]> | undefined
++			: Promise<DataEntryMap[C][E]>
++		: Promise<CollectionEntry<C> | undefined>;
++	export function getLiveEntry<C extends keyof LiveContentConfig['collections']>(
++		collection: C,
++		filter: string | LiveLoaderEntryFilterType<C>,
++	): Promise<import('astro').LiveDataEntryResult<LiveLoaderDataType<C>, LiveLoaderErrorType<C>>>;
++
++	/** Resolve an array of entry references from the same collection */
++	export function getEntries<C extends keyof ContentEntryMap>(
++		entries: ReferenceContentEntry<C, ValidContentEntrySlug<C>>[],
++	): Promise<CollectionEntry<C>[]>;
++	export function getEntries<C extends keyof DataEntryMap>(
++		entries: ReferenceDataEntry<C, keyof DataEntryMap[C]>[],
++	): Promise<CollectionEntry<C>[]>;
++
++	export function render<C extends keyof AnyEntryMap>(
++		entry: AnyEntryMap[C][string],
++	): Promise<RenderResult>;
++
++	export function reference<C extends keyof AnyEntryMap>(
++		collection: C,
++	): import('astro/zod').ZodEffects<
++		import('astro/zod').ZodString,
++		C extends keyof ContentEntryMap
++			? ReferenceContentEntry<C, ValidContentEntrySlug<C>>
++			: ReferenceDataEntry<C, keyof DataEntryMap[C]>
++	>;
++	// Allow generic `string` to avoid excessive type errors in the config
++	// if `dev` is not running to update as you edit.
++	// Invalid collection names will be caught at build time.
++	export function reference<C extends string>(
++		collection: C,
++	): import('astro/zod').ZodEffects<import('astro/zod').ZodString, never>;
++
++	type ReturnTypeOrOriginal<T> = T extends (...args: any[]) => infer R ? R : T;
++	type InferEntrySchema<C extends keyof AnyEntryMap> = import('astro/zod').infer<
++		ReturnTypeOrOriginal<Required<ContentConfig['collections'][C]>['schema']>
++	>;
++
++	type ContentEntryMap = {
++		
++	};
++
++	type DataEntryMap = {
++		
++	};
++
++	type AnyEntryMap = ContentEntryMap & DataEntryMap;
++
++	type ExtractLoaderTypes<T> = T extends import('astro/loaders').LiveLoader<
++		infer TData,
++		infer TEntryFilter,
++		infer TCollectionFilter,
++		infer TError
++	>
++		? { data: TData; entryFilter: TEntryFilter; collectionFilter: TCollectionFilter; error: TError }
++		: { data: never; entryFilter: never; collectionFilter: never; error: never };
++	type ExtractDataType<T> = ExtractLoaderTypes<T>['data'];
++	type ExtractEntryFilterType<T> = ExtractLoaderTypes<T>['entryFilter'];
++	type ExtractCollectionFilterType<T> = ExtractLoaderTypes<T>['collectionFilter'];
++	type ExtractErrorType<T> = ExtractLoaderTypes<T>['error'];
++
++	type LiveLoaderDataType<C extends keyof LiveContentConfig['collections']> =
++		LiveContentConfig['collections'][C]['schema'] extends undefined
++			? ExtractDataType<LiveContentConfig['collections'][C]['loader']>
++			: import('astro/zod').infer<
++					Exclude<LiveContentConfig['collections'][C]['schema'], undefined>
++				>;
++	type LiveLoaderEntryFilterType<C extends keyof LiveContentConfig['collections']> =
++		ExtractEntryFilterType<LiveContentConfig['collections'][C]['loader']>;
++	type LiveLoaderCollectionFilterType<C extends keyof LiveContentConfig['collections']> =
++		ExtractCollectionFilterType<LiveContentConfig['collections'][C]['loader']>;
++	type LiveLoaderErrorType<C extends keyof LiveContentConfig['collections']> = ExtractErrorType<
++		LiveContentConfig['collections'][C]['loader']
++	>;
++
++	export type ContentConfig = typeof import("./../src/content.config.mjs");
++	export type LiveContentConfig = never;
+ }
+diff --git a/my-astro-site/.astro/settings.json b/my-astro-site/.astro/settings.json
+index 1b8c805..5605f05 100644
+--- a/my-astro-site/.astro/settings.json
++++ b/my-astro-site/.astro/settings.json
+@@ -1,5 +1,5 @@
+ {
+ 	"_variables": {
+-		"lastUpdateCheck": 1777066723969
++		"lastUpdateCheck": 1781121482188
+ 	}
+ }
+\ No newline at end of file
+diff --git a/my-astro-site/.astro/types.d.ts b/my-astro-site/.astro/types.d.ts
+index 306a68b..03d7cc4 100644
+--- a/my-astro-site/.astro/types.d.ts
++++ b/my-astro-site/.astro/types.d.ts
+@@ -1,2 +1,2 @@
+ /// <reference types="astro/client" />
+-/// <reference path="content.d.ts" />
++/// <reference path="content.d.ts" />
+\ No newline at end of file
+diff --git a/my-astro-site/src/components/Blog/SingleBlogCard.astro b/my-astro-site/src/components/Blog/SingleBlogCard.astro
+index fb5c438..836f4e0 100644
+--- a/my-astro-site/src/components/Blog/SingleBlogCard.astro
++++ b/my-astro-site/src/components/Blog/SingleBlogCard.astro
+@@ -6,16 +6,22 @@ import PrimaryButton from "../Buttons/PrimaryButton.astro";
+ const { image, title, description } = Astro.props;
+ ---
+ 
+-<div class="card singleBlogCard bg-projectCardBg drop-shadow-4xl">
+-  <figure class="h-auto">
+-    <Image class="w-full h-full object-cover" src={image} alt="Album" />
++<div
++  class="singleBlogCard flex flex-col border-4 border-dark drop-shadow-4xl bg-projectCardBg"
++>
++  <figure class="border-b-4 border-dark overflow-hidden">
++    <Image
++      class="w-full h-48 object-cover object-top"
++      src={image}
++      alt={title}
++    />
+   </figure>
+-  <div class="card-body">
+-    <h2 class="card-title text-4xl">{title}</h2>
+-    <p>
++  <div class="flex flex-col flex-1 gap-3 p-6">
++    <h2 class="font-black text-2xl text-dark leading-tight">{title}</h2>
++    <p class="font-lightFont text-base text-dark flex-1">
+       {description}
+     </p>
+-    <div class="card-actions justify-end">
++    <div class="flex justify-end">
+       <PrimaryButton text="Read more" href="/blog" />
+     </div>
+   </div>
+@@ -24,34 +30,25 @@ const { image, title, description } = Astro.props;
+ <script>
+   import { gsap } from "gsap";
+ 
+-  let target = document.querySelectorAll(".singleBlogCard");
++  const cards = document.querySelectorAll(".singleBlogCard");
++  gsap.set(cards, { opacity: 0, y: 50 });
+ 
+   const observer = new IntersectionObserver(
+-    (entrie) => {
+-      entrie.forEach((element) => {
+-        if (element.isIntersecting) {
+-          gsap.to(element.target, {
+-            right: 0,
+-            duration: 2,
+-            ease: "elastic.out(1,1)",
+-            force3D: true,
+-          });
+-        } else {
+-          gsap.to(element.target, {
+-            right: "45%",
+-            duration: 2,
+-            ease: "elastic.out(1,1)",
+-            force3D: true,
++    (entries) => {
++      entries.forEach((entry) => {
++        if (entry.isIntersecting) {
++          gsap.to(entry.target, {
++            opacity: 1,
++            y: 0,
++            duration: 0.6,
++            ease: "back.out(1.4)",
+           });
++          observer.unobserve(entry.target);
+         }
+       });
+     },
+-    {
+-      threshold: 0,
+-    },
++    { threshold: 0.15 },
+   );
+ 
+-  target.forEach((target) => {
+-    observer.observe(target);
+-  });
++  cards.forEach((card) => observer.observe(card));
+ </script>
+diff --git a/my-astro-site/src/components/Header/Header.astro b/my-astro-site/src/components/Header/Header.astro
+index ea5a15f..e35c304 100644
+--- a/my-astro-site/src/components/Header/Header.astro
++++ b/my-astro-site/src/components/Header/Header.astro
+@@ -7,33 +7,57 @@ import "../../global.css";
+ >
+   <div class="text-center relative z-10 px-6 max-w-5xl mx-auto">
+     <p
+-      class="font-lightFont text-base md:text-xl text-dark tracking-[0.3em] uppercase mb-2"
++      class="font-lightFont font-bold text-sm md:text-base text-dark tracking-[0.35em] uppercase mb-3"
+     >
+       Hello, I'm
+     </p>
+     <h1
+-      class="font-mainFont text-[6rem] md:text-[10rem] leading-none text-dark"
++      class="font-mainFont text-[4.2rem] md:text-[8rem] leading-none text-dark"
+     >
+       MILOŠ
+     </h1>
+-    <h2 class="font-italicFont text-4xl md:text-6xl text-orange -mt-2 mb-6">
++    <h2 class="font-italicFont text-4xl md:text-6xl text-orange -mt-1 mb-6">
+       Danilović
+     </h2>
++    <div
++      class="inline-block bg-primary border-4 border-dark drop-shadow-3xl px-4 py-1.5 mb-6"
++    >
++      <span
++        class="font-lightFont font-bold text-sm md:text-base tracking-[0.2em] uppercase text-secondary"
++      >
++        Full-Stack Web Developer
++      </span>
++    </div>
+     <p
+-      class="font-lightFont text-xl md:text-2xl text-dark mb-10 max-w-lg mx-auto"
++      class="font-lightFont text-xl md:text-2xl text-dark mb-6 max-w-lg mx-auto"
+     >
+       I build fast, animated, and visually bold experiences for the web.
+     </p>
++    <div
++      class="inline-flex items-center gap-2 border-2 border-dark bg-appBackground px-3 py-1 mb-10"
++    >
++      <span class="relative flex h-2.5 w-2.5">
++        <span
++          class="animate-ping absolute inline-flex h-full w-full bg-green-500 opacity-75"
++        ></span>
++        <span class="relative inline-flex h-2.5 w-2.5 bg-green-600"></span>
++      </span>
++      <span
++        class="font-lightFont font-bold text-xs tracking-widest uppercase text-dark"
++      >
++        Available for work
++      </span>
++    </div>
+     <div class="flex flex-wrap gap-4 md:gap-6 justify-center">
+       <button
+         id="sayHiButton"
+-        class="drop-shadow-4xl bg-primary border-dark border-4 p-3 md:p-5 text-2xl md:text-3xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
++        class="drop-shadow-4xl bg-primary border-dark border-4 px-5 py-3 md:px-7 md:py-4 text-xl md:text-2xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+       >
+         <span>Say hi to me</span>
+       </button>
+       <a
+         href="#projectSection"
+-        class="drop-shadow-4xl bg-drawerBackground border-dark border-4 p-3 md:p-5 text-2xl md:text-3xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
++        class="drop-shadow-4xl bg-drawerBackground border-dark border-4 px-5 py-3 md:px-7 md:py-4 text-xl md:text-2xl font-black hover:translate-y-[-5px] button-link-underline button-link-underline-black"
+       >
+         <span>View my work</span>
+       </a>
+diff --git a/my-astro-site/src/components/Modals/ContactMeModal.astro b/my-astro-site/src/components/Modals/ContactMeModal.astro
+index 36849fe..086f48e 100644
+--- a/my-astro-site/src/components/Modals/ContactMeModal.astro
++++ b/my-astro-site/src/components/Modals/ContactMeModal.astro
+@@ -8,9 +8,11 @@ import LinkedInIconWhite from "../../../public/LinkedInIconWhite.svg";
+ import ButtonWithImage from "../Buttons/ButtonWithImage.astro";
+ ---
+ 
+-<dialog id="my_modal_1" class="modal drop-shadow-4xl">
+-  <div class="modal-box bg-drawerBackground">
+-    <h3 class="font-bold text-4xl text-center">Contact me</h3>
++<dialog id="my_modal_1" class="modal">
++  <div
++    class="modal-box bg-drawerBackground border-4 border-dark drop-shadow-4xl"
++  >
++    <h3 class="font-mainFont text-3xl text-center text-dark">Contact me</h3>
+     <div class="flex gap-6 flex-col px-16 pt-6">
+       <ButtonWithImage
+         href="mailto:danilovicmilos25@gmail.com"
+diff --git a/my-astro-site/src/components/SkillsSection.astro b/my-astro-site/src/components/SkillsSection.astro
+index 812ac22..cd450e0 100644
+--- a/my-astro-site/src/components/SkillsSection.astro
++++ b/my-astro-site/src/components/SkillsSection.astro
+@@ -20,7 +20,7 @@ const textSkills = [
+ 
+ <div class="skillsSection py-16 px-6 md:px-16">
+   <div
+-    class="skillsTitle text-right text-4xl md:text-6xl border-b-8 link-underline link-underline-black mb-12"
++    class="skillsTitle font-mainFont text-right text-4xl md:text-6xl border-b-8 link-underline link-underline-black mb-12"
+   >
+     Skills
+   </div>
+diff --git a/my-astro-site/src/global.css b/my-astro-site/src/global.css
+index bf9ef56..519e67c 100644
+--- a/my-astro-site/src/global.css
++++ b/my-astro-site/src/global.css
+@@ -4,10 +4,14 @@
+ }
+ 
+ @theme {
+-  --font-mainFont: mainFont, serif;
+-  --font-lightFont: lightFont, serif;
+-  --font-italicFont: italicFont, serif;
+-  --font-robotoCondensed: robotoCondensed, serif;
++  /* Display — heavy neobrutalist headline font */
++  --font-mainFont: "Archivo Black", "Arial Black", sans-serif;
++  /* Body / UI */
++  --font-lightFont: "Space Grotesk", "Segoe UI", sans-serif;
++  /* Creative accent (always italic, see base rule below) */
++  --font-italicFont: "Syne", Georgia, serif;
++  /* Long-form blog text */
++  --font-robotoCondensed: "Space Grotesk", "Segoe UI", sans-serif;
+ 
+   --color-appBackground: var(--appBackground);
+   --color-subtleBackground: var(--subtleBackground);
+@@ -43,89 +47,83 @@
+ }
+ 
+ @layer base {
+-  @font-face {
+-    font-family: "mainFont";
+-    src: url("public/fonts/BebasKai.otf");
+-    font-weight: normal;
+-    font-style: normal;
+-    font-display: swap;
++  /* The accent font is always italic */
++  .font-italicFont {
++    font-style: italic;
+   }
+ 
+-  @font-face {
+-    font-family: "lightFont";
+-    src: url("public/fonts/InriaSans-Light.ttf");
+-    font-weight: normal;
+-    font-style: normal;
+-    font-display: swap;
++  /* Neobrutalism = sharp corners. Kill daisyUI's default rounding. */
++  .card,
++  .modal-box,
++  .menu {
++    border-radius: 0;
+   }
+ 
+-  @font-face {
+-    font-family: "italicFont";
+-    src: url("public/fonts/Syne-Italic.otf");
+-    font-weight: normal;
+-    font-style: normal;
+-    font-display: swap;
++  ::selection {
++    background: var(--primary);
++    color: var(--secondary);
+   }
+ 
+-  @font-face {
+-    font-family: "robotoCondensed";
+-    src: url("public/fonts/RobotoCondensed-VariableFont_wght.ttf");
+-    font-weight: normal;
+-    font-style: normal;
+-    font-display: swap;
++  :focus-visible {
++    outline: 3px solid var(--orange);
++    outline-offset: 2px;
+   }
+ }
++
+ body {
+   background: var(--canvasBg);
+ }
+ 
++/* ── Day theme — warm cream, sunny yellow, bold ink ─────────────────── */
+ .lightTheme {
+-  --appBackground: #fdf8f0;
+-  --subtleBackground: #fef3e2;
+-  --componentBackground: #fde8c8;
+-  --componentBackgroundHover: #fddba8;
+-  --componentBackgroundSelected: #fccf88;
+-  --subtleBorder: #d4900a;
+-  --focusBorder: #b87200;
+-  --hoverBorder: #9a5f00;
+-  --solidBackground: #e07800;
+-  --solidBackgroundHover: #c86a00;
+-  --lowContrastText: #7a4200;
+-  --highContrastText: #140c00;
+-  --primary: #ffe234;
+-  --secondary: #140c00;
+-  --dark: #140c00;
+-  --orange: #e07800;
+-  --white: #fdf8f0;
+-  --projectCardBg: #b8f0c8;
+-  --drawerBackground: #fef3e2;
++  --appBackground: #fff9ee;
++  --subtleBackground: #fff3dc;
++  --componentBackground: #ffe9c2;
++  --componentBackgroundHover: #ffdfa6;
++  --componentBackgroundSelected: #ffd389;
++  --subtleBorder: #d49600;
++  --focusBorder: #b87800;
++  --hoverBorder: #9a6300;
++  --solidBackground: #e86a00;
++  --solidBackgroundHover: #d05e00;
++  --lowContrastText: #6e4a00;
++  --highContrastText: #181100;
++  --primary: #ffd500;
++  --secondary: #181100;
++  --dark: #181100;
++  --orange: #f25c05;
++  --white: #fff9ee;
++  --projectCardBg: #a8efc0;
++  --drawerBackground: #fff3dc;
+   --visibleInDarkMode: none;
+   --visibleInLightMode: block;
+-  --canvasBg: #87ceeb;
++  --canvasBg: #7ec9ee;
+ }
++
++/* ── Night theme — deep indigo, neon purple, warm city-light amber ──── */
+ .darkTheme {
+-  --appBackground: #0d0c1d;
+-  --subtleBackground: #13122b;
+-  --componentBackground: #1a1935;
+-  --componentBackgroundHover: #21203f;
+-  --componentBackgroundSelected: #28274b;
+-  --subtleBorder: #3b3870;
+-  --focusBorder: #6d5ff0;
+-  --hoverBorder: #8b7cf7;
+-  --solidBackground: #6d5ff0;
+-  --solidBackgroundHover: #5b4de0;
+-  --lowContrastText: #a89df5;
+-  --highContrastText: #f0effe;
+-  --primary: #6d5ff0;
+-  --secondary: #0d0c1d;
+-  --dark: #e8e4ff;
+-  --orange: #ff6b35;
+-  --white: #0d0c1d;
+-  --projectCardBg: #162240;
+-  --drawerBackground: #13122b;
++  --appBackground: #0d0c1f;
++  --subtleBackground: #141330;
++  --componentBackground: #1b1a3a;
++  --componentBackgroundHover: #232148;
++  --componentBackgroundSelected: #2b2956;
++  --subtleBorder: #3e3a7a;
++  --focusBorder: #7b6cff;
++  --hoverBorder: #978aff;
++  --solidBackground: #7b6cff;
++  --solidBackgroundHover: #6a5bef;
++  --lowContrastText: #b0a6f8;
++  --highContrastText: #f2f0ff;
++  --primary: #7b6cff;
++  --secondary: #0d0c1f;
++  --dark: #eee9ff;
++  --orange: #ffb13d;
++  --white: #0d0c1f;
++  --projectCardBg: #182447;
++  --drawerBackground: #141330;
+   --visibleInDarkMode: block;
+   --visibleInLightMode: none;
+-  --canvasBg: #050514;
++  --canvasBg: #06051a;
+ }
+ 
+ html {
+@@ -206,27 +204,11 @@ html {
+   width: 8px;
+ }
+ *::-webkit-scrollbar-track {
+-  border-radius: 5px;
+-  background-color: var(--white);
+-}
+-
+-*::-webkit-scrollbar-track:hover {
+-  background-color: var(--white);
+-}
+-
+-*::-webkit-scrollbar-track:active {
++  border-radius: 0;
+   background-color: var(--white);
+ }
+ 
+ *::-webkit-scrollbar-thumb {
+-  border-radius: 2px;
+-  background-color: var(--dark);
+-}
+-
+-*::-webkit-scrollbar-thumb:hover {
+-  background-color: var(--dark);
+-}
+-
+-*::-webkit-scrollbar-thumb:active {
++  border-radius: 0;
+   background-color: var(--dark);
+ }
+diff --git a/my-astro-site/src/layouts/Layout.astro b/my-astro-site/src/layouts/Layout.astro
+index 9a0e014..ecf5db3 100644
+--- a/my-astro-site/src/layouts/Layout.astro
++++ b/my-astro-site/src/layouts/Layout.astro
+@@ -2,57 +2,62 @@
+ import Navbar from "./components/Navbar.astro";
+ import Footer from "./components/Footer.astro";
+ import "../global.css";
+-import Drawer from "./components/Drawer.astro";
+-import { ViewTransitions } from "astro:transitions";
+-import EmailIconBlack from "../../public/EmailIconBlack.svg";
+-import EmailIconWhite from "../../public/EmailIconWhite.svg";
+-import GitHubIconBlack from "../../public/GithubIconBlack.svg";
+-import GitHubIconWhite from "../../public/GithubIconWhite.svg";
+-import LinkedInIconBlack from "../../public/LinkedInIconBlack.svg";
+-import LinkedInIconWhite from "../../public/LinkedInIconWhite.svg";
+-import ButtonWithImage from "../components/Buttons/ButtonWithImage.astro";
+ import ContactMeModal from "../components/Modals/ContactMeModal.astro";
+ import BackgroundCanvas from "../components/BackgroundCanvas.astro";
++
++interface Props {
++  title?: string;
++  description?: string;
++}
++
++const {
++  title = "Miloš Danilović — Full-Stack Web Developer",
++  description = "Full-Stack Web Developer based in Montenegro. I build fast, animated, and visually bold experiences for the web with React, Next.js, Astro, and Node.js.",
++} = Astro.props;
+ ---
+ 
+-<html id="root" lang="en" ">
++<html id="root" lang="en">
+   <head>
+     <meta charset="utf-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1" />
++    <meta name="generator" content={Astro.generator} />
++
++    <title>{title}</title>
++    <meta name="description" content={description} />
++    <meta name="author" content="Miloš Danilović" />
++
++    <meta property="og:type" content="website" />
++    <meta property="og:title" content={title} />
++    <meta property="og:description" content={description} />
++    <meta name="twitter:card" content="summary" />
++    <meta name="twitter:title" content={title} />
++    <meta name="twitter:description" content={description} />
++
+     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
++
++    <link rel="preconnect" href="https://fonts.googleapis.com" />
++    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+     <link
+-      rel="preload"
+-      href="/src/public/fonts/BebasKai.otf"
+-      as="font"
+-      type="font/otf"
+-      crossorigin
+-    />
+-    <link
+-      rel="preload"
+-      href="/src/public/fonts/InriaSans-Light.ttf"
+-      as="font"
+-      type="font/ttf"
+-      crossorigin
+-    />
+-    <link
+-      rel="preload"
+-      href="/src/public/fonts/Syne-Italic.otf"
+-      as="font"
+-      type="font/otf"
+-      crossorigin
+-    />
+-    <link
+-      rel="preload"
+-      href="/src/public/fonts/RobotoCondensed-VariableFont_wght.ttf"
+-      as="font"
+-      type="font/ttf"
+-      crossorigin
++      rel="stylesheet"
++      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Syne:ital,wght@1,700;1,800&display=swap"
+     />
+-    <meta name="viewport" content="width=device-width" />
+-    <meta name="generator" content={Astro.generator} />
+-    <title>Astro</title>
+-    <!--<ViewTransitions/>-->
++
++    <!-- Apply the saved theme before anything renders (no flash, and the
++         background canvas reads the correct theme on init) -->
++    <script is:inline>
++      (() => {
++        const stored = localStorage.getItem("theme");
++        const theme =
++          stored ||
++          (window.matchMedia("(prefers-color-scheme: dark)").matches
++            ? "darkTheme"
++            : "lightTheme");
++        document.documentElement.classList.add(theme);
++        localStorage.setItem("theme", theme);
++      })();
++    </script>
+   </head>
+-  <body class="text-dark font-mainFont">
++  <body class="text-dark font-lightFont">
+     <BackgroundCanvas />
+     <ContactMeModal />
+     <Navbar />
+diff --git a/my-astro-site/src/layouts/components/Footer.astro b/my-astro-site/src/layouts/components/Footer.astro
+index b839fa4..658ef5c 100644
+--- a/my-astro-site/src/layouts/components/Footer.astro
++++ b/my-astro-site/src/layouts/components/Footer.astro
+@@ -102,7 +102,7 @@ import { Image } from "astro:assets";
+     <div
+       class="border-t-4 border-dark pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-dark font-lightFont text-sm"
+     >
+-      <p>© 2025 Miloš Danilović. All rights reserved.</p>
++      <p>© {new Date().getFullYear()} Miloš Danilović. All rights reserved.</p>
+       <p>Built with AstroJS · Tailwind CSS · GSAP</p>
+     </div>
+   </div>
+diff --git a/my-astro-site/src/layouts/components/Navbar.astro b/my-astro-site/src/layouts/components/Navbar.astro
+index 4e8e87b..628c598 100644
+--- a/my-astro-site/src/layouts/components/Navbar.astro
++++ b/my-astro-site/src/layouts/components/Navbar.astro
+@@ -96,16 +96,8 @@ import Drawer from "./Drawer.astro";
+   const sunIcon = document.querySelector("#sunIcon");
+   const moonIcon = document.querySelector("#moonIcon");
+ 
+-  const theme = (() => {
+-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+-      return localStorage.getItem("theme");
+-    }
+-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+-      return "darkTheme";
+-    }
+-    return "lightTheme";
+-  })();
+-
++  // Theme class is applied in <head> (Layout.astro); here we only sync the
++  // toggle icons and handle clicks.
+   const applyTheme = (t) => {
+     const isDark = t === "darkTheme";
+     document.documentElement.classList.toggle("darkTheme", isDark);
+@@ -114,8 +106,11 @@ import Drawer from "./Drawer.astro";
+     moonIcon.classList.toggle("hidden", !isDark);
+   };
+ 
+-  applyTheme(theme);
+-  window.localStorage.setItem("theme", theme);
++  applyTheme(
++    document.documentElement.classList.contains("darkTheme")
++      ? "darkTheme"
++      : "lightTheme",
++  );
+ 
+   changeThemeButton.addEventListener("click", () => {
+     const isDark = document.documentElement.classList.contains("darkTheme");
+diff --git a/my-astro-site/src/pages/allBlogs.astro b/my-astro-site/src/pages/allBlogs.astro
+index 916eb25..948b1a0 100644
+--- a/my-astro-site/src/pages/allBlogs.astro
++++ b/my-astro-site/src/pages/allBlogs.astro
+@@ -8,13 +8,16 @@ import Layout from "../layouts/Layout.astro";
+ import SingleBlogCard from "../components/Blog/SingleBlogCard.astro";
+ ---
+ 
+-<Layout>
++<Layout
++  title="Blog — Miloš Danilović"
++  description="Articles about programming, web development, and building things for the web."
++>
+   <div class="allBlogs relative overflow-hidden">
+     <div class="p-6">
+       <MainBlogCard />
+     </div>
+     <div
+-      class="divider text-4xl md:text-6xl border-b-8 link-underline link-underline-black"
++      class="divider font-mainFont text-4xl md:text-6xl border-b-8 link-underline link-underline-black"
+     >
+       All Blogs
+     </div>
+@@ -73,10 +76,6 @@ import SingleBlogCard from "../components/Blog/SingleBlogCard.astro";
+ 
+ <script>
+   import { gsap } from "gsap";
+-  import {
+-    cloudGeneratingFunction,
+-    starGeneratingFunction,
+-  } from "../utils/clouds";
+ 
+   const divider = document.querySelector(".divider");
+   gsap.to(divider, {
+@@ -84,9 +83,4 @@ import SingleBlogCard from "../components/Blog/SingleBlogCard.astro";
+     backgroundSize: "100% 6px",
+     backgroundPosition: " 0 100%",
+   });
+-
+-  let root = document.querySelector(".allBlogs");
+-
+-  cloudGeneratingFunction(root, 3000, 7, 15);
+-  starGeneratingFunction(root, 15);
+ </script>
+diff --git a/my-astro-site/src/pages/blog.astro b/my-astro-site/src/pages/blog.astro
+index 88bada4..0540c4b 100644
+--- a/my-astro-site/src/pages/blog.astro
++++ b/my-astro-site/src/pages/blog.astro
+@@ -2,129 +2,121 @@
+ import "../global.css";
+ import Layout from "../layouts/Layout.astro";
+ import spotifyProjectImage from "./../public/images/spotifyProject.png";
+-import portfolioProjectImage from "./../public/images/portfolioProject.png";
+ import { Image } from "astro:assets";
+ import { Code } from "astro:components";
+ ---
+ 
+-<Layout>
+-  <div
+-    class="bg-white relative overflow-hidden kick text-3xl md:text-6xl font-bold text-center font-robotoCondensed flex justify-center items-center border-dark border-b-4 py-4 px-12 md:px-24"
+-  >
+-    Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor Sit Amanet Lorem Ipsum Dolor
+-    Sit Amanet Lorem Ipsum Dolor Sit Amanet
+-  </div>
+-
+-  <Image
+-    class="w-3/4 m-auto mt-8 object-cover border-4 md:border-r-0 rounded-xl drop-shadow-3xl border-dark"
+-    alt="test"
+-    src={spotifyProjectImage}
+-  />
+-  <div class="w-3/4 font-robotoCondensed md:w-[60%] pt-4 m-auto h-full">
+-    <h1
+-      class="text-4xl md:text-6xl text-orange border-b-8 link-underline link-underline-black blogSubtitle break-words"
+-    >
+-      #Introduction
+-    </h1>
+-    <p class="text-xl md:text-3xl my-6">
+-      So, here's something that makes me feel old: React celebrated its 10th
+-      birthday this year! In the decade since React was first introduced to a
+-      bewildered dev community, it’s gone through several evolutions. The React
+-      team has not been shy when it comes to radical changes: if they discover a
+-      better solution to a problem, they'll run with it. A couple of months ago,
+-      the React team unveiled React Server Components, the latest paradigm
+-      shift. For the first time ever, React components can run exclusively on
+-      the server. There's been so much friggin’ confusion about this online.
+-      Lots of folks have lots of questions around what this is, how it works,
+-      what the benefits are, and how it fits together with things like Server
+-      Side Rendering. I've been doing a lot of experimentation with React Server
+-      Components, and I've answered a lot of my own questions. I have to admit,
+-      I'm way more excited about this stuff than I expected to be. It's really
+-      cool! So, my goal today is to help demystify this stuff for you, to answer
+-      a lot of the questions you might have about React Server Components!
+-    </p>
+-    <h1
+-      class="text-6xl text-orange border-b-8 link-underline link-underline-black blogSubtitle"
++<Layout
++  title="React Server Components — Miloš Danilović"
++  description="What React Server Components are, how they work, and why you should care."
++>
++  <article class="max-w-4xl mx-auto px-4 md:px-6 py-10">
++    <!-- Article header -->
++    <header
++      class="bg-appBackground border-4 border-dark drop-shadow-4xl p-8 md:p-12 mb-8"
+     >
+-      #Title
+-    </h1>
+-    <p class="text-3xl my-6">
+-      So, here's something that makes me feel old: React celebrated its 10th
+-      birthday this year! In the decade since React was first introduced to a
+-      bewildered dev community, it’s gone through several evolutions. The React
+-      team has not been shy when it comes to radical changes: if they discover a
+-      better solution to a problem, they'll run with it. A couple of months ago,
+-      the React team unveiled React Server Components, the latest paradigm
+-      shift. For the first time ever, React components can run exclusively on
+-      the server. There's been so much friggin’ confusion about this online.
+-      Lots of folks have lots of questions around what this is, how it works,
+-      what the benefits are, and how it fits together with things like Server
+-      Side Rendering. I've been doing a lot of experimentation with React Server
+-      Components, and I've answered a lot of my own questions. I have to admit,
+-      I'm way more excited about this stuff than I expected to be. It's really
+-      cool! So, my goal today is to help demystify this stuff for you, to answer
+-      a lot of the questions you might have about React Server Components!
+-    </p>
+-
+-    <Code
+-      wrap={true}
+-      class="bg-dark"
+-      code={`import {cloudGeneratingFunction, starGeneratingFunction} from "../utils/clouds";
+-    import {gsap} from "gsap";
+-
+-    let root = document.querySelector(".kick");
+-
+-
+-    console.log(window.innerWidth*0.03)
+-    cloudGeneratingFunction(root,3000,1,15)
+-    starGeneratingFunction(root,window.innerWidth*0.03)
+-
+-
+-    let target = document.querySelectorAll(".blogSubtitle");
+-
+-    const observer = new IntersectionObserver((entrie) => {
+-
+-        entrie.forEach((element) => {
+-
+-            if (
+-                element.isIntersecting
+-            ) {
+-
+-                gsap.to(element.target,{duration:0.2, backgroundSize: "100% 6px",backgroundPosition:" 0 100%"})
+-
+-
+-            }
+-            else {
+-
+-                gsap.to(element.target,{duration:0.2, backgroundSize: "0 0px",backgroundPosition:" 0 0"})
+-
+-            }
+-
+-        });
+-    },);
+-
+-    target.forEach((target) => {
+-        observer.observe(target);
+-    });
+-`}
+-      lang="js"
++      <p
++        class="font-lightFont font-bold text-xs md:text-sm uppercase tracking-[0.25em] text-orange mb-4"
++      >
++        Programming · React
++      </p>
++      <h1
++        class="font-mainFont text-3xl md:text-5xl text-dark leading-tight mb-4"
++      >
++        React Server Components — What Are They and Why Should You Care?
++      </h1>
++      <p class="font-lightFont text-sm text-dark opacity-70">
++        By Miloš Danilović
++      </p>
++    </header>
++
++    <Image
++      class="w-full object-cover border-4 drop-shadow-4xl border-dark mb-8"
++      alt="React Server Components"
++      src={spotifyProjectImage}
+     />
+-  </div>
++
++    <!-- Article body -->
++    <div
++      class="bg-appBackground border-4 border-dark drop-shadow-4xl p-8 md:p-12 font-lightFont"
++    >
++      <h2
++        class="font-mainFont text-2xl md:text-4xl text-orange border-b-8 link-underline link-underline-black blogSubtitle break-words"
++      >
++        Introduction
++      </h2>
++      <p class="text-lg md:text-xl leading-relaxed my-6 text-dark">
++        So, here's something that makes me feel old: React celebrated its 10th
++        birthday this year! In the decade since React was first introduced to a
++        bewildered dev community, it’s gone through several evolutions. The
++        React team has not been shy when it comes to radical changes: if they
++        discover a better solution to a problem, they'll run with it. A couple
++        of months ago, the React team unveiled React Server Components, the
++        latest paradigm shift. For the first time ever, React components can
++        run exclusively on the server. There's been so much friggin’ confusion
++        about this online. Lots of folks have lots of questions around what
++        this is, how it works, what the benefits are, and how it fits together
++        with things like Server Side Rendering. I've been doing a lot of
++        experimentation with React Server Components, and I've answered a lot
++        of my own questions. I have to admit, I'm way more excited about this
++        stuff than I expected to be. It's really cool! So, my goal today is to
++        help demystify this stuff for you, to answer a lot of the questions
++        you might have about React Server Components!
++      </p>
++      <h2
++        class="font-mainFont text-2xl md:text-4xl text-orange border-b-8 link-underline link-underline-black blogSubtitle"
++      >
++        Title
++      </h2>
++      <p class="text-lg md:text-xl leading-relaxed my-6 text-dark">
++        So, here's something that makes me feel old: React celebrated its 10th
++        birthday this year! In the decade since React was first introduced to
++        a bewildered dev community, it’s gone through several evolutions. The
++        React team has not been shy when it comes to radical changes: if they
++        discover a better solution to a problem, they'll run with it. A couple
++        of months ago, the React team unveiled React Server Components, the
++        latest paradigm shift. For the first time ever, React components can
++        run exclusively on the server.
++      </p>
++
++      <Code
++        wrap={true}
++        class="border-4 border-dark drop-shadow-3xl p-4 text-sm md:text-base"
++        code={`import {cloudGeneratingFunction, starGeneratingFunction} from "../utils/clouds";
++import {gsap} from "gsap";
++
++let target = document.querySelectorAll(".blogSubtitle");
++
++const observer = new IntersectionObserver((entries) => {
++  entries.forEach((element) => {
++    if (element.isIntersecting) {
++      gsap.to(element.target, {
++        duration: 0.2,
++        backgroundSize: "100% 6px",
++        backgroundPosition: "0 100%",
++      });
++    } else {
++      gsap.to(element.target, {
++        duration: 0.2,
++        backgroundSize: "0 0px",
++        backgroundPosition: "0 0",
++      });
++    }
++  });
++});
++
++target.forEach((target) => {
++  observer.observe(target);
++});`}
++        lang="js"
++      />
++    </div>
++  </article>
+ </Layout>
+ 
+ <script>
+-  import {
+-    cloudGeneratingFunction,
+-    starGeneratingFunction,
+-  } from "../utils/clouds";
+   import { gsap } from "gsap";
+ 
+-  let root = document.querySelector(".kick");
+-
+-  // console.log(window.innerWidth*0.03)
+-  // cloudGeneratingFunction(root,3000,1,15)
+-  // starGeneratingFunction(root,window.innerWidth*0.03)
+-
+   let target = document.querySelectorAll(".blogSubtitle");
+ 
+   const observer = new IntersectionObserver((entrie) => {
+@@ -149,5 +141,3 @@ import { Code } from "astro:components";
+     observer.observe(target);
+   });
+ </script>
+-
+-<style></style>

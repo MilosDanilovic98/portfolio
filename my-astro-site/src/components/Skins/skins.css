@@ -1,0 +1,591 @@
+/* =====================================================================
+   Skins: every design of the site, as CSS keyed to <html data-skin>.
+   The base rules below read design tokens (--sk-*); each skin only sets
+   tokens plus a few signature details. The default "diorama" skin keeps
+   the original styling in global.css (html:not(.skin-on)).
+   ===================================================================== */
+
+/* ---------------------------------------------------------------- scene host */
+#skin-bg { position: fixed; inset: 0; z-index: -50; overflow: hidden; pointer-events: none; background: var(--sk-bg, transparent); contain: strict; }
+.skin-scene { position: absolute; inset: 0; transition: opacity 0.5s ease; }
+.skin-layer { position: absolute; top: 0; left: 0; max-width: none; will-change: transform; user-select: none; -webkit-user-drag: none; }
+.skin-scene.is-pixelated .skin-layer { image-rendering: pixelated; }
+@media (prefers-reduced-motion: reduce) { .skin-scene { transition: none; } }
+
+/* the WebGL diorama skin (mounted by the skin manager only while active) */
+#diorama { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100lvh; display: block; pointer-events: none; opacity: 0; transition: opacity 0.9s ease; }
+html.diorama-ready #diorama { opacity: 1; }
+html.diorama-fallback.lightTheme body { background: linear-gradient(#0096ff 0%, #4db6ff 55%, #8fd3ff 100%) fixed; }
+html.diorama-fallback.darkTheme body { background: linear-gradient(#031031 0%, #051539 60%, #0a1c48 100%) fixed; }
+
+/* ---------------------------------------------------------------- default tokens */
+html.skin-on {
+  --sk-bg: #ffffff; --sk-ink: #222222; --sk-line: var(--sk-card-ink);
+  --sk-font-body: "Inter", system-ui, sans-serif; --sk-font-head: var(--sk-font-body); --sk-font-accent: var(--sk-font-head);
+  --sk-font-btn: var(--sk-font-head); --sk-font-nav: var(--sk-font-body); --sk-font-mono: var(--sk-font-body);
+  --sk-accent: #e4572e; --sk-accent-ink: var(--sk-accent); --sk-accent-style: normal; --sk-accent-shadow: none; --sk-accent-stroke: 0 transparent;
+  --sk-hero-ink: var(--sk-ink); --sk-hero-halo: none; --sk-head-tt: none; --sk-head-ls: normal; --sk-head-weight: 700; --sk-head-lh: 1.1;
+  --sk-title-ink: var(--sk-hero-ink); --sk-title-halo: var(--sk-hero-halo); --sk-title-stroke: 0 transparent;
+  --sk-card-bg: #ffffff; --sk-card-ink: #222222; --sk-card-border: 2px solid var(--sk-line); --sk-card-radius: 12px; --sk-card-shadow: none; --sk-card-blur: none;
+  --sk-head-bg: var(--sk-accent); --sk-head-ink: var(--sk-card-ink);
+  --sk-btn-bg: var(--sk-accent); --sk-btn-ink: #ffffff; --sk-btn-border: 2px solid var(--sk-line); --sk-btn-radius: 10px; --sk-btn-shadow: none; --sk-btn-tt: none; --sk-btn-ls: normal;
+  --sk-btn2-bg: var(--sk-card-bg); --sk-btn2-ink: var(--sk-card-ink); --sk-btn2-border: var(--sk-btn-border);
+  --sk-nav-bg: transparent; --sk-nav-ink: var(--sk-hero-ink); --sk-nav-border: 0; --sk-nav-shadow: none; --sk-nav-radius: 0; --sk-nav-margin: 0; --sk-nav-blur: none; --sk-nav-tt: none; --sk-nav-ls: normal;
+  --sk-tl-title: var(--sk-card-ink); --sk-time: var(--sk-accent); --sk-rule: var(--sk-line);
+  --sk-shot-border: var(--sk-card-border); --sk-shot-radius: 8px; --sk-shot-filter: none;
+  --sk-band-bg: var(--sk-card-bg);
+
+  /* map the tokens onto the colour variables the site's Tailwind utilities read */
+  --canvasBg: var(--sk-bg);
+  --white: var(--sk-bg);
+  --dark: var(--sk-card-ink);
+  --appBackground: var(--sk-card-bg);
+  --projectCardBg: var(--sk-card-bg);
+  --drawerBackground: var(--sk-card-bg);
+  --primary: var(--sk-accent);
+  --secondary: var(--sk-card-ink);
+  --orange: var(--sk-accent);
+  --visibleInLightMode: block; --visibleInDarkMode: none;
+}
+html.skin-on.skin-dark { --visibleInLightMode: none; --visibleInDarkMode: block; }
+
+/* ---------------------------------------------------------------- base rules */
+html.skin-on body { font-family: var(--sk-font-body); color: var(--sk-hero-ink); background: var(--sk-bg); }
+html.skin-on:not([data-skin="diorama"]) #changeThemeButton { display: none; }
+html.skin-on #bg-canvas { display: none; }
+/* skins draw their own shadows; CSS filter shadows on large elements are also costly to repaint */
+html.skin-on [class*="drop-shadow-"] { filter: none; }
+html.skin-on .font-mainFont { font-family: var(--sk-font-head); }
+html.skin-on .font-lightFont { font-family: var(--sk-font-body); }
+html.skin-on .font-italicFont { font-family: var(--sk-font-accent); font-style: var(--sk-accent-style); }
+
+/* navigation bar */
+html.skin-on .sk-nav {
+  background: var(--sk-nav-bg); color: var(--sk-nav-ink); border: 0; border-bottom: var(--sk-nav-border); box-shadow: var(--sk-nav-shadow);
+  border-radius: var(--sk-nav-radius); margin: var(--sk-nav-margin); -webkit-backdrop-filter: var(--sk-nav-blur); backdrop-filter: var(--sk-nav-blur);
+}
+html.skin-on .sk-nav a { color: var(--sk-nav-ink); font-family: var(--sk-font-nav); text-transform: var(--sk-nav-tt); letter-spacing: var(--sk-nav-ls); }
+html.skin-on .sk-nav a:first-child { font-family: var(--sk-font-head); }
+html.skin-on .sk-nav svg { fill: var(--sk-nav-ink); }
+
+/* hero: the headline sits high, in the sky of the scene, as in the mock-ups */
+html.skin-on .heroSection { align-items: flex-start; }
+html.skin-on .sk-hero-box { padding-top: max(40px, 7vh); }
+html.skin-on .heroSection h1 {
+  font-family: var(--sk-font-head); color: var(--sk-hero-ink); text-shadow: var(--sk-hero-halo); text-transform: var(--sk-head-tt);
+  letter-spacing: var(--sk-head-ls); font-weight: var(--sk-head-weight); line-height: 1; font-size: clamp(3.4rem, 10vw, 7.5rem);
+}
+html.skin-on .heroSection h2 {
+  font-family: var(--sk-font-accent); color: var(--sk-accent-ink); font-style: var(--sk-accent-style); text-shadow: var(--sk-accent-shadow);
+  -webkit-text-stroke: var(--sk-accent-stroke); paint-order: stroke fill;
+}
+html.skin-on .heroSection p, html.skin-on .heroSection > .absolute { color: var(--sk-hero-ink); text-shadow: var(--sk-hero-halo); }
+html.skin-on .sk-badge { background: var(--sk-btn2-bg); border: var(--sk-btn2-border); border-radius: var(--sk-btn-radius); box-shadow: var(--sk-btn-shadow); }
+html.skin-on .sk-badge span { color: var(--sk-btn2-ink); font-family: var(--sk-font-btn); }
+html.skin-on .sk-chip { background: var(--sk-card-bg); color: var(--sk-card-ink); border: var(--sk-card-border); border-radius: var(--sk-btn-radius); -webkit-backdrop-filter: var(--sk-card-blur); backdrop-filter: var(--sk-card-blur); }
+html.skin-on .sk-chip span { color: inherit; text-shadow: none; }
+
+/* main buttons ("Say hi to me") and secondary buttons */
+html.skin-on #sayHiButton, html.skin-on .ctaButton {
+  background: var(--sk-btn-bg); color: var(--sk-btn-ink); border: var(--sk-btn-border); border-radius: var(--sk-btn-radius); box-shadow: var(--sk-btn-shadow);
+  font-family: var(--sk-font-btn); text-transform: var(--sk-btn-tt); letter-spacing: var(--sk-btn-ls);
+}
+html.skin-on #sayHiButton > span, html.skin-on .ctaButton > span { background-image: linear-gradient(transparent, transparent), linear-gradient(currentColor, currentColor); }
+html.skin-on .sk-btn, html.skin-on footer a.button-link-underline, html.skin-on .modal-box button {
+  background: var(--sk-btn2-bg); color: var(--sk-btn2-ink); border: var(--sk-btn2-border); border-radius: var(--sk-btn-radius); box-shadow: var(--sk-btn-shadow);
+  font-family: var(--sk-font-btn); text-transform: var(--sk-btn-tt); letter-spacing: var(--sk-btn-ls); align-items: center;
+}
+
+/* cards: projects, services, skills, the contact dialog */
+html.skin-on .sk-card, html.skin-on .serviceCard, html.skin-on .skillCard, html.skin-on .modal-box {
+  background: var(--sk-card-bg); color: var(--sk-card-ink); border: var(--sk-card-border); border-radius: var(--sk-card-radius);
+  box-shadow: var(--sk-card-shadow); -webkit-backdrop-filter: var(--sk-card-blur); backdrop-filter: var(--sk-card-blur);
+}
+html.skin-on .sk-card { overflow: hidden; }
+html.skin-on .sk-card-head { background: var(--sk-head-bg); border: 0; border-bottom: var(--sk-card-border); }
+html.skin-on .sk-card-head, html.skin-on .sk-card-head * { color: var(--sk-head-ink); font-family: var(--sk-font-head); text-transform: var(--sk-head-tt); letter-spacing: var(--sk-head-ls); }
+html.skin-on .sk-card-head .rounded-full { background: var(--sk-head-ink); }
+html.skin-on .sk-shot { border-radius: var(--sk-shot-radius); filter: var(--sk-shot-filter); }
+html.skin-on .sk-desc { font-family: var(--sk-font-body); color: var(--sk-card-ink); }
+html.skin-on .serviceCard > div:first-child { color: var(--sk-time); }
+html.skin-on .serviceCard h3 { font-family: var(--sk-font-head); color: var(--sk-tl-title); text-transform: var(--sk-head-tt); letter-spacing: var(--sk-head-ls); }
+html.skin-on .serviceCard ul { border-color: var(--sk-rule); }
+html.skin-on .skillCard span { font-family: var(--sk-font-head); }
+html.skin-on .modal-box h3 { font-family: var(--sk-font-head); }
+html.skin-on .drawer .menu, html.skin-on .drawer-side ul { background: var(--sk-card-bg); color: var(--sk-card-ink); }
+
+/* section titles sit straight on the scenery */
+html.skin-on .servicesTitle, html.skin-on .skillsTitle {
+  font-family: var(--sk-font-head); color: var(--sk-title-ink); text-shadow: var(--sk-title-halo); -webkit-text-stroke: var(--sk-title-stroke);
+  paint-order: stroke fill; text-transform: var(--sk-head-tt); letter-spacing: var(--sk-head-ls); border-color: transparent;
+}
+html.skin-on .servicesTitle { width: fit-content; }
+html.skin-on .skillsTitle { width: fit-content; margin-left: auto; }
+
+/* full-width bands: section borders, the call to action, the footer */
+html.skin-on .border-t-4.border-dark { border-top-color: transparent; }
+html.skin-on .ctaSection, html.skin-on footer {
+  background: var(--sk-band-bg); color: var(--sk-card-ink); border-top: var(--sk-card-border); -webkit-backdrop-filter: var(--sk-card-blur); backdrop-filter: var(--sk-card-blur);
+}
+html.skin-on .ctaSection h2 { color: var(--sk-card-ink); }
+html.skin-on .ctaSection h2.font-italicFont, html.skin-on footer .font-italicFont { color: var(--sk-accent); }
+
+/* =====================================================================
+   The 30 skins
+   ===================================================================== */
+
+/* 1 · Travel poster ----------------------------------------------------- */
+html[data-skin="poster"] {
+  --sk-bg: #f3dcb0; --sk-ink: #1f3347; --sk-card-ink: #1f3347; --sk-accent: #e4572e;
+  --sk-font-body: "Oswald", sans-serif; --sk-font-head: "Abril", serif; --sk-font-btn: "Oswald", sans-serif; --sk-font-mono: "Oswald", sans-serif;
+  --sk-hero-halo: 0 0 3px #f6ead0, 0 0 10px #f6ead0, 0 0 22px rgba(246, 234, 208, 0.8); --sk-head-tt: uppercase; --sk-head-weight: 400; --sk-head-lh: 1.04;
+  --sk-title-ink: #f6ead0; --sk-title-halo: 0 3px 0 #1f3347, 0 0 18px rgba(31, 51, 71, 0.5);
+  --sk-card-bg: #f6ead0; --sk-card-border: 3px solid #1f3347; --sk-card-radius: 0; --sk-card-shadow: 8px 8px 0 #e4572e;
+  --sk-head-bg: #1f3347; --sk-head-ink: #f6ead0;
+  --sk-btn-bg: #e4572e; --sk-btn-ink: #f6ead0; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.18em;
+  --sk-btn2-bg: #f6ead0; --sk-btn2-border: 3px solid #1f3347;
+  --sk-nav-bg: #f6ead0; --sk-nav-border: 3px solid #1f3347; --sk-nav-tt: uppercase; --sk-nav-ls: 0.14em; --sk-font-nav: "Oswald", sans-serif;
+}
+html[data-skin="poster"] #sayHiButton, html[data-skin="poster"] .ctaButton { -webkit-mask: radial-gradient(circle at 0 50%, transparent 12px, #000 13px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 12px, #000 13px) right / 51% 100% no-repeat; mask: radial-gradient(circle at 0 50%, transparent 12px, #000 13px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 12px, #000 13px) right / 51% 100% no-repeat; }
+
+/* 2 · Low-poly 3D ------------------------------------------------------- */
+html[data-skin="lowpoly"] {
+  --sk-bg: #2a2a5e; --sk-ink: #ffffff; --sk-card-ink: #e9e6ff; --sk-line: rgba(255, 255, 255, 0.22); --sk-accent: #f08a5d;
+  --sk-font-body: "Grotesk", system-ui, sans-serif; --sk-font-head: "Grotesk", system-ui, sans-serif; --sk-head-ls: -0.02em;
+  --sk-hero-halo: 0 6px 30px rgba(10, 10, 40, 0.5);
+  --sk-accent-ink: #ffb37a; --sk-accent-shadow: 0 0 30px rgba(240, 138, 93, 0.6);
+  --sk-card-bg: rgba(16, 20, 52, 0.62); --sk-card-border: 1px solid rgba(255, 255, 255, 0.16); --sk-card-radius: 22px; --sk-card-shadow: 0 30px 60px rgba(0, 0, 0, 0.45); --sk-card-blur: blur(18px);
+  --sk-head-bg: rgba(255, 255, 255, 0.06); --sk-head-ink: #ffffff;
+  --sk-btn-bg: linear-gradient(90deg, #ffd2a1, #f08a5d); --sk-btn-ink: #1a1338; --sk-btn-border: 0; --sk-btn-radius: 999px; --sk-btn-shadow: 0 10px 40px rgba(240, 138, 93, 0.5);
+  --sk-btn2-bg: rgba(255, 255, 255, 0.08); --sk-btn2-ink: #ffffff; --sk-btn2-border: 1px solid rgba(255, 255, 255, 0.25);
+  --sk-nav-bg: rgba(18, 22, 58, 0.45); --sk-nav-blur: blur(14px); --sk-nav-border: 1px solid rgba(255, 255, 255, 0.14); --sk-nav-radius: 16px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px; --sk-nav-ink: #e9e6ff;
+  --sk-time: #f08a5d; --sk-shot-border: 0; --sk-shot-radius: 12px;
+}
+
+/* 3 · Paper cut-out ----------------------------------------------------- */
+html[data-skin="paper"] {
+  --sk-bg: #d4eef7; --sk-ink: #2c3e50; --sk-card-ink: #2c3e50; --sk-accent: #ff7a59;
+  --sk-font-body: "Fredoka", system-ui, sans-serif; --sk-hero-halo: 0 3px 0 rgba(255, 255, 255, 0.6);
+  --sk-title-halo: 0 3px 0 #fff, 0 6px 18px rgba(43, 58, 74, 0.25);
+  --sk-card-bg: #fffdf7; --sk-card-border: 0; --sk-card-radius: 8px; --sk-card-shadow: 0 2px 0 rgba(0, 0, 0, 0.05), 0 18px 34px rgba(43, 58, 74, 0.28);
+  --sk-head-bg: #ffd166; --sk-btn-bg: #ffd166; --sk-btn-ink: #2c3e50; --sk-btn-border: 0; --sk-btn-radius: 16px; --sk-btn-shadow: 0 6px 0 #e0b04a, 0 14px 24px rgba(43, 58, 74, 0.25);
+  --sk-btn2-bg: #ffffff; --sk-btn2-border: 0;
+  --sk-nav-bg: #ffffff; --sk-nav-radius: 14px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px; --sk-nav-shadow: 0 6px 0 rgba(43, 58, 74, 0.12), 0 10px 24px rgba(43, 58, 74, 0.18);
+  --sk-shot-border: 0; --sk-shot-radius: 8px;
+}
+html[data-skin="paper"] #sayHiButton, html[data-skin="paper"] .ctaButton { transform: rotate(-2deg); }
+html[data-skin="paper"] .sk-card, html[data-skin="paper"] .serviceCard { position: relative; }
+html[data-skin="paper"] .serviceCard::before, html[data-skin="paper"] .sk-card-head::after { content: ""; position: absolute; top: -12px; left: 50%; width: 110px; height: 28px; margin-left: -55px; background: rgba(255, 236, 170, 0.8); transform: rotate(-4deg); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+html[data-skin="paper"] .sk-card-head { position: relative; }
+
+/* 4 · Ink & watercolour ------------------------------------------------- */
+html[data-skin="watercolor"] {
+  --sk-bg: #f6f0e2; --sk-ink: #2b2a28; --sk-card-ink: #2b2a28; --sk-accent: #c0705a;
+  --sk-font-body: "Patrick", "Caveat", cursive; --sk-font-head: "Caveat", cursive; --sk-head-lh: 1; --sk-hero-halo: 0 0 12px #f6f0e2, 0 0 4px #f6f0e2;
+  --sk-accent-ink: #2b2a28; --sk-accent-shadow: none;
+  --sk-card-bg: #fbf7ec repeating-linear-gradient(#fbf7ec 0 33px, #c9d8e6 33px 34px); --sk-card-border: 2px solid #2b2a28; --sk-card-radius: 3px 6px 4px 7px; --sk-card-shadow: 4px 6px 0 rgba(43, 42, 40, 0.18);
+  --sk-head-bg: transparent; --sk-btn-bg: rgba(242, 196, 90, 0.6); --sk-btn-ink: #2b2a28; --sk-btn-border: 2.5px solid #2b2a28; --sk-btn-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --sk-btn2-bg: #fbf7ec;
+  --sk-font-nav: "Caveat", cursive; --sk-nav-bg: rgba(246, 240, 226, 0.85);
+}
+html[data-skin="watercolor"] .heroSection h2 { background: linear-gradient(transparent 38%, rgba(233, 160, 124, 0.55) 38%, rgba(233, 160, 124, 0.55) 92%, transparent 92%); border-radius: 6px; padding: 0 0.1em; }
+html[data-skin="watercolor"] .sk-nav a { font-size: 1.6rem; font-weight: 700; }
+
+/* 5 · Synthwave --------------------------------------------------------- */
+html[data-skin="synthwave"] {
+  --sk-bg: #07001a; --sk-ink: #ffffff; --sk-card-ink: #c8f7f8; --sk-line: #2de2e6; --sk-accent: #ff3fd2;
+  --sk-font-body: "SMono", ui-monospace, monospace; --sk-font-head: "SMono", ui-monospace, monospace; --sk-font-accent: "Monoton", cursive; --sk-head-tt: uppercase; --sk-head-weight: 400;
+  --sk-hero-halo: 0 0 12px rgba(255, 63, 210, 0.8); --sk-accent-shadow: 0 0 6px #ff3fd2, 0 0 22px #ff3fd2; --sk-accent-ink: #ff3fd2;
+  --sk-title-ink: #2de2e6; --sk-title-halo: 0 0 10px #2de2e6;
+  --sk-card-bg: rgba(5, 0, 18, 0.9); --sk-card-border: 2px solid #2de2e6; --sk-card-radius: 0; --sk-card-shadow: 0 0 18px rgba(45, 226, 230, 0.7), inset 0 0 18px rgba(45, 226, 230, 0.15);
+  --sk-head-bg: transparent; --sk-head-ink: #ff3fd2; --sk-btn-bg: transparent; --sk-btn-ink: #2de2e6; --sk-btn-border: 2px solid #2de2e6; --sk-btn-radius: 0;
+  --sk-btn-shadow: 0 0 14px #2de2e6, inset 0 0 14px rgba(45, 226, 230, 0.4); --sk-btn-tt: uppercase;
+  --sk-btn2-bg: rgba(5, 0, 18, 0.9); --sk-btn2-ink: #2de2e6;
+  --sk-nav-bg: rgba(7, 0, 26, 0.6); --sk-nav-border: 1px solid rgba(45, 226, 230, 0.35); --sk-nav-ink: #2de2e6; --sk-time: #ffd319; --sk-tl-title: #ffffff;
+}
+html[data-skin="synthwave"] .serviceCard { border-color: #ff3fd2; box-shadow: 0 0 18px rgba(255, 63, 210, 0.6), inset 0 0 18px rgba(255, 63, 210, 0.12); }
+html[data-skin="synthwave"] .sk-nav a::before { content: "./"; opacity: 0.6; }
+
+/* 6 · Neobrutalism ------------------------------------------------------ */
+html[data-skin="neobrutal"] {
+  --sk-bg: #bfe6ff; --sk-ink: #000000; --sk-card-ink: #000000; --sk-accent: #ff6b6b;
+  --sk-font-body: "Grotesk", system-ui, sans-serif; --sk-font-head: "Archivo", sans-serif; --sk-head-weight: 400;
+  --sk-hero-halo: 0 0 0 transparent; --sk-title-ink: #000000; --sk-title-halo: none;
+  --sk-card-bg: #ffffff; --sk-card-border: 4px solid #000; --sk-card-radius: 14px; --sk-card-shadow: 10px 10px 0 #000;
+  --sk-head-bg: #90a8ff; --sk-btn-bg: #ffdc58; --sk-btn-ink: #000; --sk-btn-border: 4px solid #000; --sk-btn-radius: 12px; --sk-btn-shadow: 7px 7px 0 #000;
+  --sk-btn2-bg: #a3e636; --sk-btn2-border: 3px solid #000;
+  --sk-nav-bg: #ffffff; --sk-nav-border: 3.5px solid #000; --sk-nav-radius: 12px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px; --sk-nav-shadow: 6px 6px 0 #000;
+  --sk-shot-border: 4px solid #000; --sk-shot-radius: 10px; --sk-time: #000;
+}
+html[data-skin="neobrutal"] .sk-nav { border: 3.5px solid #000; }
+html[data-skin="neobrutal"] .heroSection h2 { display: inline-block; padding: 0 0.18em; border: 4px solid #000; border-radius: 10px; box-shadow: 6px 6px 0 #000; color: #000; background: #ff6b6b; transform: rotate(-2deg); line-height: 1.05; margin: 0.08em 0; }
+html[data-skin="neobrutal"] .heroSection .sk-badge { background: #a3e636; transform: rotate(1.5deg); }
+html[data-skin="neobrutal"] .serviceCard > div:first-child { display: inline-block; padding: 2px 12px; border: 3px solid #000; border-radius: 999px; background: #ffdc58; }
+html[data-skin="neobrutal"] .servicesTitle, html[data-skin="neobrutal"] .skillsTitle { background-color: #ffdc58; border: 4px solid #000; box-shadow: 6px 6px 0 #000; padding: 0 0.3em; border-radius: 10px; }
+
+/* 7 · Pixel art --------------------------------------------------------- */
+html[data-skin="pixel"] {
+  --sk-bg: #5b6ee1; --sk-ink: #ffffff; --sk-card-ink: #ffffff; --sk-line: #ffffff; --sk-accent: #fbf236;
+  --sk-font-body: "VT", monospace; --sk-font-head: "Press", monospace; --sk-head-weight: 400; --sk-head-lh: 1.5; --sk-head-tt: uppercase;
+  --sk-hero-halo: 5px 5px 0 #222034; --sk-title-halo: 5px 5px 0 #222034;
+  --sk-card-bg: #222034; --sk-card-border: 5px solid #ffffff; --sk-card-radius: 0; --sk-card-shadow: 0 0 0 5px #222034, 10px 10px 0 5px rgba(34, 32, 52, 0.5);
+  --sk-head-bg: #222034; --sk-head-ink: #fbf236; --sk-btn-bg: #ac3232; --sk-btn-ink: #ffffff; --sk-btn-border: 5px solid #222034; --sk-btn-radius: 0;
+  --sk-btn-shadow: inset -5px -5px 0 #663931, inset 5px 5px 0 #d95763, 6px 6px 0 #222034; --sk-btn-tt: uppercase;
+  --sk-btn2-bg: #37946e; --sk-btn2-ink: #ffffff; --sk-btn2-border: 4px solid #222034;
+  --sk-nav-bg: #222034; --sk-nav-border: 6px solid #000; --sk-nav-ink: #ffffff; --sk-font-nav: "Press", monospace; --sk-nav-tt: uppercase; --sk-time: #5fcde4; --sk-tl-title: #ffffff;
+}
+html[data-skin="pixel"] .heroSection h1 { font-size: clamp(2.4rem, 7vw, 5rem); line-height: 1.2; }
+html[data-skin="pixel"] .sk-nav a { font-size: 0.8rem; }
+html[data-skin="pixel"] .serviceCard h3 { font-size: 1.1rem; line-height: 1.5; margin: 0.4rem 0; }
+html[data-skin="pixel"] .serviceCard { font-size: 1.4rem; line-height: 1.15; }
+html[data-skin="pixel"] .sk-card-head { font-size: 1.1rem; }
+html[data-skin="pixel"] .sk-shot { image-rendering: pixelated; }
+
+/* 8 · Risograph --------------------------------------------------------- */
+html[data-skin="riso"] {
+  --sk-bg: #f4efe4; --sk-ink: #0078bf; --sk-card-ink: #0b3d66; --sk-line: #0078bf; --sk-accent: #ff48b0;
+  --sk-font-body: "PlexMono", monospace; --sk-font-head: "RubikMono", sans-serif; --sk-head-weight: 400; --sk-head-tt: uppercase;
+  --sk-hero-halo: 5px -3px 0 rgba(255, 72, 176, 0.8), -3px -3px 0 #f4efe4, 3px -3px 0 #f4efe4, -3px 3px 0 #f4efe4, 3px 3px 0 #f4efe4;
+  --sk-accent-shadow: 5px -3px 0 rgba(0, 120, 191, 0.6), -3px -3px 0 #f4efe4, 3px -3px 0 #f4efe4, -3px 3px 0 #f4efe4, 3px 3px 0 #f4efe4;
+  --sk-card-bg: #f4efe4; --sk-card-border: 3px solid #0078bf; --sk-card-radius: 0; --sk-card-shadow: 7px -5px 0 -1px rgba(255, 72, 176, 0.85);
+  --sk-head-bg: #ffe800; --sk-head-ink: #0078bf; --sk-btn-bg: #ffe800; --sk-btn-ink: #0078bf; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-shadow: 6px 6px 0 #ff48b0; --sk-btn-tt: uppercase;
+  --sk-btn2-bg: #f4efe4; --sk-btn2-ink: #0078bf; --sk-btn2-border: 3px solid #0078bf;
+  --sk-nav-bg: rgba(244, 239, 228, 0.92); --sk-nav-border: 3px solid #0078bf; --sk-nav-shadow: 0 4px 0 rgba(255, 72, 176, 0.7); --sk-font-nav: "RubikMono", sans-serif; --sk-nav-tt: uppercase;
+  --sk-shot-filter: grayscale(1) contrast(1.2) sepia(1) hue-rotate(170deg) saturate(3); --sk-tl-title: #0078bf;
+}
+
+/* 9 · Blueprint --------------------------------------------------------- */
+html[data-skin="blueprint"] {
+  --sk-bg: #1b4f8f; --sk-ink: #e8f1ff; --sk-card-ink: #e8f1ff; --sk-line: #e8f1ff; --sk-accent: #e8f1ff;
+  --sk-font-body: "PlexMono", monospace; --sk-font-head: "PlexMono", monospace; --sk-head-ls: -0.02em;
+  --sk-hero-halo: 0 0 10px #1b4f8f, 0 0 4px #1b4f8f;
+  --sk-card-bg: rgba(24, 70, 128, 0.92); --sk-card-border: 1.5px solid #e8f1ff; --sk-card-radius: 0;
+  --sk-head-bg: transparent; --sk-head-ink: #e8f1ff; --sk-btn-bg: rgba(27, 79, 143, 0.85); --sk-btn-ink: #e8f1ff; --sk-btn-border: 1.5px solid #e8f1ff; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.2em;
+  --sk-btn2-bg: transparent; --sk-btn2-ink: #e8f1ff;
+  --sk-nav-bg: rgba(27, 79, 143, 0.85); --sk-nav-border: 1.5px solid rgba(232, 241, 255, 0.6); --sk-nav-tt: uppercase; --sk-nav-ls: 0.14em;
+  --sk-time: rgba(232, 241, 255, 0.7); --sk-shot-border: 1.5px dashed #e8f1ff; --sk-shot-radius: 0;
+}
+html[data-skin="blueprint"] .heroSection h2 { border-bottom: 3px dashed #e8f1ff; }
+html[data-skin="blueprint"] .sk-card-head { border-bottom-style: dashed; }
+html[data-skin="blueprint"] .sk-nav a::before { content: "0" counter(nav) " "; counter-increment: nav; opacity: 0.5; }
+html[data-skin="blueprint"] .sk-nav nav > div { counter-reset: nav; }
+
+/* 10 · Folk embroidery -------------------------------------------------- */
+html[data-skin="folk"] {
+  --folk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20'%3E%3Cpath d='M20 1 L33 10 L20 19 L7 10Z' fill='%23b3202a'/%3E%3Cpath d='M20 6 L27 10 L20 14 L13 10Z' fill='%23231f20'/%3E%3Ccircle cx='0' cy='10' r='3' fill='%23d9a640'/%3E%3Ccircle cx='40' cy='10' r='3' fill='%23d9a640'/%3E%3C/svg%3E");
+  --sk-bg: #efe6d2; --sk-ink: #231f20; --sk-card-ink: #231f20; --sk-accent: #b3202a;
+  --sk-font-body: "Inter", sans-serif; --sk-font-head: "AlegreyaSC", serif; --sk-font-btn: "AlegreyaSC", serif;
+  --sk-hero-halo: 0 2px 0 #efe6d2, 0 -2px 0 #efe6d2, 2px 0 0 #efe6d2, -2px 0 0 #efe6d2, 0 0 14px #efe6d2;
+  --sk-title-ink: #7a1520; --sk-card-bg: #f7f1e3; --sk-card-border: 2px solid #231f20; --sk-card-radius: 0; --sk-card-shadow: 0 12px 26px rgba(35, 31, 32, 0.3);
+  --sk-head-bg: #f7f1e3 var(--folk) repeat-x bottom; --sk-head-ink: #7a1520; --sk-btn-bg: #b3202a; --sk-btn-ink: #f7f1e3; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-shadow: 0 6px 0 #7a1520;
+  --sk-btn2-bg: #f7f1e3; --sk-btn2-border: 2px dashed #b3202a;
+  --sk-nav-bg: #f7f1e3; --sk-nav-ink: #7a1520; --sk-font-nav: "AlegreyaSC", serif; --sk-nav-shadow: 0 2px 0 #231f20;
+}
+html[data-skin="folk"] .sk-nav { border-bottom: 20px solid transparent; border-image: var(--folk) 0 0 20 0 repeat; }
+html[data-skin="folk"] .sk-card-head { padding-bottom: 28px; }
+html[data-skin="folk"] #sayHiButton, html[data-skin="folk"] .ctaButton { outline: 2px dashed #d9a640; outline-offset: -8px; }
+html[data-skin="folk"] .serviceCard { outline: 2px dashed #b3202a; outline-offset: -9px; }
+
+/* 11 · Bauhaus ---------------------------------------------------------- */
+html[data-skin="bauhaus"] {
+  --sk-bg: #f1ebdd; --sk-ink: #151515; --sk-card-ink: #151515; --sk-accent: #d6322d;
+  --sk-font-body: "Inter", sans-serif; --sk-font-head: "Josefin", sans-serif; --sk-head-tt: uppercase; --sk-head-lh: 0.98;
+  --sk-hero-halo: 0 0 0 transparent; --sk-card-bg: #f1ebdd; --sk-card-border: 2px solid #151515; --sk-card-radius: 0;
+  --sk-head-bg: #151515; --sk-head-ink: #f1ebdd; --sk-btn-bg: #151515; --sk-btn-ink: #f1ebdd; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.24em;
+  --sk-btn2-bg: #f2b632; --sk-btn2-border: 0;
+  --sk-nav-bg: #f1ebdd; --sk-nav-border: 6px solid #151515; --sk-nav-tt: uppercase; --sk-nav-ls: 0.22em; --sk-font-nav: "Josefin", sans-serif;
+}
+html[data-skin="bauhaus"] .serviceCard:nth-child(odd) { background: #1f4e9c; color: #f1ebdd; --sk-tl-title: #f1ebdd; --sk-time: #f2b632; border: 0; }
+html[data-skin="bauhaus"] .serviceCard:nth-child(even) { background: #f2b632; border: 0; --sk-time: #151515; }
+html[data-skin="bauhaus"] #sayHiButton::after, html[data-skin="bauhaus"] .ctaButton::after { content: ""; display: inline-block; width: 0.5em; height: 0.5em; border-radius: 50%; background: #f2b632; margin-left: 0.5em; }
+
+/* 12 · Ukiyo-e ---------------------------------------------------------- */
+html[data-skin="ukiyoe"] {
+  --sk-bg: #efe4cc; --sk-ink: #1f2d40; --sk-card-ink: #2a2420; --sk-accent: #a8432f;
+  --sk-font-body: "Garamond", serif; --sk-font-head: "Garamond", serif; --sk-head-weight: 400; --sk-accent-style: italic;
+  --sk-hero-halo: 0 0 18px #efe4cc, 0 0 6px #efe4cc; --sk-title-ink: #1f3f66;
+  --sk-card-bg: #f3ead6; --sk-card-border: 2px solid #2a2420; --sk-card-radius: 0; --sk-card-shadow: inset 0 0 0 5px #f3ead6, inset 0 0 0 6px #2a2420, 6px 8px 0 rgba(42, 36, 32, 0.25);
+  --sk-head-bg: transparent; --sk-head-ink: #1f3f66; --sk-btn-bg: #1f3f66; --sk-btn-ink: #efe4cc; --sk-btn-border: 2px solid #2a2420; --sk-btn-radius: 0; --sk-btn-shadow: inset 0 0 0 4px #1f3f66, inset 0 0 0 5px #efe4cc; --sk-btn-tt: uppercase; --sk-btn-ls: 0.14em;
+  --sk-btn2-bg: #f3ead6;
+  --sk-nav-bg: rgba(31, 63, 102, 0.92); --sk-nav-ink: #efe4cc; --sk-nav-tt: uppercase; --sk-nav-ls: 0.12em; --sk-time: #a8432f;
+}
+html[data-skin="ukiyoe"] .sk-card { position: relative; }
+html[data-skin="ukiyoe"] .sk-card::after { content: "MD"; position: absolute; right: 22px; bottom: 20px; width: 56px; height: 56px; display: grid; place-items: center; background: #b8342a; color: #f3ead6; font: 700 20px "Garamond", serif; border-radius: 6px; transform: rotate(-4deg); box-shadow: inset 0 0 0 4px #b8342a, inset 0 0 0 6px #f3ead6; }
+
+/* 13 · Art Deco --------------------------------------------------------- */
+html[data-skin="deco"] {
+  --sk-bg: #0f1b2d; --sk-ink: #efe3c6; --sk-card-ink: #e2d6ba; --sk-line: #d4af6a; --sk-accent: #d4af6a;
+  --sk-font-body: "Josefin", sans-serif; --sk-font-head: "Limelight", serif; --sk-head-weight: 400;
+  --sk-hero-halo: 0 3px 16px rgba(0, 0, 0, 0.6); --sk-title-ink: #d4af6a;
+  --sk-card-bg: #0f1b2d; --sk-card-border: 2px solid #d4af6a; --sk-card-radius: 0; --sk-head-bg: transparent; --sk-head-ink: #d4af6a;
+  --sk-btn-bg: #d4af6a; --sk-btn-ink: #0f1b2d; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.4em; --sk-font-btn: "Josefin", sans-serif;
+  --sk-btn2-bg: transparent; --sk-btn2-ink: #d4af6a; --sk-btn2-border: 1.5px solid #d4af6a;
+  --sk-nav-bg: rgba(15, 27, 45, 0.9); --sk-nav-border: 1px solid rgba(212, 175, 106, 0.5); --sk-nav-ink: #d4af6a; --sk-nav-tt: uppercase; --sk-nav-ls: 0.4em; --sk-font-nav: "Josefin", sans-serif;
+  --sk-tl-title: #efe3c6;
+}
+html[data-skin="deco"] .sk-card, html[data-skin="deco"] .serviceCard { outline: 1px solid rgba(212, 175, 106, 0.6); outline-offset: -9px; clip-path: polygon(22px 0, calc(100% - 22px) 0, 100% 22px, 100% calc(100% - 22px), calc(100% - 22px) 100%, 22px 100%, 0 calc(100% - 22px), 0 22px); }
+html[data-skin="deco"] #sayHiButton, html[data-skin="deco"] .ctaButton { clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0 50%); padding-inline: 2em; }
+html[data-skin="deco"] .sk-card-head { justify-content: center; gap: 1rem; }
+
+/* 14 · 1-bit desktop ---------------------------------------------------- */
+html[data-skin="desktop"] {
+  --sk-bg: #ffffff; --sk-ink: #000000; --sk-card-ink: #000000; --sk-accent: #000000;
+  --sk-font-body: "Pixelify", monospace; --sk-font-head: "Pixelify", monospace; --sk-accent-ink: #ffffff;
+  --sk-card-bg: #ffffff; --sk-card-border: 2px solid #000; --sk-card-radius: 0; --sk-card-shadow: 4px 4px 0 #000;
+  --sk-head-bg: #fff; --sk-head-ink: #000; --sk-btn-bg: #fff; --sk-btn-ink: #000; --sk-btn-border: 2px solid #000; --sk-btn-radius: 12px; --sk-btn-shadow: 0 0 0 3px #fff, 0 0 0 6px #000;
+  --sk-btn2-border: 2px solid #000; --sk-nav-bg: #fff; --sk-nav-border: 2px solid #000; --sk-time: #000;
+  --sk-shot-filter: grayscale(1) contrast(1.6); --sk-shot-radius: 0;
+}
+html[data-skin="desktop"] .sk-hero-box { background: #fff; border: 2px solid #000; box-shadow: 4px 4px 0 #000; padding: 2.2rem 1.5rem 1rem; position: relative; }
+html[data-skin="desktop"] .sk-hero-box::before { content: "hello.txt"; position: absolute; left: 0; right: 0; top: 0; height: 26px; border-bottom: 2px solid #000; font-size: 15px; line-height: 22px; background: repeating-linear-gradient(#000 0 2px, #fff 2px 5px); background-clip: content-box; padding: 4px; color: #000; }
+html[data-skin="desktop"] .heroSection h2 { background: #000; padding: 0 0.15em; }
+html[data-skin="desktop"] .sk-card-head { background: repeating-linear-gradient(#000 0 2px, #fff 2px 5px); background-clip: content-box; padding: 6px; justify-content: center; }
+html[data-skin="desktop"] .servicesTitle, html[data-skin="desktop"] .skillsTitle { background-color: #fff; border: 2px solid #000; padding: 0 0.3em; }
+
+/* 15 · Stained glass ---------------------------------------------------- */
+html[data-skin="glass"] {
+  --sk-bg: #2a2420; --sk-ink: #fff7e2; --sk-card-ink: #efe6cf; --sk-line: #c9a24a; --sk-accent: #f2c14e;
+  --sk-font-body: "Garamond", serif; --sk-font-head: "Cinzel", serif;
+  --sk-hero-halo: 0 0 4px #17130f, 0 0 4px #17130f, 0 4px 24px rgba(0, 0, 0, 0.9); --sk-title-halo: 0 0 4px #17130f, 0 4px 18px rgba(0, 0, 0, 0.9);
+  --sk-card-bg: #221d1a; --sk-card-border: 5px solid #17130f; --sk-card-radius: 8px; --sk-card-shadow: inset 0 0 0 2px #c9a24a, 0 16px 30px rgba(0, 0, 0, 0.5);
+  --sk-head-bg: #17130f; --sk-head-ink: #f2c14e; --sk-btn-bg: #f2c14e; --sk-btn-ink: #17130f; --sk-btn-border: 5px solid #17130f; --sk-btn-radius: 40px 40px 6px 6px;
+  --sk-btn2-bg: #221d1a; --sk-btn2-ink: #f2c14e; --sk-btn2-border: 3px solid #c9a24a;
+  --sk-nav-bg: rgba(42, 36, 32, 0.95); --sk-nav-ink: #c9a24a; --sk-font-nav: "Cinzel", serif; --sk-nav-tt: uppercase; --sk-nav-ls: 0.2em; --sk-tl-title: #fff7e2; --sk-time: #c9a24a;
+}
+html[data-skin="glass"] .sk-card { border-radius: 120px 120px 8px 8px / 50px 50px 8px 8px; }
+
+/* 16 · Aurora night ----------------------------------------------------- */
+html[data-skin="aurora"] {
+  --sk-bg: #04081a; --sk-ink: #f2f5ff; --sk-card-ink: #c9d6ff; --sk-line: rgba(160, 190, 255, 0.25); --sk-accent: #2affb0;
+  --sk-font-body: "Inter", sans-serif; --sk-font-head: "Inter", sans-serif; --sk-head-ls: -0.035em;
+  --sk-accent-ink: #2affb0; --sk-hero-halo: 0 4px 30px rgba(4, 8, 26, 0.6);
+  --sk-card-bg: rgba(10, 16, 40, 0.72); --sk-card-border: 1px solid rgba(123, 92, 255, 0.45); --sk-card-radius: 20px; --sk-card-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(42, 255, 176, 0.15); --sk-card-blur: blur(16px);
+  --sk-head-bg: rgba(255, 255, 255, 0.04); --sk-head-ink: #ffffff; --sk-btn-bg: #0b1230; --sk-btn-ink: #ffffff; --sk-btn-border: 1px solid #2affb0; --sk-btn-radius: 999px; --sk-btn-shadow: 0 0 40px rgba(42, 255, 176, 0.25);
+  --sk-btn2-bg: rgba(42, 255, 176, 0.08); --sk-btn2-ink: #9fffd6; --sk-btn2-border: 1px solid rgba(42, 255, 176, 0.3);
+  --sk-nav-bg: rgba(10, 18, 48, 0.55); --sk-nav-blur: blur(14px); --sk-nav-border: 1px solid rgba(160, 190, 255, 0.18); --sk-nav-radius: 999px; --sk-nav-margin: 12px auto; --sk-nav-top: 12px; --sk-nav-ink: #c9d6ff;
+  --sk-tl-title: #ffffff; --sk-shot-border: 0; --sk-shot-radius: 12px;
+}
+html[data-skin="aurora"] .sk-nav { max-width: 900px; }
+html[data-skin="aurora"] .heroSection h2 { background: linear-gradient(90deg, #2affb0, #2ad4ff 50%, #b44cff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* 17 · Claymorphism ----------------------------------------------------- */
+html[data-skin="clay"] {
+  --sk-bg: #fde6f1; --sk-ink: #4a3f6b; --sk-card-ink: #5a4a7a; --sk-accent: #ff7fa0;
+  --sk-font-body: "Nunito", sans-serif; --sk-font-head: "Nunito", sans-serif; --sk-hero-halo: 0 4px 0 rgba(255, 255, 255, 0.7);
+  --sk-card-bg: #fff7fb; --sk-card-border: 0; --sk-card-radius: 32px; --sk-card-shadow: 0 26px 50px rgba(120, 90, 160, 0.28), inset -10px -10px 20px rgba(160, 130, 200, 0.2), inset 10px 10px 20px #fff;
+  --sk-head-bg: #efe9ff; --sk-head-ink: #4a3f6b; --sk-btn-bg: #ff8fab; --sk-btn-ink: #fff; --sk-btn-border: 0; --sk-btn-radius: 999px;
+  --sk-btn-shadow: 0 16px 30px rgba(255, 120, 160, 0.4), inset -6px -8px 14px rgba(200, 60, 110, 0.35), inset 6px 6px 12px rgba(255, 255, 255, 0.55);
+  --sk-btn2-bg: #efe9ff; --sk-btn2-ink: #4a3f6b; --sk-btn2-border: 0;
+  --sk-nav-bg: #fff7fb; --sk-nav-radius: 32px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px; --sk-nav-shadow: 0 14px 30px rgba(120, 90, 160, 0.22), inset -6px -6px 12px rgba(160, 130, 200, 0.18), inset 6px 6px 12px #fff;
+  --sk-shot-border: 0; --sk-shot-radius: 22px; --sk-time: #d4507a;
+}
+
+/* 18 · Comic book ------------------------------------------------------- */
+html[data-skin="comic"] {
+  --sk-bg: #eaf8ff; --sk-ink: #111111; --sk-card-ink: #111111; --sk-accent: #ff3b2f;
+  --sk-font-body: "ComicNeue", "Comic Sans MS", sans-serif; --sk-font-head: "Bangers", fantasy; --sk-head-weight: 400; --sk-head-ls: 0.03em;
+  --sk-accent-stroke: 2px #000; --sk-title-ink: #ffe14d; --sk-title-stroke: 0.16em #000; --sk-title-halo: 5px 5px 0 #000;
+  --sk-card-bg: #ffffff; --sk-card-border: 5px solid #000; --sk-card-radius: 0; --sk-card-shadow: 8px 8px 0 #000;
+  --sk-head-bg: #ffe14d; --sk-btn-bg: #ffe14d; --sk-btn-ink: #000; --sk-btn-border: 4px solid #000; --sk-btn-radius: 0; --sk-btn-shadow: 6px 6px 0 #000;
+  --sk-btn2-bg: #ffffff; --sk-btn2-border: 4px solid #000;
+  --sk-nav-bg: #ffe14d; --sk-nav-border: 4px solid #000; --sk-nav-shadow: 0 6px 0 #000; --sk-font-nav: "Bangers", fantasy; --sk-nav-ls: 0.06em; --sk-time: #000;
+}
+html[data-skin="comic"] .heroSection h1 { background: #fff; border: 5px solid #000; border-radius: 50% 50% 48% 52% / 52% 48% 52% 48%; padding: 1.3em 1.2em 1.5em; box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.85); position: relative; }
+html[data-skin="comic"] .heroSection h1::after { content: ""; position: absolute; left: 22%; bottom: -46px; border: 24px solid transparent; border-top: 48px solid #000; transform: rotate(18deg); }
+html[data-skin="comic"] .serviceCard > div:first-child { display: inline-block; background: #ffe14d; border: 3px solid #000; padding: 2px 10px; text-transform: uppercase; font-weight: 700; }
+html[data-skin="comic"] .heroSection h1 { margin-bottom: 3.4rem; }
+html[data-skin="comic"] #sayHiButton, html[data-skin="comic"] .ctaButton { transform: rotate(-3deg); margin-top: 1.5rem; }
+
+/* 19 · Topographic map -------------------------------------------------- */
+html[data-skin="topo"] {
+  --sk-bg: #e6e2b0; --sk-ink: #2a1e12; --sk-card-ink: #2a1e12; --sk-line: #3a2a1a; --sk-accent: #d6322d;
+  --sk-font-body: "Inter", sans-serif; --sk-font-head: "Grotesk", sans-serif; --sk-head-ls: -0.02em; --sk-font-mono: "Oswald", sans-serif;
+  --sk-hero-halo: 0 0 6px #f4f0e6, 0 0 12px #f4f0e6, 0 0 2px #f4f0e6;
+  --sk-card-bg: #f4f0e6; --sk-card-border: 2px solid #3a2a1a; --sk-card-radius: 0; --sk-card-shadow: 4px 4px 0 rgba(58, 42, 26, 0.3);
+  --sk-head-bg: #3a2a1a; --sk-head-ink: #f4f0e6; --sk-btn-bg: #d6322d; --sk-btn-ink: #fff; --sk-btn-border: 3px solid #fff; --sk-btn-radius: 999px; --sk-btn-shadow: 0 0 0 2px #d6322d;
+  --sk-btn2-bg: #f4f0e6; --sk-nav-bg: rgba(244, 240, 230, 0.92); --sk-nav-border: 2px solid #3a2a1a; --sk-nav-tt: uppercase; --sk-nav-ls: 0.2em; --sk-font-nav: "Oswald", sans-serif;
+}
+html[data-skin="topo"] .serviceCard > div:first-child::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #d6322d; border: 3px solid #fff; box-shadow: 0 0 0 2px #d6322d; margin-right: 8px; vertical-align: -1px; }
+
+/* 20 · ASCII terminal --------------------------------------------------- */
+html[data-skin="terminal"] {
+  --sk-bg: #020a04; --sk-ink: #7dffa6; --sk-card-ink: #7dffa6; --sk-line: #33ff77; --sk-accent: #33ff77;
+  --sk-font-body: "PlexMono", monospace; --sk-font-head: "VT", monospace; --sk-head-weight: 400; --sk-accent-ink: #020a04;
+  --sk-hero-halo: 0 0 10px #33ff77; --sk-title-halo: 0 0 10px #33ff77;
+  --sk-card-bg: rgba(2, 10, 4, 0.9); --sk-card-border: 2px solid #33ff77; --sk-card-radius: 0; --sk-card-shadow: 0 0 16px rgba(51, 255, 119, 0.35);
+  --sk-head-bg: #33ff77; --sk-head-ink: #020a04; --sk-btn-bg: #020a04; --sk-btn-ink: #33ff77; --sk-btn-border: 2px solid #33ff77; --sk-btn-radius: 0; --sk-btn-shadow: 0 0 14px rgba(51, 255, 119, 0.4);
+  --sk-btn2-bg: #020a04; --sk-btn2-ink: #33ff77;
+  --sk-nav-bg: #33ff77; --sk-nav-ink: #020a04; --sk-font-nav: "PlexMono", monospace; --sk-time: #33ff77;
+  --sk-shot-filter: grayscale(1) sepia(1) hue-rotate(60deg) saturate(3) brightness(0.8);
+}
+html[data-skin="terminal"] .sk-hero-box { background: rgba(2, 10, 4, 0.88); border: 2px solid #33ff77; box-shadow: 0 0 18px rgba(51, 255, 119, 0.4); padding: 1.6em 1em 0.8em; text-align: left; position: relative; }
+html[data-skin="terminal"] .sk-hero-box::before { content: "milos@pljevlja:~$ cat hello.txt"; position: absolute; top: 0.5em; left: 1.4rem; font: 400 14px "PlexMono", monospace; opacity: 0.7; text-shadow: none; }
+html[data-skin="terminal"] .heroSection h2 { background: #33ff77; padding: 0 0.15em; text-shadow: none; }
+html[data-skin="terminal"] body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 40; background: repeating-linear-gradient(rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px); }
+
+/* 21 · Mid-century ------------------------------------------------------ */
+html[data-skin="midcentury"] {
+  --sk-bg: #f2e6cc; --sk-ink: #4a3426; --sk-card-ink: #4a3426; --sk-accent: #d9622b;
+  --sk-font-body: "Josefin", sans-serif; --sk-font-head: "Josefin", sans-serif; --sk-font-accent: "Pacifico", cursive; --sk-head-tt: uppercase; --sk-head-ls: 0.04em; --sk-head-lh: 1.32;
+  --sk-hero-halo: 0 0 14px #f2e6cc; --sk-card-bg: #f7eedb; --sk-card-border: 0; --sk-card-radius: 28px 6px 28px 6px; --sk-card-shadow: 10px 10px 0 #2f7f7a;
+  --sk-head-bg: #e3a83b; --sk-btn-bg: #e3a83b; --sk-btn-ink: #4a3426; --sk-btn-border: 0; --sk-btn-radius: 40px 8px 40px 8px; --sk-btn-shadow: 6px 6px 0 #2f7f7a; --sk-btn-tt: uppercase; --sk-btn-ls: 0.2em;
+  --sk-btn2-bg: #f2e6cc; --sk-btn2-border: 0; --sk-nav-bg: rgba(242, 230, 204, 0.94); --sk-nav-tt: uppercase; --sk-nav-ls: 0.24em; --sk-time: #2f7f7a;
+}
+html[data-skin="midcentury"] .heroSection h2 { text-transform: none; font-weight: 400; display: inline-block; transform: rotate(-4deg); font-size: 1.15em; letter-spacing: 0; }
+html[data-skin="midcentury"] .serviceCard:nth-child(even) { box-shadow: 10px 10px 0 #d9622b; }
+html[data-skin="midcentury"] .serviceCard h3 { font-family: "Pacifico", cursive; text-transform: none; font-weight: 400; }
+
+/* 22 · Crayon storybook ------------------------------------------------- */
+html[data-skin="crayon"] {
+  --sk-bg: #fdfbf4; --sk-ink: #3a3a4a; --sk-card-ink: #3a3a4a; --sk-line: #6a6a72; --sk-accent: #e8483a;
+  --sk-font-body: "Kalam", cursive; --sk-font-head: "Kalam", cursive; --sk-hero-halo: 0 0 10px #fdfbf4, 0 0 4px #fdfbf4; --sk-title-ink: #4a5ab0;
+  --sk-card-bg: #fffef8; --sk-card-border: 3px solid #6a6a72; --sk-card-radius: 14px 30px 18px 26px / 26px 14px 30px 18px; --sk-card-shadow: 5px 6px 0 rgba(106, 106, 114, 0.25);
+  --sk-head-bg: #fff3c4; --sk-head-ink: #4a5ab0; --sk-btn-bg: #e8483a; --sk-btn-ink: #fff; --sk-btn-border: 3px solid #a02a20; --sk-btn-radius: 30px 12px 34px 10px; --sk-btn-shadow: 4px 5px 0 rgba(160, 42, 32, 0.35);
+  --sk-btn2-bg: #fffef8; --sk-btn2-border: 3px solid #6a6a72; --sk-nav-bg: rgba(253, 251, 244, 0.92); --sk-nav-ink: #4a5ab0; --sk-tl-title: #2f8a3a;
+}
+html[data-skin="crayon"] .sk-nav a:nth-child(2n) { color: #e8483a; }
+html[data-skin="crayon"] .sk-nav a:nth-child(3n) { color: #2f8a3a; }
+html[data-skin="crayon"] #sayHiButton, html[data-skin="crayon"] .ctaButton { transform: rotate(-2deg); }
+
+/* 23 · Illuminated manuscript ------------------------------------------- */
+html[data-skin="manuscript"] {
+  --sk-bg: #ecdcb0; --sk-ink: #2a1a0e; --sk-card-ink: #2a1a0e; --sk-line: #c99a34; --sk-accent: #c8372d;
+  --sk-font-body: "Garamond", serif; --sk-font-head: "Gotisch", serif; --sk-hero-halo: 0 0 14px rgba(243, 230, 194, 0.95), 0 0 4px rgba(243, 230, 194, 0.95);
+  --sk-title-ink: #c8372d; --sk-card-bg: #f3e6c2; --sk-card-border: 3px solid #c99a34; --sk-card-radius: 0; --sk-card-shadow: 0 0 0 2px #f3e6c2, 0 0 0 4px #3a2a1a, 0 10px 24px rgba(58, 42, 26, 0.35);
+  --sk-head-bg: #f3e6c2; --sk-head-ink: #c8372d; --sk-btn-bg: #c8372d; --sk-btn-ink: #f3e6c2; --sk-btn-border: 3px solid #c99a34; --sk-btn-radius: 0;
+  --sk-btn2-bg: #f3e6c2; --sk-btn2-border: 3px solid #c99a34; --sk-nav-bg: rgba(236, 220, 176, 0.95); --sk-nav-ink: #3a2a1a; --sk-font-nav: "Gotisch", serif; --sk-tl-title: #1f4aa0; --sk-time: #c8372d;
+}
+html[data-skin="manuscript"] .heroSection h1::first-letter { font-size: 1.5em; color: #1f4aa0; background: #c99a34; padding: 0 0.15em; margin-right: 0.05em; border: 3px solid #3a2a1a; box-shadow: inset 0 0 0 3px #f0d27a; }
+html[data-skin="manuscript"] .sk-desc::first-letter, html[data-skin="manuscript"] .serviceCard p::first-letter { font: 700 2.2em/1 "Gotisch", serif; color: #1f4aa0; float: left; margin-right: 6px; }
+
+html[data-skin="manuscript"] .heroSection h1::first-letter { font-size: 1em; padding: 0 0.1em; }
+
+/* 24 · Firewatch sunset ------------------------------------------------- */
+html[data-skin="sunset"] {
+  --sk-bg: #e8714a; --sk-ink: #3a1022; --sk-card-ink: #fde3c8; --sk-line: rgba(255, 207, 122, 0.35); --sk-accent: #ffcf7a;
+  --sk-font-body: "Inter", sans-serif; --sk-font-head: "Archivo", sans-serif; --sk-head-weight: 400;
+  --sk-accent-ink: #fff4d6; --sk-accent-shadow: 0 3px 0 #a94f45; --sk-hero-halo: 0 0 30px rgba(253, 227, 167, 0.6); --sk-title-ink: #fff1c9; --sk-title-halo: 0 3px 0 #7a2f3d;
+  --sk-card-bg: rgba(46, 17, 40, 0.84); --sk-card-border: 1px solid rgba(255, 207, 122, 0.35); --sk-card-radius: 18px; --sk-card-shadow: 0 24px 50px rgba(20, 5, 15, 0.45); --sk-card-blur: blur(10px);
+  --sk-head-bg: rgba(255, 207, 122, 0.12); --sk-head-ink: #ffcf7a; --sk-btn-bg: #fff1c9; --sk-btn-ink: #3a1022; --sk-btn-border: 0; --sk-btn-radius: 999px; --sk-btn-shadow: 0 10px 30px rgba(122, 47, 61, 0.35); --sk-btn-tt: uppercase; --sk-btn-ls: 0.12em;
+  --sk-btn2-bg: rgba(255, 207, 122, 0.12); --sk-btn2-ink: #ffcf7a; --sk-btn2-border: 1px solid rgba(255, 207, 122, 0.45);
+  --sk-nav-bg: rgba(232, 113, 74, 0.6); --sk-nav-blur: blur(10px); --sk-nav-ink: #3a1022; --sk-nav-tt: uppercase; --sk-nav-ls: 0.12em; --sk-tl-title: #fff1c9; --sk-time: #f39a5b;
+}
+
+/* 25 · Linocut print ---------------------------------------------------- */
+html[data-skin="linocut"] {
+  --sk-bg: #f1e9d8; --sk-ink: #1c1a17; --sk-card-ink: #1c1a17; --sk-accent: #c8372d;
+  --sk-font-body: "Garamond", serif; --sk-font-head: "Archivo", sans-serif; --sk-head-weight: 400; --sk-head-tt: uppercase; --sk-head-lh: 1;
+  --sk-hero-halo: 3px 3px 0 #f1e9d8, -3px -3px 0 #f1e9d8, 3px -3px 0 #f1e9d8, -3px 3px 0 #f1e9d8; --sk-title-halo: var(--sk-hero-halo);
+  --sk-card-bg: #f1e9d8; --sk-card-border: 5px solid #1c1a17; --sk-card-radius: 0; --sk-card-shadow: 8px 8px 0 #1c1a17;
+  --sk-head-bg: #f1e9d8; --sk-btn-bg: #c8372d; --sk-btn-ink: #f1e9d8; --sk-btn-border: 4px solid #1c1a17; --sk-btn-radius: 0; --sk-font-btn: "mainFont", sans-serif; --sk-btn-ls: 0.18em;
+  --sk-btn2-bg: #f1e9d8; --sk-btn2-border: 4px solid #1c1a17; --sk-nav-bg: #f1e9d8; --sk-nav-border: 4px solid #1c1a17; --sk-font-nav: "mainFont", sans-serif; --sk-nav-ls: 0.2em;
+  --sk-shot-filter: grayscale(1) contrast(1.3); --sk-shot-radius: 0; --sk-font-mono: "mainFont", sans-serif;
+}
+html[data-skin="linocut"] .sk-nav a { font-size: 1.4rem; }
+
+/* 26 · Roman mosaic ----------------------------------------------------- */
+html[data-skin="mosaic"] {
+  --sk-bg: #ece2cc; --sk-ink: #2a2622; --sk-card-ink: #2a2622; --sk-accent: #b04a2f;
+  --sk-font-body: "Garamond", serif; --sk-font-head: "Cinzel", serif; --sk-hero-halo: 0 0 12px #ece2cc, 0 0 4px #ece2cc;
+  --sk-card-bg: #f4f0e6; --sk-card-border: 12px solid transparent; --sk-card-radius: 0;
+  --sk-head-bg: #f4f0e6; --sk-head-ink: #b04a2f; --sk-btn-bg: #2a2622; --sk-btn-ink: #ece2cc; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.2em;
+  --sk-btn2-bg: #f4f0e6; --sk-btn2-border: 2px solid #2a2622; --sk-nav-bg: #ece2cc; --sk-font-nav: "Cinzel", serif; --sk-nav-tt: uppercase; --sk-nav-ls: 0.2em; --sk-time: #4f6680;
+  --mosaic-border: repeating-linear-gradient(45deg, #2a2622 0 8px, #d8cdb8 8px 10px, #b04a2f 10px 18px, #d8cdb8 18px 20px) 12;
+}
+html[data-skin="mosaic"] .sk-card, html[data-skin="mosaic"] .serviceCard, html[data-skin="mosaic"] .skillCard, html[data-skin="mosaic"] footer { border-image: var(--mosaic-border); }
+html[data-skin="mosaic"] .sk-card-head { border-bottom: 2px solid #2a2622; }
+html[data-skin="mosaic"] .sk-nav { border-bottom: 10px solid transparent; border-image: repeating-linear-gradient(90deg, #2a2622 0 10px, #ece2cc 10px 12px, #b04a2f 12px 22px, #ece2cc 22px 24px) 10; }
+html[data-skin="mosaic"] #sayHiButton, html[data-skin="mosaic"] .ctaButton { outline: 3px solid #b04a2f; outline-offset: 4px; }
+
+/* 27 · Chalkboard ------------------------------------------------------- */
+html[data-skin="chalk"] {
+  --sk-bg: #22302a; --sk-ink: #f4f4ee; --sk-card-ink: #e8ece6; --sk-line: rgba(244, 244, 238, 0.85); --sk-accent: #ffe48a;
+  --sk-font-body: "Kalam", cursive; --sk-font-head: "Kalam", cursive; --sk-hero-halo: 0 0 2px rgba(255, 255, 255, 0.5), 0 0 16px #22302a; --sk-title-ink: #8fd0f0;
+  --sk-card-bg: rgba(34, 48, 42, 0.94); --sk-card-border: 3px solid rgba(244, 244, 238, 0.85); --sk-card-radius: 6px 14px 8px 12px;
+  --sk-head-bg: transparent; --sk-head-ink: #ffe48a; --sk-btn-bg: #f4f4ee; --sk-btn-ink: #22302a; --sk-btn-border: 0; --sk-btn-radius: 12px 30px 14px 26px;
+  --sk-btn2-bg: transparent; --sk-btn2-ink: #f4f4ee; --sk-btn2-border: 3px solid rgba(244, 244, 238, 0.85);
+  --sk-nav-bg: linear-gradient(#8a5a32, #6a4224); --sk-nav-shadow: 0 6px 0 #4a2e18; --sk-nav-ink: #f4f4ee; --sk-tl-title: #8fd0f0; --sk-time: #ff9a8a;
+}
+
+/* 28 · Newspaper engraving ---------------------------------------------- */
+html[data-skin="engraving"] {
+  --sk-bg: #f2efe6; --sk-ink: #1a1a1a; --sk-card-ink: #1a1a1a; --sk-accent: #1a1a1a;
+  --sk-font-body: "Garamond", serif; --sk-font-head: "Abril", serif; --sk-font-accent: "Garamond", serif; --sk-head-weight: 400; --sk-head-lh: 1.02; --sk-accent-style: italic;
+  --sk-card-bg: #f2efe6; --sk-card-border: 2px solid #1a1a1a; --sk-card-radius: 0; --sk-card-shadow: 6px 6px 0 rgba(26, 26, 26, 0.18);
+  --sk-head-bg: #f2efe6; --sk-btn-bg: #1a1a1a; --sk-btn-ink: #f2efe6; --sk-btn-border: 0; --sk-btn-radius: 0; --sk-btn-tt: uppercase; --sk-btn-ls: 0.3em; --sk-font-btn: "Garamond", serif;
+  --sk-btn2-bg: #f2efe6; --sk-nav-bg: #f2efe6; --sk-nav-border: 3px double #1a1a1a; --sk-nav-tt: uppercase; --sk-nav-ls: 0.2em;
+  --sk-shot-filter: grayscale(1) contrast(1.1); --sk-shot-radius: 0; --sk-time: #1a1a1a;
+}
+html[data-skin="engraving"] .heroSection h1 { background: #f2efe6; border-top: 3px double #1a1a1a; border-bottom: 3px double #1a1a1a; padding: 0.3em 0.4em; }
+html[data-skin="engraving"] .heroSection h2 { font-weight: 700; }
+html[data-skin="engraving"] .sk-hero-box::before { content: "— The Pljevlja Developer · Est. 1998 —"; display: block; font: 400 1rem "Garamond", serif; letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 0.4em; }
+html[data-skin="engraving"] .sk-desc::first-letter { font: 400 3em/0.9 "Abril", serif; float: left; margin-right: 8px; }
+html[data-skin="engraving"] .servicesTitle, html[data-skin="engraving"] .skillsTitle { background-color: #f2efe6; padding: 0 0.3em; }
+
+/* 29 · Frutiger Aero ---------------------------------------------------- */
+html[data-skin="aero"] {
+  --sk-bg: #5fb4ff; --sk-ink: #ffffff; --sk-card-ink: #0a3a6a; --sk-line: #ffffff; --sk-accent: #c8ff8a;
+  --sk-font-body: "Nunito", sans-serif; --sk-font-head: "Nunito", sans-serif;
+  --sk-hero-halo: 0 2px 0 rgba(0, 70, 150, 0.35), 0 8px 24px rgba(0, 60, 140, 0.35); --sk-title-halo: var(--sk-hero-halo);
+  --sk-card-bg: linear-gradient(rgba(255, 255, 255, 0.9), rgba(240, 248, 255, 0.74)); --sk-card-border: 1px solid #fff; --sk-card-radius: 20px; --sk-card-shadow: 0 18px 40px rgba(0, 60, 140, 0.25), inset 0 1px 0 #fff; --sk-card-blur: blur(12px);
+  --sk-head-bg: linear-gradient(#bfe6ff, #5fb4ff 50%, #3a9ae8 51%, #7fc8ff); --sk-head-ink: #fff;
+  --sk-btn-bg: linear-gradient(#7fe05a, #3aa832 50%, #2f9a2a 51%, #5fd03a); --sk-btn-ink: #fff; --sk-btn-border: 1px solid #2a8a26; --sk-btn-radius: 999px; --sk-btn-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 18px rgba(30, 120, 30, 0.35);
+  --sk-btn2-bg: linear-gradient(#fff, #e3f2ff); --sk-btn2-ink: #0a4a8a; --sk-btn2-border: 1px solid #9fcff5;
+  --sk-nav-bg: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.45) 50%, rgba(220, 240, 255, 0.35) 51%, rgba(255, 255, 255, 0.6)); --sk-nav-radius: 28px; --sk-nav-margin: 12px 24px; --sk-nav-top: 12px;
+  --sk-nav-shadow: 0 8px 24px rgba(0, 60, 140, 0.25), inset 0 1px 0 #fff; --sk-nav-ink: #0a4a8a; --sk-tl-title: #0a4a8a; --sk-time: #1f7fe0; --sk-shot-border: 0; --sk-shot-radius: 12px;
+}
+html[data-skin="aero"] .sk-card-head { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
+html[data-skin="aero"] #sayHiButton, html[data-skin="aero"] .ctaButton { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
+
+/* 30 · Minimal monoline ------------------------------------------------- */
+html[data-skin="monoline"] {
+  --sk-bg: #fafaf7; --sk-ink: #1c1c1c; --sk-card-ink: #1c1c1c; --sk-accent: #ff5a36;
+  --sk-font-body: "Inter", sans-serif; --sk-font-head: "Inter", sans-serif; --sk-head-weight: 400; --sk-head-ls: -0.04em;
+  --sk-card-bg: #fafaf7; --sk-card-border: 1px solid #1c1c1c; --sk-card-radius: 0; --sk-head-bg: #fafaf7;
+  --sk-btn-bg: #fafaf7; --sk-btn-ink: #1c1c1c; --sk-btn-border: 1px solid #1c1c1c; --sk-btn-radius: 999px; --sk-btn2-border: 1px solid #1c1c1c;
+  --sk-nav-bg: #fafaf7; --sk-nav-border: 1px solid #1c1c1c; --sk-shot-border: 1px solid #1c1c1c; --sk-shot-radius: 0;
+}
+html[data-skin="monoline"] .heroSection h1 { background: rgba(250, 250, 247, 0.85); }
+html[data-skin="monoline"] .heroSection h2 { font-weight: 700; }
+html[data-skin="monoline"] #sayHiButton > span::after, html[data-skin="monoline"] .ctaButton > span::after { content: " →"; }
+
+/* ---------------------------------------------------------------- the skin picker */
+#skin-fab {
+  position: fixed; right: 18px; bottom: 18px; z-index: 70; display: flex; align-items: center; gap: 8px; padding: 10px 16px 10px 12px;
+  font: 600 14px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; background: rgba(17, 20, 28, 0.86); border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35); cursor: pointer; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+#skin-fab:hover { transform: translateY(-2px); background: rgba(17, 20, 28, 0.95); }
+#skin-fab:focus-visible, #skin-panel button:focus-visible { outline: 3px solid #7cc4ff; outline-offset: 2px; }
+#skin-fab svg { width: 20px; height: 20px; }
+#skin-fab .skin-fab-name { opacity: 0.75; font-weight: 500; }
+html.skin-loading #skin-fab svg { animation: skin-spin 0.9s linear infinite; }
+@keyframes skin-spin { to { transform: rotate(360deg); } }
+#skin-panel {
+  position: fixed; inset: auto 18px 76px auto; z-index: 71; width: min(760px, calc(100vw - 36px)); max-height: min(78vh, 760px); margin: 0; padding: 0;
+  color: #e9edf5; background: rgba(17, 20, 28, 0.94); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; overflow: hidden; display: none; flex-direction: column;
+}
+#skin-panel[data-open] { display: flex; animation: skin-in 0.18s ease-out; }
+@keyframes skin-in { from { opacity: 0; transform: translateY(8px); } }
+#skin-panel header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+#skin-panel header h2 { font-size: 15px; font-weight: 700; margin: 0; flex: 1; }
+#skin-panel header p { font-size: 12px; opacity: 0.65; margin: 0; }
+#skin-panel .skin-nav { display: flex; gap: 6px; }
+#skin-panel .skin-nav button, #skin-panel .skin-close { width: 34px; height: 34px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: inherit; font-size: 16px; cursor: pointer; }
+#skin-panel .skin-nav button:hover, #skin-panel .skin-close:hover { background: rgba(255, 255, 255, 0.14); }
+#skin-panel ul { list-style: none; margin: 0; padding: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 12px; overflow-y: auto; overscroll-behavior: contain; }
+#skin-panel li button { width: 100%; padding: 0; text-align: left; background: none; border: 0; color: inherit; cursor: pointer; border-radius: 12px; }
+#skin-panel li img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: top; border-radius: 10px; border: 2px solid transparent; background: #2a2f3a; transition: transform 0.15s ease, border-color 0.15s ease; }
+#skin-panel li button:hover img { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.35); }
+#skin-panel li button[aria-pressed="true"] img { border-color: #7cc4ff; box-shadow: 0 0 0 2px #7cc4ff; }
+#skin-panel li .skin-title { display: block; margin-top: 6px; font-weight: 600; font-size: 13px; }
+#skin-panel li .skin-blurb { display: block; font-size: 11.5px; opacity: 0.6; line-height: 1.3; }
+@media (max-width: 640px) {
+  #skin-panel { inset: auto 10px 70px 10px; width: auto; max-height: 72vh; }
+  #skin-panel ul { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px; }
+  #skin-panel li .skin-blurb { display: none; }
+  #skin-fab .skin-fab-name { display: none; }
+}

@@ -1,0 +1,143 @@
+---
+import "../global.css";
+import Layout from "../layouts/Layout.astro";
+import spotifyProjectImage from "./../public/images/spotifyProject.png";
+import { Image } from "astro:assets";
+import { Code } from "astro:components";
+---
+
+<Layout
+  title="React Server Components — Miloš Danilović"
+  description="What React Server Components are, how they work, and why you should care."
+>
+  <article class="max-w-4xl mx-auto px-4 md:px-6 py-10">
+    <!-- Article header -->
+    <header
+      class="bg-appBackground border-4 border-dark drop-shadow-4xl p-8 md:p-12 mb-8"
+    >
+      <p
+        class="font-lightFont font-bold text-xs md:text-sm uppercase tracking-[0.25em] text-orange mb-4"
+      >
+        Programming · React
+      </p>
+      <h1
+        class="font-mainFont text-3xl md:text-5xl text-dark leading-tight mb-4"
+      >
+        React Server Components — What Are They and Why Should You Care?
+      </h1>
+      <p class="font-lightFont text-sm text-dark opacity-70">
+        By Miloš Danilović
+      </p>
+    </header>
+
+    <Image
+      class="w-full object-cover border-4 drop-shadow-4xl border-dark mb-8"
+      alt="React Server Components"
+      src={spotifyProjectImage}
+    />
+
+    <!-- Article body -->
+    <div
+      class="bg-appBackground border-4 border-dark drop-shadow-4xl p-8 md:p-12 font-lightFont"
+    >
+      <h2
+        class="font-mainFont text-2xl md:text-4xl text-orange border-b-8 link-underline link-underline-black blogSubtitle break-words"
+      >
+        Introduction
+      </h2>
+      <p class="text-lg md:text-xl leading-relaxed my-6 text-dark">
+        So, here's something that makes me feel old: React celebrated its 10th
+        birthday this year! In the decade since React was first introduced to a
+        bewildered dev community, it’s gone through several evolutions. The
+        React team has not been shy when it comes to radical changes: if they
+        discover a better solution to a problem, they'll run with it. A couple
+        of months ago, the React team unveiled React Server Components, the
+        latest paradigm shift. For the first time ever, React components can
+        run exclusively on the server. There's been so much friggin’ confusion
+        about this online. Lots of folks have lots of questions around what
+        this is, how it works, what the benefits are, and how it fits together
+        with things like Server Side Rendering. I've been doing a lot of
+        experimentation with React Server Components, and I've answered a lot
+        of my own questions. I have to admit, I'm way more excited about this
+        stuff than I expected to be. It's really cool! So, my goal today is to
+        help demystify this stuff for you, to answer a lot of the questions
+        you might have about React Server Components!
+      </p>
+      <h2
+        class="font-mainFont text-2xl md:text-4xl text-orange border-b-8 link-underline link-underline-black blogSubtitle"
+      >
+        Title
+      </h2>
+      <p class="text-lg md:text-xl leading-relaxed my-6 text-dark">
+        So, here's something that makes me feel old: React celebrated its 10th
+        birthday this year! In the decade since React was first introduced to
+        a bewildered dev community, it’s gone through several evolutions. The
+        React team has not been shy when it comes to radical changes: if they
+        discover a better solution to a problem, they'll run with it. A couple
+        of months ago, the React team unveiled React Server Components, the
+        latest paradigm shift. For the first time ever, React components can
+        run exclusively on the server.
+      </p>
+
+      <Code
+        wrap={true}
+        class="border-4 border-dark drop-shadow-3xl p-4 text-sm md:text-base"
+        code={`import {cloudGeneratingFunction, starGeneratingFunction} from "../utils/clouds";
+import {gsap} from "gsap";
+
+let target = document.querySelectorAll(".blogSubtitle");
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((element) => {
+    if (element.isIntersecting) {
+      gsap.to(element.target, {
+        duration: 0.2,
+        backgroundSize: "100% 6px",
+        backgroundPosition: "0 100%",
+      });
+    } else {
+      gsap.to(element.target, {
+        duration: 0.2,
+        backgroundSize: "0 0px",
+        backgroundPosition: "0 0",
+      });
+    }
+  });
+});
+
+target.forEach((target) => {
+  observer.observe(target);
+});`}
+        lang="js"
+      />
+    </div>
+  </article>
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+
+  let target = document.querySelectorAll(".blogSubtitle");
+
+  const observer = new IntersectionObserver((entrie) => {
+    entrie.forEach((element) => {
+      if (element.isIntersecting) {
+        gsap.to(element.target, {
+          duration: 0.2,
+          backgroundSize: "100% 6px",
+          backgroundPosition: " 0 100%",
+        });
+      } else {
+        gsap.to(element.target, {
+          duration: 0.2,
+          backgroundSize: "0 0px",
+          backgroundPosition: " 0 0",
+        });
+      }
+    });
+  });
+
+  target.forEach((target) => {
+    observer.observe(target);
+  });
+</script>
